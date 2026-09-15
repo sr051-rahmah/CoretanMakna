@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis HOTS Informatika Kelas 9</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --accent-hover: #0284c7;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --correct-color: #22c55e;
+            --wrong-color: #ef4444;
+            --timer-color: #eab308;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Screen Styles */
+        .screen {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Start Screen */
+        .start-screen {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .start-screen h1 {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .start-screen p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .rules-list {
+            text-align: left;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .rules-list li {
+            margin-bottom: 10px;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Quiz Header */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .question-badge {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--timer-color);
+        }
+
+        .timer-text {
+            font-weight: 700;
+            color: var(--timer-color);
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .timer-progress {
+            height: 100%;
+            width: 100%;
+            background: var(--timer-color);
+            transition: width 1s linear, background-color 0.3s ease;
+        }
+
+        /* Question & Options */
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            padding: 14px 20px;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--accent-color);
+            background: rgba(56, 189, 248, 0.1);
+            transform: translateX(5px);
+        }
+
+        .option-btn.correct {
+            background: rgba(34, 197, 94, 0.2) !important;
+            border-color: var(--correct-color) !important;
+            color: #4ade80;
+        }
+
+        .option-btn.wrong {
+            background: rgba(239, 68, 68, 0.2) !important;
+            border-color: var(--wrong-color) !important;
+            color: #f87171;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        /* Code Box */
+        .code-block {
+            background: #090d16;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: monospace;
+            color: #38bdf8;
+            margin: 10px 0;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            white-space: pre-wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Result Screen */
+        .result-screen {
+            text-align: center;
+        }
+
+        .score-box {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .score-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent-color) 0%, rgba(255, 255, 255, 0.1) 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            position: relative;
+        }
+
+        .score-circle-inner {
+            width: 115px;
+            height: 115px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        /* Review Screen */
+        .review-screen {
+            max-height: 80vh;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .review-card {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-color);
+            text-align: left;
+        }
+
+        .review-card.correct-border { border-left-color: var(--correct-color); }
+        .review-card.wrong-border { border-left-color: var(--wrong-color); }
+
+        .explanation-box {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- START SCREEN -->
+    <div id="start-screen" class="screen active start-screen">
+        <h1><i class="fa-solid fa-laptop-code"></i> Ujian HOTS Informatika</h1>
+        <p>Uji kemampuan logika berpikir komputasional, analisis kode Python, serta integrasi aplikasi perkantoran & media digital Anda!</p>
+        
+        <div class="rules-list">
+            <li><i class="fa-solid fa-list-check" style="color: var(--accent-color);"></i> <strong>Total 30 Soal HOTS</strong> pilihan ganda.</li>
+            <li><i class="fa-solid fa-stopwatch" style="color: var(--timer-color);"></i> <strong>Timer 30 Detik</strong> untuk setiap nomor soal.</li>
+            <li><i class="fa-solid fa-award" style="color: #22c55e;"></i> <strong>Skor Maksimal 100 Poin</strong> (Soal 1-10 @4 Poin, Soal 11-30 @3 Poin).</li>
+            <li><i class="fa-solid fa-book-open" style="color: #a855f7;"></i> <strong>Pembahasan Lengkap</strong> tersedia di akhir sesi.</li>
+        </div>
+
+        <button class="btn" onclick="startQuiz()"><i class="fa-solid fa-play"></i> Mulai Ujian Sekarang</button>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quiz-screen" class="screen">
+        <div class="quiz-header">
+            <span class="question-badge" id="question-badge">Soal 1 / 30</span>
+            <div class="timer-container">
+                <i class="fa-solid fa-clock" style="color: var(--timer-color);"></i>
+                <span class="timer-text" id="timer-text">30s</span>
+            </div>
+        </div>
+
+        <div class="progress-bar-container">
+            <div class="timer-progress" id="timer-progress"></div>
+        </div>
+
+        <div id="question-container">
+            <div class="question-text" id="question-text"></div>
+            <div id="code-box"></div>
+            <div class="options-container" id="options-container"></div>
+        </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="result-screen" class="screen result-screen">
+        <h2><i class="fa-solid fa-trophy" style="color: #eab308;"></i> Hasil Ujian Anda</h2>
+        <p style="color: var(--text-muted);">Berikut ringkasan capaian nilai Ujian Informatika Kelas 9</p>
+
+        <div class="score-box">
+            <div class="score-circle" id="score-circle">
+                <div class="score-circle-inner">
+                    <span class="score-number" id="score-number">0</span>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">POIN</span>
+                </div>
+            </div>
+            <p id="score-summary" style="font-weight: 600; margin-bottom: 8px;"></p>
+            <p id="feedback-text" style="color: var(--text-muted); font-size: 0.95rem;"></p>
+        </div>
+
+        <div style="display: flex; gap: 15px; justify-content: center;">
+            <button class="btn" onclick="showReview()"><i class="fa-solid fa-magnifying-glass"></i> Lihat Pembahasan</button>
+            <button class="btn" style="background: #334155; color: white;" onclick="resetQuiz()"><i class="fa-solid fa-rotate-right"></i> Ulangi Kuis</button>
+        </div>
+    </div>
+
+    <!-- REVIEW SCREEN -->
+    <div id="review-screen" class="screen">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h2><i class="fa-solid fa-file-lines" style="color: var(--accent-color);"></i> Pembahasan Soal</h2>
+            <button class="btn" style="padding: 8px 16px; font-size: 0.9rem;" onclick="resetQuiz()"><i class="fa-solid fa-house"></i> Kembali ke Awal</button>
+        </div>
+        <div class="review-screen" id="review-container"></div>
+    </div>
+</div>
+
+<script>
+// DATA SOAL LENGKAP DARI PDF (SOAL 5 - 34)
+const quizData = [
+    {
+        number: 1, points: 4,
+        question: "Suatu tim siswa ingin membuat sistem otomatisasi kasir kantin sekolah. Jika mereka menerapkan pilar dekomposisi pada tahap awal, langkah yang paling tepat dilakukan adalah ....",
+        options: [
+            "Membagi sistem menjadi sub-proses input harga, perhitungan total, dan cetak struk.",
+            "Menentukan jenis bahasa pemrograman yang paling populer untuk digunakan tim.",
+            "Menghapus detail informasi nama pembeli agar memori penyimpanan efisien.",
+            "Membuat daftar urutan perintah dari awal sampai kasir mencetak struk belanja."
+        ],
+        answer: 0,
+        explanation: "Dekomposisi adalah memecah masalah besar/kompleks menjadi bagian-bagian yang lebih kecil dan mudah dikelola. Membagi sistem kasir menjadi sub-proses (input, hitung, cetak) adalah bentuk dekomposisi."
+    },
+    {
+        number: 2, points: 4,
+        question: "Perhatikan pola rumus matematika berikut!\n\ntambah = angka1 + angka2\nkurang = angka1 - angka2\nkali = angka1 * angka2\nbagi = angka1 / angka2\n\nPenerapan pilar pengenalan pola yang tepat dari rumus tersebut adalah ....",
+        options: [
+            "Mengabaikan jenis operasi matematika dan fokus pada nilai angka yang dimasukkan.",
+            "Mengidentifikasi bahwa setiap perhitungan membutuhkan dua input dan menghasilkan satu nilai.",
+            "Menyusun urutan langkah dari mengambil nilai hingga menampilkan hasil perhitungan.",
+            "Membagi seluruh program perhitungan menjadi bagian input, proses, dan cetak output."
+        ],
+        answer: 1,
+        explanation: "Pengenalan pola berarti mencari kesamaan dari masalah serupa. Pola dari seluruh rumus di atas adalah semuanya membutuhkan 2 variabel input dan menghasilkan 1 output."
+    },
+    {
+        number: 3, points: 4,
+        question: "Dalam merancang aplikasi kalkulator sederhana, programmer memilih untuk tidak mencatat warna latar belakang aplikasi atau jam saat perhitungan dilakukan. Tindakan ini menerapkan pilar ....",
+        options: [
+            "Dekomposisi, karena membagi fitur tampilan dengan fitur utama perhitungan matematis.",
+            "Algoritma, karena menyusun urutan eksekusi data dari awal hingga selesai diproses.",
+            "Abstraksi, karena memfokuskan perhatian pada data penting dan mengabaikan detail tak relevan.",
+            "Pengenalan pola, karena mencari kesamaan sifat antara warna layar dan waktu operasi."
+        ],
+        answer: 2,
+        explanation: "Abstraksi adalah memfokuskan pada informasi penting/relevan dan mengabaikan detail tak penting (seperti warna layar dan jam saat kalkulasi)."
+    },
+    {
+        number: 4, points: 4,
+        question: "Perhatikan alur algoritma berikut!\nStep 1: Ambil Input angka1 & angka2\nStep 2: Cek apakah angka2 bernilai 0\nStep 3: Jika tidak, hitung hasil = angka1 / angka2\nStep 4: Tampilkan Hasil\n\nTujuan utama adanya pengecekan pada Step 2 adalah ....",
+        options: [
+            "Memastikan bahwa input angka1 selalu memiliki nilai yang lebih besar dari angka2.",
+            "Mempercepat waktu pemrosesan perhitungan aritmetika dalam sistem memori komputer.",
+            "Menyederhanakan penulisan baris kode program agar lebih mudah dibaca oleh pengguna.",
+            "Mencegah terjadinya kesalahan sistem akibat operasi matematika yang tidak terdefinisi."
+        ],
+        answer: 3,
+        explanation: "Dalam matematika dan pemrograman, pembagian dengan angka 0 (Zero Division) tidak terdefinisi dan menyebabkan program mengalami crash/error."
+    },
+    {
+        number: 5, points: 4,
+        question: "Di bawah ini adalah skenario percabangan program Python!\n\nKondisi 'if angka2 != 0' dimasukkan ke dalam pilar abstraksi penanganan khusus karena ....",
+        code: "if angka2 != 0:\n    bagi = angka1 / angka2\nelse:\n    bagi = \"Tidak terdefinisi (tidak bisa dibagi 0)\"",
+        options: [
+            "Logika tersebut memisahkan antar variabel input angka1 dan variabel angka2.",
+            "Kode tersebut merupakan urutan langkah baku yang harus dijalankan komputer.",
+            "Aturan matematik ini mengisolasi kasus penyimpangan agar program utama aman.",
+            "Rumus pembagian tersebut digunakan berulang kali pada semua jenis operasi."
+        ],
+        answer: 2,
+        explanation: "Penanganan khusus mengisolasi kondisi exception/penyimpangan (pembagian 0) agar program tetap aman dan berjalan tanpa terhenti."
+    },
+    {
+        number: 6, points: 4,
+        question: "Perhatikan baris kode di bawah ini:\nangka1 = float(input(\"Masukkan angka pertama: \"))\n\nDampak dari penggunaan fungsi float() terhadap pemrosesan data adalah ....",
+        options: [
+            "Program dapat menerima input angka berupa bilangan bulat maupun bilangan desimal.",
+            "Sistem secara otomatis menolak semua nilai input angka yang bernilai negatif.",
+            "Hasil perhitungan matematika akan diubah menjadi format teks secara permanen.",
+            "Variabel angka1 hanya mampu menyimpan nilai angka tanpa simbol koma matematika."
+        ],
+        answer: 0,
+        explanation: "Fungsi float() mengonversi teks input menjadi bilangan riil/desimal (floating point), yang mencakup pecahan maupun bulat."
+    },
+    {
+        number: 7, points: 4,
+        question: "Perhatikan kode program berikut:\n# Abstraksi: Penanganan Khusus Pembagian Nol\nif angka2 != 0:\n    bagi = angka1 / angka2\n\nPernyataan yang paling tepat mengenai hubungan komentar # dengan pilar berpikir komputasional di atas adalah ....",
+        options: [
+            "Komentar tersebut merupakan algoritma karena dijalankan langsung oleh mesin Python.",
+            "Komentar memberi konteks abstraksi dengan menegaskan fokus pada batas operasional.",
+            "Komentar termasuk pengenalan pola karena mengulang baris input data sebelumnya.",
+            "Komentar berfungsi sebagai dekomposisi yang memecah kode menjadi variabel terpisah."
+        ],
+        answer: 1,
+        explanation: "Komentar (#) tidak dieksekusi oleh mesin Python, tetapi memberikan dokumentasi abstraksi tentang batas operasional program."
+    },
+    {
+        number: 8, points: 4,
+        question: "Seorang siswa membuat kode kalkulator, namun ia menghitung tambah, kurang, kali, dan bagi secara bersamaan sebelum memilih menu operasi. Dilihat dari efisiensi algoritma, kelemahan metode ini adalah ....",
+        options: [
+            "Program akan langsung berhenti karena tidak dapat menyimpan banyak variabel sekaligus.",
+            "Tampilan hasil perhitungan menjadi kabur karena diproses dalam waktu bersamaan.",
+            "Pengguna wajib memasukkan angka desimal agar seluruh operasi dapat berjalan lancar.",
+            "Komputer melakukan kalkulasi yang tidak dibutuhkan pengguna sehingga membuang memori."
+        ],
+        answer: 3,
+        explanation: "Melakukan semua kalkulasi yang belum tentu dipilih pengguna tidak efisien karena membuang daya pemrosesan dan memori (resource)."
+    },
+    {
+        number: 9, points: 4,
+        question: "Jika pengguna memasukkan angka1 = 10 dan angka2 = 0 pada program kalkulator Python, keluaran (output) pada layar untuk variabel bagi adalah ....",
+        options: [
+            "Teks \"Tidak terdefinisi (tidak bisa dibagi 0)\".",
+            "Nilai angka 0 hasil dari pembagian bilangan.",
+            "Pesan kesalahan sistem (Error Syntax/Crash).",
+            "Angka 10 karena dibagi dengan angka nol."
+        ],
+        answer: 0,
+        explanation: "Karena angka2 = 0, kondisi `angka2 != 0` bernilai False, sehingga blok `else` dieksekusi dan menghasilkan string teks pesan tersebut."
+    },
+    {
+        number: 10, points: 4,
+        question: "Seorang siswa ingin menyusun laporan kegiatan sekolah dalam bentuk dokumen kata yang memuat tabel data keuangan dari aplikasi spreadsheet. Fitur integrasi aplikasi yang paling efektif digunakan adalah ....",
+        options: [
+            "Mengubah seluruh dokumen kata menjadi file presentasi slide interaktif.",
+            "Mengetik ulang seluruh isi tabel angka ke dalam dokumen pengolah kata.",
+            "Menyisipkan tabel dari aplikasi pengolah lembar kerja ke dokumen kata.",
+            "Mengambil foto tabel dari layar monitor lalu menempelkannya sebagai gambar."
+        ],
+        answer: 2,
+        explanation: "Menyisipkan (embed/link) tabel dari spreadsheet (Excel/Sheets) ke Word adalah cara paling rapi dan dinamis dalam integrasi aplikasi."
+    },
+    {
+        number: 11, points: 3,
+        question: "Siswa kelas 9 diminta membuat laporan hasil survei lingkungan yang memuat perhitungan rata-rata nilai, grafik perkembangan, dan narasi penjelasan yang panjang. Penggunaan gabungan aplikasi perkantoran yang paling tepat adalah ....",
+        options: [
+            "Pengolah kata untuk grafik, pengolah lembar kerja untuk narasi tulisan.",
+            "Pengolah lembar kerja untuk data grafik, pengolah kata untuk narasi.",
+            "Pengolah presentasi untuk kalkulasi, pengolah kata untuk buat grafik.",
+            "Pengolah lembar kerja untuk narasi, pengolah presentasi untuk tabel."
+        ],
+        answer: 1,
+        explanation: "Spreadsheet (pengolah lembar kerja) unggul untuk olah angka & grafik, sedangkan Word (pengolah kata) unggul untuk penulisan narasi panjang."
+    },
+    {
+        number: 12, points: 3,
+        question: "Kelompok belajar siswa ingin menyelesaikan tugas penyusunan makalah secara bersama-sama dari rumah masing-masing secara real-time. Solusi teknologi yang paling efisien adalah menggunakan ....",
+        options: [
+            "Aplikasi pengolah kata luring (offline) yang dikirimkan bergantian via email.",
+            "Aplikasi pembuat presentasi luring yang disimpan ke dalam media flashdisk.",
+            "Aplikasi editor video berbasis web untuk mendiskusikan isi dari makalah.",
+            "Aplikasi perkantoran berbasis cloud (Web-Apps) seperti Google Docs/Suite."
+        ],
+        answer: 3,
+        explanation: "Web-Apps berbasis Cloud (seperti Google Docs) memungkinkan kolaborasi pengerjaan dokumen secara bersamaan (real-time)."
+    },
+    {
+        number: 13, points: 3,
+        question: "Saat grafik dari spreadsheet diintegrasikan ke dalam slide presentasi, dipilih opsi link data. Manfaat utama dari metode integrasi link ini adalah ....",
+        options: [
+            "Perubahan angka di spreadsheet akan memperbarui grafik di slide otomatis.",
+            "Ukuran file presentasi menjadi jauh lebih kecil dibanding file asli.",
+            "Grafik pada slide presentasi tidak dapat diubah lagi oleh pengguna lain.",
+            "Aplikasi presentasi dapat dijalankan tanpa memerlukan daya listrik HP."
+        ],
+        answer: 0,
+        explanation: "Opsi Link Data menghubungkan objek sumber ke tujuan. Jika data utama di spreadsheet diubah, grafik pada presentasi otomatis terbarui."
+    },
+    {
+        number: 14, points: 3,
+        question: "Keunggulan utama penggunaan aplikasi perkantoran berbasis Web-Apps dibandingkan aplikasi desktop konvensional adalah ....",
+        options: [
+            "Memiliki jumlah pilihan font dekoratif yang lebih banyak dan bervariasi.",
+            "Memproses perhitungan rumus matematika jauh lebih cepat dari biasanya.",
+            "Dapat diakses dari berbagai perangkat tanpa perlu melakukan instalasi berat.",
+            "Menghasilkan kualitas cetakan gambar pada kertas yang jauh lebih tajam."
+        ],
+        answer: 2,
+        explanation: "Aplikasi berbasis web dapat dijalankan via browser di berbagai perangkat tanpa instalasi lunak yang memberatkan penyimpanan."
+    },
+    {
+        number: 15, points: 3,
+        question: "Seorang siswa menggabungkan dokumen laporan (Word), tabel anggaran (Excel), dan slide paparan (PowerPoint). Langkah yang menunjukkan integrasi konten profesional adalah ....",
+        options: [
+            "Mengonversi semua dokumen menjadi format video lalu diunggah ke YouTube.",
+            "Menautkan tabel lembar kerja ke Word dan slide agar data terdistribusi konsisten.",
+            "Memfotonya dengan kamera HP lalu menyisipkan foto tersebut ke tiap slide.",
+            "Menyimpan semua dokumen dalam folder komputer yang sama tanpa dihubungkan."
+        ],
+        answer: 1,
+        explanation: "Menautkan (linking) dokumen membuat data saling terhubung secara konsisten antar-aplikasi pengolah kata, spreadsheet, dan presentasi."
+    },
+    {
+        number: 16, points: 3,
+        question: "Secara default, susunan postingan pada linimasa (timeline) sebuah Blog (Web Log) disajikan berdasarkan ....",
+        options: [
+            "Urutan kronologis waktu publikasi, dari yang paling terbaru ke yang lama.",
+            "Urutan abjad judul artikel yang ditulis oleh pemilik akun blog tersebut.",
+            "Jumlah pembaca terbanyak yang mengklik artikel dalam satu bulan terakhir.",
+            "Ukuran file foto yang diunggah di dalam setiap postingan tulisan artikel."
+        ],
+        answer: 0,
+        explanation: "Format baku (default) linimasa blog menampilkan tulisan dengan prinsip Reverse Chronological Order (terbaru berada di paling atas)."
+    },
+    {
+        number: 17, points: 3,
+        question: "Dalam mengelola blog sekolah yang memiliki puluhan artikel, pengelola menggunakan fitur Pengkategorian (Kanal/Tag). Dampak utama penggunaan fitur ini adalah ....",
+        options: [
+            "Menhapus postingan lama secara otomatis agar kapasitas memori tidak penuh.",
+            "Mengubah tampilan teks artikel tulisan menjadi video presentasi otomatis.",
+            "Mengunci akses artikel agar hanya bisa dibaca oleh admin pemilik blog.",
+            "Memudahkan pengunjung mencari tulisan berdasarkan topik tertentu yang sejenis."
+        ],
+        answer: 3,
+        explanation: "Tag dan Kanal berfungsi mengelompokkan konten sejenis sehingga sistem navigasi pengunjung menjadi lebih terstruktur dan mudah."
+    },
+    {
+        number: 18, points: 3,
+        question: "Perhatikan alur pembuatan blog di Blogger!\n1. Login menggunakan Gmail\n2. Klik 'Blog Baru' & masukkan nama blog\n3. [...]\n4. Klik 'Simpan'\n\nLangkah logis nomor 3 yang harus diisi agar blog dapat diakses internet adalah ....",
+        options: [
+            "Memilih template desain grafis berbayar dari penyedia layanan pihak ketiga.",
+            "Memilih dan memasukkan alamat URL/blog yang unik serta belum digunakan.",
+            "Mengunggah minimal sepuluh video rekaman ke dalam saluran akun YouTube.",
+            "Mengatur kata sandi khusus yang berbeda dengan kata sandi akun Gmail utama."
+        ],
+        answer: 1,
+        explanation: "Penentuan alamat URL (seperti nama.blogspot.com) adalah prasyarat utama identitas alamat web di internet sebelum blog dibuat."
+    },
+    {
+        number: 19, points: 3,
+        question: "Sebuah blog resep masakan memiliki puluhan tulisan. Agar struktur blog rapi dan pembaca mudah mencari resep, strategi pengelompokan Tag/Kanal yang paling efektif adalah ....",
+        options: [
+            "Membuat tag berdasarkan tanggal hari artikel resep tersebut dipublikasikan.",
+            "Mengelompokkan artikel berdasarkan warna piring yang digunakan dalam foto.",
+            "Mengelompokkan tag berdasarkan bahan utama seperti Ayam, Daging, dan Ikan.",
+            "Membuat tag acak menggunakan nomor urut pembuatan artikel dari awal."
+        ],
+        answer: 2,
+        explanation: "Pengelompokan tag berdasarkan taksonomi bahan utama (Ayam, Daging, Ikan) paling logis dan intuitif bagi pencarian pembaca resep."
+    },
+    {
+        number: 20, points: 3,
+        question: "Karakteristik utama yang membedakan media Vlog (Video Blogging) dengan Blog standar (Web Log) terletak pada ....",
+        options: [
+            "Dominasi konten berupa tayangan video sebagai media utama penyampai pesan.",
+            "Keharusan memiliki domain internet berbayar sebelum dapat mempublikasikan konten.",
+            "Penggunaan tulisan teks narasi yang jauh lebih panjang dibanding tulisan blog.",
+            "Ketidakmampuan media vlog untuk diakses melalui perangkat komputer laptop."
+        ],
+        answer: 0,
+        explanation: "Vlog menggunakan video audio-visual sebagai sajian utama, sedangkan Blog konvensional menggunakan media teks tulisan dan gambar."
+    },
+    {
+        number: 21, points: 3,
+        question: "Saat merekam audio untuk vlog menggunakan smartphone, pembuat video harus memastikan posisi mikrofon HP tidak tertutup jari. Alasan teknis utama tindakan ini adalah ....",
+        options: [
+            "Mencegah lensa kamera HP terhalang oleh posisi jari tangan saat memegang.",
+            "Memastikan kualitas gelombang suara yang terekam tetap jernih dan mumpuni.",
+            "Menghemat penggunaan kapasitas baterai HP selama proses perekaman berlangsung.",
+            "Menjaga agar kestabilan warna dan cahaya pada layar video tetap seimbang."
+        ],
+        answer: 1,
+        explanation: "Menutup mikrofon akan meredam dan merusak frekuensi gelombang audio sehingga menghasilkan suara yang terdistorsi/terdengar samar."
+    },
+    {
+        number: 22, points: 3,
+        question: "Seorang vlogger memegang HP menggunakan kedua belah tangan saat mengambil gambar sambil berjalan. Tujuan utama penerapan teknik ini adalah ....",
+        options: [
+            "Agar posisi mikrofon HP tertekan sehingga suara bising latar belakang teredam.",
+            "Mempercepat proses unggah video ke platform studio.youtube.com secara otomatis.",
+            "Memastikan pencahayaan dari luar dapat masuk lebih banyak ke dalam lensa.",
+            "Meningkatkan stabilitas visual sehingga mengurangi getaran perekaman video."
+        ],
+        answer: 3,
+        explanation: "Memegang kamera dengan dua tangan berfungsi sebagai stabilizer alami untuk meredam guncangan (shaking) saat bergerak."
+    },
+    {
+        number: 23, points: 3,
+        question: "Pembuat vlog disarankan untuk mendekati objek secara langsung dibandingkan menggunakan fitur Zoom Digital pada kamera karena ....",
+        options: [
+            "Zoom digital membutuhkan daya baterai smartphone yang jauh lebih besar.",
+            "Fitur zoom digital dapat mengubah warna asli dari objek yang sedang direkam.",
+            "Penggunaan zoom digital secara berlebihan membuat gambar kabur atau pecah.",
+            "Mendekati objek membuat durasi rekaman video secara otomatis menjadi singkat."
+        ],
+        answer: 2,
+        explanation: "Zoom digital memotong (crop) dan memperbesar piksel secara mekanis software yang menyebabkan degradasi ketajaman gambar (pixelated)."
+    },
+    {
+        number: 24, points: 3,
+        question: "Saat melakukan perekaman vlog di luar ruangan (outdoor), vloger harus memperhatikan aspek pencahayaan (lighting). Tindakan yang benar untuk menghindari efek backlight adalah ....",
+        options: [
+            "Memosisikan kamera menghadap subjek dengan sumber cahaya di belakang kamera.",
+            "Mengarahkan lensa kamera tepat berhadapan langsung dengan sinar matahari.",
+            "Memilih lokasi perekaman video yang sangat gelap agar kontras layar tinggi.",
+            "Menggunakan efek cahaya buatan dari aplikasi editing OpenShot secara berlebihan."
+        ],
+        answer: 0,
+        explanation: "Efek backlight terjadi bila sumber cahaya berada di belakang subjek. Solusinya, cahaya harus menerangi subjek dari depan/belakang kamera."
+    },
+    {
+        number: 25, points: 3,
+        question: "\"Sering berlatih membuat perekaman video akan menghasilkan transisi yang makin halus\". Hubungan logis antara latihan intensif dengan hasil rekaman vlog adalah ....",
+        options: [
+            "Latihan rutin meningkatkan kapasitas ruang penyimpanan memori secara gratis.",
+            "Keterampilan mengendalikan pergerakan kamera dan pemahaman sudut makin terasah.",
+            "Aplikasi perekam video akan otomatis memperbarui fiturnya ke versi premium.",
+            "Proses pengunggahan video ke platform cloud menjadi dua kali lebih cepat."
+        ],
+        answer: 1,
+        explanation: "Jam terbang latihan secara langsung membentuk muscle memory, kontrol gerakan tangan, dan feeling pengambilan angle sudut sinematik."
+    },
+    {
+        number: 26, points: 3,
+        question: "Seorang siswa ingin merancang seri tulisan di blog tentang tutorial komputer. Ia menerapkan pilar dekomposisi dalam menyusun ide tulisan tersebut. Langkah yang mencerminkan dekomposisi adalah ....",
+        options: [
+            "Memilih kombinasi warna latar belakang template blog yang paling cerah.",
+            "Mengabaikan masukkan komentar dari pembaca blog yang tidak sopan.",
+            "Menuliskan semua panduan dari bab awal hingga akhir dalam satu postingan panjang.",
+            "Membagi topik besar tutorial menjadi seri artikel bertahap per modul."
+        ],
+        answer: 3,
+        explanation: "Membagi satu topik utama yang kompleks menjadi beberapa modul seri tulisan kecil bertahap adalah wujud nyata dekomposisi."
+    },
+    {
+        number: 27, points: 3,
+        question: "Jika Anda ingin mengedit video vlog menggunakan perangkat komputer desktop secara luring (offline), perangkat lunak yang sesuai dengan materi adalah ....",
+        options: [
+            "OpenShot Video Editor, karena berjalan sebagai aplikasi penyunting di desktop.",
+            "YouTube Studio Cloud, karena khusus digunakan untuk mengetik artikel blog.",
+            "Blogger.com, karena menyediakan alat pemotong klip video berbasis AI.",
+            "Microsoft Word, karena memiliki fitur pengolah transisi efek video 3D."
+        ],
+        answer: 0,
+        explanation: "OpenShot Video Editor merupakan aplikasi pengolah video cross-platform open source yang terpasang luring (desktop offline)."
+    },
+    {
+        number: 28, points: 3,
+        question: "Apabila seorang siswa melewatkan tahapan penentuan alamat URL saat membuat blog baru, dampak langsung yang akan terjadi adalah ....",
+        options: [
+            "Akun Gmail siswa tersebut akan diblokir otomatis oleh sistem keamanan.",
+            "Tampilan blog akan berubah menjadi bentuk tampilan tayangan vlog video.",
+            "Proses pembuatan blog tidak dapat dilanjutkan atau disimpan oleh sistem.",
+            "Komputer yang digunakan akan mengalami kegagalan pembagian angka nol (crash)."
+        ],
+        answer: 2,
+        explanation: "Sistem CMS seperti Blogger tidak mengizinkan penyimpanan jika domain/URL penanda identitas web belum diisi."
+    },
+    {
+        number: 29, points: 3,
+        question: "Sebuah artikel blog membahas tentang teknik memasak. Agar konten lebih interaktif dan profesional, penggabungan media yang paling tepat adalah ....",
+        options: [
+            "Mengetik ulang naskah artikel ke dalam program kasir Python sederhana.",
+            "Menyisipkan rekaman video vlog praktikum memasak dari YouTube ke artikel.",
+            "Menempelkan seluruh kode program kalkulator di bagian bawah tulisan blog.",
+            "Mengubah teks resep masakan menjadi file lembar kerja Microsoft Excel."
+        ],
+        answer: 1,
+        explanation: "Embedding video vlog praktikum langsung ke dalam artikel blog resep masakan memperkaya sajian konten secara multimedia interaktif."
+    },
+    {
+        number: 30, points: 3,
+        question: "Urutan langkah sistematis (algoritma) yang paling tepat dalam memproduksi sebuah video vlog hingga siap dinikmati audiens adalah ....",
+        options: [
+            "Mengunggah video ke YouTube -> Mengedit klip video -> Merencanakan ide -> Merekam gambar.",
+            "Mengedit klip video -> Merekam gambar video -> Mengunggah ke platform -> Merencanakan ide.",
+            "Merekam gambar video -> Merencanakan ide naskah -> Mengunggah ke platform -> Mengedit klip.",
+            "Merencanakan ide naskah -> Merekam gambar video -> Mengedit klip video -> Mengunggah video."
+        ],
+        answer: 3,
+        explanation: "Algoritma produksi video yang logis runtut adalah: Pra-produksi (Ide/Naskah) -> Produksi (Rekam) -> Pasca-produksi (Edit) -> Publikasi (Unggah)."
+    }
+];
+
+// STATE VARIABLES
+let currentQuestionIndex = 0;
+let userAnswers = new Array(quizData.length).fill(null);
+let timer = null;
+let timeLeft = 30;
+
+// ELEMENTS
+const startScreen = document.getElementById('start-screen');
+const quizScreen = document.getElementById('quiz-screen');
+const resultScreen = document.getElementById('result-screen');
+const reviewScreen = document.getElementById('review-screen');
+
+const questionBadge = document.getElementById('question-badge');
+const timerText = document.getElementById('timer-text');
+const timerProgress = document.getElementById('timer-progress');
+const questionText = document.getElementById('question-text');
+const codeBox = document.getElementById('code-box');
+const optionsContainer = document.getElementById('options-container');
+
+// START QUIZ
+function startQuiz() {
+    startScreen.classList.remove('active');
+    quizScreen.classList.add('active');
+    currentQuestionIndex = 0;
+    userAnswers.fill(null);
+    loadQuestion();
+}
+
+// LOAD QUESTION
+function loadQuestion() {
+    resetTimer();
+    const data = quizData[currentQuestionIndex];
+
+    questionBadge.innerText = `Soal ${currentQuestionIndex + 1} / ${quizData.length} (${data.points} Poin)`;
+    questionText.innerText = data.question;
+
+    // Code Box Render
+    if(data.code) {
+        codeBox.innerHTML = `<div class="code-block">${data.code}</div>`;
+    } else {
+        codeBox.innerHTML = '';
+    }
+
+    // Render Options
+    optionsContainer.innerHTML = '';
+    data.options.forEach((opt, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<span><strong>${String.fromCharCode(65 + index)}.</strong> ${opt}</span>`;
+        btn.onclick = () => selectOption(index);
+        optionsContainer.appendChild(btn);
+    });
+
+    startTimer();
+}
+
+// TIMER SYSTEM
+function startTimer() {
+    timeLeft = 30;
+    timerText.innerText = `${timeLeft}s`;
+    timerProgress.style.width = '100%';
+    timerProgress.style.backgroundColor = 'var(--timer-color)';
+
+    timer = setInterval(() => {
+        timeLeft--;
+        timerText.innerText = `${timeLeft}s`;
+        const percentage = (timeLeft / 30) * 100;
+        timerProgress.style.width = `${percentage}%`;
+
+        if (timeLeft <= 10) {
+            timerProgress.style.backgroundColor = 'var(--wrong-color)';
+        }
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            autoTimeOut();
+        }
+    }, 1000);
+}
+
+function resetTimer() {
+    if (timer) clearInterval(timer);
+}
+
+// SELECT OPTION
+function selectOption(selectedIndex) {
+    resetTimer();
+    userAnswers[currentQuestionIndex] = selectedIndex;
+
+    const buttons = optionsContainer.children;
+    const correctIndex = quizData[currentQuestionIndex].answer;
+
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = true;
+        if (i === correctIndex) {
+            buttons[i].classList.add('correct');
+        }
+        if (i === selectedIndex && selectedIndex !== correctIndex) {
+            buttons[i].classList.add('wrong');
+        }
+    }
+
+    setTimeout(nextQuestion, 1200);
+}
+
+// AUTO TIMEOUT
+function autoTimeOut() {
+    userAnswers[currentQuestionIndex] = -1; // -1 means timed out
+    const buttons = optionsContainer.children;
+    const correctIndex = quizData[currentQuestionIndex].answer;
+
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = true;
+        if (i === correctIndex) {
+            buttons[i].classList.add('correct');
+        }
+    }
+
+    setTimeout(nextQuestion, 1200);
+}
+
+// NEXT QUESTION
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < quizData.length) {
+        loadQuestion();
+    } else {
+        finishQuiz();
+    }
+}
+
+// FINISH QUIZ & CALCULATE SCORE
+function finishQuiz() {
+    quizScreen.classList.remove('active');
+    resultScreen.classList.add('active');
+
+    let totalScore = 0;
+    let correctCount = 0;
+
+    userAnswers.forEach((ans, index) => {
+        if (ans === quizData[index].answer) {
+            totalScore += quizData[index].points;
+            correctCount++;
+        }
+    });
+
+    // Score Animation
+    document.getElementById('score-number').innerText = totalScore;
+    document.getElementById('score-summary').innerText = `Menjawab Benar: ${correctCount} dari 30 Soal`;
+    
+    // Circle Gradient Progress
+    const scoreCircle = document.getElementById('score-circle');
+    scoreCircle.style.background = `conic-gradient(var(--accent-color) ${totalScore}%, rgba(255, 255, 255, 0.1) ${totalScore}%)`;
+
+    // Feedback Text
+    const feedback = document.getElementById('feedback-text');
+    if (totalScore >= 85) {
+        feedback.innerText = "Luar Biasa! Pemahaman Berpikir Komputasional dan TIK Anda sangat luar biasa!";
+    } else if (totalScore >= 70) {
+        feedback.innerText = "Sangat Baik! Anda menguasai materi dengan cukup matang.";
+    } else {
+        feedback.innerText = "Tetap Semangat! Pelajari kembali pembahasan soal untuk meningkatkan pemahaman Anda.";
+    }
+}
+
+// SHOW REVIEW & EXPLANATIONS
+function showReview() {
+    resultScreen.classList.remove('active');
+    reviewScreen.classList.add('active');
+
+    const reviewContainer = document.getElementById('review-container');
+    reviewContainer.innerHTML = '';
+
+    quizData.forEach((data, index) => {
+        const userAns = userAnswers[index];
+        const isCorrect = userAns === data.answer;
+
+        const card = document.createElement('div');
+        card.className = `review-card ${isCorrect ? 'correct-border' : 'wrong-border'}`;
+
+        let userChoiceText = userAns >= 0 ? `${String.fromCharCode(65 + userAns)}. ${data.options[userAns]}` : "<i style='color:#f87171;'>Waktu Habis / Tidak Dijawab</i>";
+        let correctChoiceText = `${String.fromCharCode(65 + data.answer)}. ${data.options[data.answer]}`;
+
+        card.innerHTML = `
+            <div style="font-weight: 700; margin-bottom: 6px;">
+                Soal Nomor ${index + 1} (${data.points} Poin) 
+                ${isCorrect ? '<span style="color:var(--correct-color); font-size: 0.85rem;"><i class="fa-solid fa-circle-check"></i> Benar</span>' : '<span style="color:var(--wrong-color); font-size: 0.85rem;"><i class="fa-solid fa-circle-xmark"></i> Salah</span>'}
+            </div>
+            <p style="margin-bottom: 8px;">${data.question}</p>
+            ${data.code ? `<div class="code-block">${data.code}</div>` : ''}
+            <div style="font-size: 0.9rem; margin-top: 6px;">
+                <div><strong>Jawaban Anda:</strong> ${userChoiceText}</div>
+                <div style="color: #4ade80;"><strong>Kunci Jawaban:</strong> ${correctChoiceText}</div>
+            </div>
+            <div class="explanation-box">
+                <strong><i class="fa-solid fa-lightbulb"></i> Pembahasan:</strong> ${data.explanation}
+            </div>
+        `;
+
+        reviewContainer.appendChild(card);
+    });
+}
+
+// RESET QUIZ
+function resetQuiz() {
+    reviewScreen.classList.remove('active');
+    resultScreen.classList.remove('active');
+    startScreen.classList.add('active');
+}
+</script>
+
+</body>
+</html>
