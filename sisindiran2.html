@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Sisindiran Sunda</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --primary: #2e7d32;
+            --primary-hover: #1b5e20;
+            --text: #333333;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .quiz-container {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 750px;
+            width: 100%;
+            padding: 25px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .question-card {
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-btn {
+            background-color: #fff;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 15px;
+            text-align: left;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .option-btn.selected {
+            border-color: var(--primary);
+            background-color: #e8f5e9;
+            font-weight: bold;
+        }
+
+        /* Gaya Status Jawaban Setelah Submit */
+        .correct-opt {
+            background-color: #d4edda !important;
+            border-color: #c3e6cb !important;
+            color: #155724 !important;
+            font-weight: bold;
+        }
+
+        .wrong-opt {
+            background-color: #f8d7da !important;
+            border-color: #f5c6cb !important;
+            color: #721c24 !important;
+            text-decoration: line-through;
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 6px;
+            background-color: #eef6fc;
+            border-left: 4px solid #0288d1;
+            font-size: 0.93rem;
+            line-height: 1.5;
+            color: #01579b;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .result-box {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c8e6c9;
+        }
+
+        .result-box h2 {
+            margin: 0 0 10px 0;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Kuis Bahasa Sunda: Sisindiran</h1>
+    
+    <div id="result-box" class="result-box">
+        <h2>Hasil Kuis Anda</h2>
+        <p id="score-text"></p>
+    </div>
+
+    <form id="quiz-form">
+        <div id="questions-wrapper"></div>
+        <button type="button" id="submit-btn" class="submit-btn" onclick="checkAnswers()">Kirim & Lihat Jawaban</button>
+    </form>
+</div>
+
+<script>
+const quizData = [
+    {
+        q: "1. Karya sastra Sunda wangun puisi kauger nu ngagunakeun cangkang jeung eusi pikeun menyampaikan pesan secara teu togmol disebut...",
+        a: ["Wawacan", "Sisindiran", "Carita Parahyangan", "Biantara"],
+        correct: 1,
+        key: "B. Sisindiran",
+        exp: "Sisindiran nyaéta karya sastra Sunda wangun puisi kauger nu diwangun ku cangkang jeung eusi pikeun nyampaikeun maksud secara dikiaskeun (teu togmol)."
+    },
+    {
+        q: "2. Kecap sisindiran asalna tina kecap sindir, anu mibanda hartina...",
+        a: ["Nyarioskeun hiji hal secara langsung", "Nyarioskeun hiji hal ku cara dikiaskeun atawa disaliput", "Membaca puisi kalawan sora nu tarik", "Ngadamel carita rekaan"],
+        correct: 1,
+        key: "B. Nyarioskeun hiji hal ku cara dikiaskeun atawa disaliput",
+        exp: "'Sindir' hartina nyarita ku cara dikiaskeun, teu dibabarkeun secara kasaran atawa ngalewatan kiasan."
+    },
+    {
+        q: "3. Dina wangun sisindiran, baris kahiji jeung kadua disebut...",
+        a: ["Eusi", "Wangsal", "Cangkang", "Purwakanti"],
+        correct: 2,
+        key: "C. Cangkang",
+        exp: "Dina sisindiran padalisan opat, baris 1 jeung 2 nyaéta 'cangkang', sedengkeun baris 3 jeung 4 nyaéta 'eusi'."
+    },
+    {
+        q: "4. Dina sisindiran padalisan opat, bagian eusi aya dina padalisan ka...",
+        a: ["1 jeung 2", "1 jeung 3", "2 jeung 4", "3 jeung 4"],
+        correct: 3,
+        key: "D. 3 jeung 4",
+        exp: "Bagian eusi dina sisindiran opat padalisan aya dina baris (padalisan) ka-3 jeung ka-4."
+    },
+    {
+        q: "5. Jumlah engang (suku kata) dina saban padalisan sisindiran umumna nyaéta...",
+        a: ["6 engang", "8 engang", "10 engang", "12 engang"],
+        correct: 1,
+        key: "B. 8 engang",
+        exp: "Aturan baku (gurutra) sisindiran nyaéta mibanda 8 engang (suku kata) dina unggal padalisan."
+    },
+    {
+        q: "6. Persamaan sora/rima antara tungtung baris cangkang jeung eusi disebut...",
+        a: ["Engang", "Padalisan", "Purwakanti", "Pada"],
+        correct: 2,
+        key: "C. Purwakanti",
+        exp: "Purwakanti nyaéta saruana sora atawa persamaaan rima antar kecap atawa padalisan."
+    },
+    {
+        q: "7. Sisindiran anu eusina ngeunaan petunjuk kebaikan atawa nasihat mibanda watek...",
+        a: ["Silih Asih", "Sesebred", "Piwuruk", "Tatarucingan"],
+        correct: 2,
+        key: "C. Piwuruk",
+        exp: "'Piwuruk' mibanda watek pepeling, nasihat, atawa petunjuk kabajikan."
+    },
+    {
+        q: "8. Watek sisindiran anu eusina ngeunaan humor, lelucon, atawa menyindir secara lucu nyaéta...",
+        a: ["Piwuruk", "Sesebred", "Silih Asih", "Wawangsalan"],
+        correct: 1,
+        key: "B. Sesebred",
+        exp: "'Sesebred' mibanda watek heureuy, humor, atawa ngaguyon."
+    },
+    {
+        q: "9. Sisindiran anu eusina ngeunaan kasih sayang, hubungan pergaulan, atawa percintaan mibanda watek...",
+        a: ["Piwuruk", "Sesebred", "Silih Asih", "Tatarucingan"],
+        correct: 2,
+        key: "C. Silih Asih",
+        exp: "'Silih asih' mibanda watek nembongkeun rasa cinta, kasih sayang, atawa silaturahmi."
+    },
+    {
+        q: "10. Kecap paparikan asalna tina kecap parik atawa pareket, anu hartina...",
+        a: ["Sejajar", "Deukeut", "Jauh", "Panjang"],
+        correct: 1,
+        key: "B. Deukeut",
+        exp: "Paparikan asalna tina kecap 'parik' / 'pareket' anu hartina deukeut (deukeut sorana/purwakanti antara cangkang jeung eusi)."
+    },
+    {
+        q: "11. Ciri khas utama tina wangun Rarakitan nyaéta...",
+        a: ["Teu aya pengulangan kecap di awal baris", "Diwangun ku 2 baris wungkul", "Kecap awal dina baris 1 jeung 2 dibalikan deui dina baris 3 jeung 4", "Eusina mung mangrupa tebak-tebakan"],
+        correct: 2,
+        key: "C. Kecap awal dina baris 1 jeung 2 dibalikan deui dina baris 3 jeung 4",
+        exp: "Ciri utama Rarakitan nyaéta papasangan kecap awal: kecap awal baris 1 diulang dina awal baris 3, kecap awal baris 2 diulang dina awal baris 4."
+    },
+    {
+        q: "12. Dina Rarakitan, kecap awal dina baris kahiji (padalisan 1) bakal dibalikan deui dina awal baris ka...",
+        a: ["Dua", "Katilu", "Kaopat", "Kalima"],
+        correct: 1,
+        key: "B. Katilu",
+        exp: "Dina Rarakitan, baris 1 (cangkang) diulang dina baris 3 (eusi)."
+    },
+    {
+        q: "13. Dina Rarakitan, kecap awal dina baris kadua (padalisan 2) dibalikan deui dina awal baris ka...",
+        a: ["Hiji", "Katilu", "Kaopat", "Kalima"],
+        correct: 2,
+        key: "C. Kaopat",
+        exp: "Dina Rarakitan, baris 2 (cangkang) diulang dina baris 4 (eusi)."
+    },
+    {
+        q: "14. Kecap rarakitan asalna tina kecap rakit, anu mibanda arti...",
+        a: ["Deukeut atawa pareket", "Pasang / sesejajar", "Silih tembal", "Unak-anik"],
+        correct: 1,
+        key: "B. Pasang / sesejajar",
+        exp: "Kecap 'rakit' mibanda arti berpasangan, sejajar, atawa dipasangkeun siga rakit di cai."
+    },
+    {
+        q: "15. Watek Sisindiran:\nBoboko ragrag ti imah,\ncagak dua ngadongkang.\nUrang kudu getol ibadah,\nambeh hirup tenang tenteram.\nConto di atas mangrupa Paparikan anu mibanda watek...",
+        a: ["Silih asih", "Sesebred", "Piwuruk", "Tatarucingan"],
+        correct: 2,
+        key: "C. Piwuruk",
+        exp: "Eusi sisindiran ngeunaan ajakan 'getol ibadah', anu kaasup kana nasihat/pepeling (Piwuruk)."
+    },
+    {
+        q: "16. Mihapé sisir jeung minyak,\nkadamangka Kadungora.\nMihapé pikir jeung niat,\nkadamangka Nu Kawasa.\nConto di atas kaasup kana wangun sisindiran...",
+        a: ["Paparikan", "Rarakitan", "Wawangsalan", "Tatarucingan"],
+        correct: 1,
+        key: "B. Rarakitan",
+        exp: "Perhatikeun kecap 'Mihapé' jeung 'kadamangka' diulang dina awal baris 1-3 jeung 2-4. Éta ciri khas tina Rarakitan."
+    },
+    {
+        q: "17. Bentuk sisindiran anu diwangun ku dua padalisan (2 baris) disebut...",
+        a: ["Paparikan", "Rarakitan", "Wawangsalan", "Tatarucingan"],
+        correct: 2,
+        key: "C. Wawangsalan",
+        exp: "Wawangsalan nyaéta wangun sisindiran anu ngan diwangun ku dua padalisan (baris 1 cangkang, baris 2 eusi)."
+    },
+    {
+        q: "18. Dina Wawangsalan, padalisan kahiji ngandung...",
+        a: ["Petunjuk kecap nu deukeut jeung jawaban", "Cangkang (teka-teki/petunjuk ngeunaan barang/hal)", "Jawaban langsung", "Nasihat agama"],
+        correct: 1,
+        key: "B. Cangkang (teka-teki/petunjuk ngeunaan barang/hal)",
+        exp: "Padalisan 1 dina Wawangsalan eusina cangkang anu mangrupa petunjuk ngeunaan barang/hal nu disumputkeun."
+    },
+    {
+        q: "19. Jawaban atawa barang anu disumputkeun dina wawangsalan disebut...",
+        a: ["Cangkang", "Padalisan", "Engang", "Wangsal"],
+        correct: 3,
+        key: "D. Wangsal",
+        exp: "Jawaban atawa barang anu disumputkeun dinamakeun 'wangsal'."
+    },
+    {
+        q: "20. Petunjuk ngeunaan wangsal (jawaban) dina Wawangsalan biasana disumputkeun dina...",
+        a: ["Baris kahiji (cangkang)", "Baris kadua (eusi)", "Judul sisindiran", "Awal kalimat cangkang"],
+        correct: 0,
+        key: "A. Baris kahiji (cangkang)",
+        exp: "Petunjuk ngeunaan barang nu dimaksud/disumputkeun ditepikeun dina baris kahiji (cangkang)."
+    },
+    {
+        q: "21. Teu beunang dihurang-sawah,\nteu beunang dipikameumeut.\nWangsal (jawaban) tina wawangsalan di luhur nyaéta...",
+        a: ["Patani", "Sereuh", "Simeut", "Belut"],
+        correct: 2,
+        key: "C. Simeut",
+        exp: "'Hurang sawah' = simeut. Sora 'simeut' deukeut jeung kecap 'dipikameumeut' dina baris kadua."
+    },
+    {
+        q: "22. Kecap dina baris kadua Wawangsalan di luhur anu mibanda sora deukeut jeung wangsal 'simeut' nyaéta...",
+        a: ["Teu beunang", "Dipikameumeut", "Hurang", "Sawah"],
+        correct: 1,
+        key: "B. Dipikameumeut",
+        exp: "Kecap 'dipikameumeut' boga unyi/purwakanti nu deukeut jeung 'simeut'."
+    },
+    {
+        q: "23. Sisindiran tradisional Sunda nu eusina patanyaan/teka-teki pikeun ulinan atawa hiburan disebut...",
+        a: ["Paparikan", "Rarakitan", "Wawangsalan", "Tatarucingan"],
+        correct: 3,
+        key: "D. Tatarucingan",
+        exp: "Tatarucingan nyaéta tebak-tebakan tradisional Sunda pikeun hiburan."
+    },
+    {
+        q: "24. Salah sahiji ciri utama tina Tatarucingan nyaéta...",
+        a: ["Kauger ketat ku aturan 8 engang per baris", "Diwangun ku 4 baris tetep", "Eusina bébas, mindeng ngagunakeun plesetan atawa logika lucu", "Kedah aya pengulangan kata di awal baris"],
+        correct: 2,
+        key: "C. Eusina bébas, mindeng ngagunakeun plesetan atawa logika lucu",
+        exp: "Tatarucingan leuwih bébas wangunna jeung sering ngagunakeun logika lucu/plesetan."
+    },
+    {
+        q: "25. Istilah pikeun tebakan nu dikira-kira tapi nyata dina tatarucingan nyaéta...",
+        a: ["Purwakanti", "Kirata", "Cangkang", "Wangsal"],
+        correct: 1,
+        key: "B. Kirata",
+        exp: "'Kirata' singkatan tina 'dikirat tapi nyata', nyaéta métode nebak kecap dina tatarucingan ku cara mengartikeun suku katana."
+    },
+    {
+        q: "26. Oray naon nu teu bisa ngaleor?\nPatanyaan di luhur kaasup kana wangun...",
+        a: ["Paparikan", "Rarakitan", "Wawangsalan", "Tatarucingan"],
+        correct: 3,
+        key: "D. Tatarucingan",
+        exp: "Patanyaan 'Oray naon nu teu bisa ngaleor?' mangrupa tebak-tebakan (Tatarucingan)."
+    },
+    {
+        q: "27. Utama tujuan tina diproduksina Tatarucingan nyaéta pikeun...",
+        a: ["Ngasih nasihat ka nu kolot", "Ngahibur jeung ngalatih kacerdasan humor", "Nyampaikeun rasa cinta secara tersembunyi", "Membuat aturan puisi anyar"],
+        correct: 1,
+        key: "B. Ngahibur jeung ngalatih kacerdasan humor",
+        exp: "Tujuan utama tatarucingan nyaéta minangka hiburan jeung patanyaan humor."
+    },
+    {
+        q: "28. Perbedaan utama antara Paparikan jeung Rarakitan dina hal pengulangan kecap nyaéta...",
+        a: ["Paparikan wajib aya pengulangan kecap awal, Rarakitan teu kudu", "Rarakitan wajib aya pengulangan kecap awal (baris 1=3, 2=4), Paparikan teu kudu", "Paparikan diwangun ku 2 baris, Rarakitan 4 baris", "Rarakitan teu ngagunakeun purwakanti"],
+        correct: 1,
+        key: "B. Rarakitan wajib aya pengulangan kecap awal (baris 1=3, 2=4), Paparikan teu kudu",
+        exp: "Rarakitan ngagunakeun 'papasangan' (pengulangan kecap di awal baris), sedengkeun Paparikan henteu wajib mengulang kecap awal."
+    },
+    {
+        q: "29. Beda utama antara Wawangsalan jeung Tatarucingan dumasar kana wangunna (bentuk) nyaéta...",
+        a: ["Wawangsalan berbentuk kalimah bébas, Tatarucingan 2 baris", "Wawangsalan puisi kauger (2 baris, 8 engang), Tatarucingan kalimah bébas/patanyaan", "Wawangsalan mibanda 4 baris, Tatarucingan mibanda 2 baris", "Dua-duana teu mibanda beda wangun"],
+        correct: 1,
+        key: "B. Wawangsalan puisi kauger (2 baris, 8 engang), Tatarucingan kalimah bébas/patanyaan",
+        exp: "Wawangsalan mibanda wangun puisi terikat (2 padalisan, 8 engang), sedengkeun Tatarucingan wangunna bébas."
+    },
+    {
+        q: "30. Cara néangan jawaban dina Wawangsalan nyaéta ngaliwatan...",
+        a: ["Persamaan sora (purwakanti) dina baris kadua", "Tebakan plesetan langsung", "Ngitung jumlah huruf dina baris kahiji", "Nyaangan kecap nu diulangan di awal baris"],
+        correct: 0,
+        key: "A. Persamaan sora (purwakanti) dina baris kadua",
+        exp: "Jawaban (wangsal) ditebak liwat kecap nu boga sora ampir sarua (purwakanti) dina baris kadua (eusi)."
+    }
+];
+
+function renderQuiz() {
+    const wrapper = document.getElementById('questions-wrapper');
+    wrapper.innerHTML = '';
+
+    quizData.forEach((qData, qIndex) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+
+        const qText = document.createElement('div');
+        qText.className = 'question-text';
+        qText.textContent = qData.q;
+        card.appendChild(qText);
+
+        const optionsDiv = document.createElement('div');
+        optionsDiv.className = 'options-container';
+
+        qData.a.forEach((optText, optIndex) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `option-btn opt-${qIndex}`;
+            btn.innerHTML = `<b>${String.fromCharCode(65 + optIndex)}.</b> ${optText}`;
+            btn.onclick = () => selectOption(qIndex, optIndex);
+            optionsDiv.appendChild(btn);
+        });
+
+        card.appendChild(optionsDiv);
+
+        // Elemen Pembahasan & Kunci Jawaban
+        const expDiv = document.createElement('div');
+        expDiv.id = `exp-${qIndex}`;
+        expDiv.className = 'explanation';
+        expDiv.innerHTML = `<b>Kunci Jawaban:</b> ${qData.key}<br><br><b>Pembahasan:</b> ${qData.exp}`;
+        card.appendChild(expDiv);
+
+        wrapper.appendChild(card);
+    });
+}
+
+const userAnswers = {};
+
+function selectOption(qIndex, optIndex) {
+    userAnswers[qIndex] = optIndex;
+    const buttons = document.querySelectorAll(`.opt-${qIndex}`);
+    buttons.forEach((btn, idx) => {
+        if (idx === optIndex) {
+            btn.classList.add('selected');
+        } else {
+            btn.classList.remove('selected');
+        }
+    });
+}
+
+function checkAnswers() {
+    let score = 0;
+    
+    quizData.forEach((qData, qIndex) => {
+        const buttons = document.querySelectorAll(`.opt-${qIndex}`);
+        const expDiv = document.getElementById(`exp-${qIndex}`);
+        const selected = userAnswers[qIndex];
+
+        buttons.forEach((btn, optIndex) => {
+            btn.disabled = true; // Nonaktifkan tombol setelah submit
+            btn.classList.remove('selected');
+
+            if (optIndex === qData.correct) {
+                btn.classList.add('correct-opt'); // Warna hijau untuk jawaban benar
+            } else if (selected === optIndex) {
+                btn.classList.add('wrong-opt'); // Warna merah untuk jawaban Anda yang salah
+            }
+        });
+
+        if (selected === qData.correct) {
+            score++;
+        }
+
+        expDiv.style.display = 'block'; // Tampilkan kunci dan pembahasan
+    });
+
+    const total = quizData.length;
+    const finalScore = Math.round((score / total) * 100);
+    const resultBox = document.getElementById('result-box');
+    const scoreText = document.getElementById('score-text');
+    
+    scoreText.innerHTML = `Jawaban Bener: <b>${score}</b> ti <b>${total}</b> soal.<br>Nilai Akhir: <b>${finalScore}</b> / 100`;
+    resultBox.style.display = 'block';
+    
+    document.getElementById('submit-btn').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderQuiz();s
+</script>
+
+</body>
+</html>
