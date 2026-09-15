@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="su">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Sisindiran jeung Gaya Basa Sindir - Basa Sunda Kelas 9</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        sunda: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f291e 100%);
+            min-height: 100vh;
+            color: #f8fafc;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .option-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .option-card:hover:not(.disabled) {
+            transform: translateY(-2px);
+            border-color: #34d399;
+            background: rgba(52, 211, 153, 0.08);
+        }
+        .correct-anim {
+            animation: pulseCorrect 0.5s ease-in-out;
+        }
+        .wrong-anim {
+            animation: shakeWrong 0.4s ease-in-out;
+        }
+        @keyframes pulseCorrect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shakeWrong {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen p-3 sm:p-6 justify-center items-center">
+
+    <div class="w-full max-w-4xl">
+        <!-- Start Screen -->
+        <div id="start-screen" class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl text-center">
+            <div class="inline-flex p-4 bg-sunda-500/20 rounded-2xl text-sunda-500 mb-6 border border-sunda-500/30">
+                <i data-lucide="book-open-check" class="w-12 h-12"></i>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4">
+                Uji Kompetensi Basa Sunda
+            </h1>
+            <p class="text-xl font-medium text-sunda-200 mb-2">Kelas 9 SMP / Semester Ganjil</p>
+            <p class="text-slate-400 max-w-2xl mx-auto mb-8 text-sm sm:text-base leading-relaxed">
+                Materi: <span class="text-emerald-400 font-semibold">Sisindiran (Paparikan, Rarakitan, Wawangsalan, Tatarucingan) & Gaya Basa Sindir</span>.
+                Kuis diwangun ku 30 soal pilihan ganda tipe HOTS (C4-C6) kalawan tingkat kasusahan nu luhur.
+            </p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto mb-8 text-left">
+                <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/50">
+                    <div class="text-xs text-slate-400 mb-1">Jumlah Soal</div>
+                    <div class="text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="list-ordered" class="w-4 h-4 text-emerald-400"></i> 30 Soal
+                    </div>
+                </div>
+                <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/50">
+                    <div class="text-xs text-slate-400 mb-1">Tipe Soal</div>
+                    <div class="text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="brain-circuit" class="w-4 h-4 text-purple-400"></i> HOTS
+                    </div>
+                </div>
+                <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/50">
+                    <div class="text-xs text-slate-400 mb-1">Pilihan Jawaban</div>
+                    <div class="text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="layers" class="w-4 h-4 text-amber-400"></i> 4 (A, B, C, D)
+                    </div>
+                </div>
+                <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/50">
+                    <div class="text-xs text-slate-400 mb-1">KKM Minimum</div>
+                    <div class="text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="award" class="w-4 h-4 text-blue-400"></i> 75 Poin
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="startQuiz()" class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-sunda-600 to-emerald-500 hover:from-sunda-500 hover:to-emerald-400 text-white font-bold text-lg rounded-2xl shadow-lg shadow-sunda-600/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-3 mx-auto">
+                <i data-lucide="play-circle" class="w-6 h-6"></i>
+                Mimitian Kuis Sekarang
+            </button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <!-- Top Status Bar -->
+            <div class="glass-card rounded-2xl p-4 mb-4 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <span id="question-badge" class="px-3 py-1 bg-sunda-500/20 text-sunda-400 border border-sunda-500/30 rounded-lg text-xs font-bold tracking-wider uppercase">
+                        Soal 1 / 30
+                    </span>
+                    <span id="level-badge" class="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-lg text-xs font-bold">
+                        Level C4
+                    </span>
+                </div>
+
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-2 text-slate-300 text-sm font-semibold">
+                        <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i>
+                        Skor: <span id="current-score" class="text-emerald-400 text-base">0</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-300 text-sm font-semibold">
+                        <i data-lucide="timer" class="w-4 h-4 text-cyan-400"></i>
+                        <span id="timer-display" class="font-mono text-base text-cyan-300">00:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-800/80 rounded-full h-2.5 mb-6 overflow-hidden border border-slate-700/50">
+                <div id="progress-bar" class="bg-gradient-to-r from-sunda-500 to-emerald-400 h-2.5 rounded-full transition-all duration-300 w-0"></div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 mb-6 shadow-xl relative overflow-hidden">
+                <div id="question-text" class="text-lg sm:text-xl font-semibold text-white leading-relaxed mb-6">
+                    <!-- Soal bakal diisi lewat JS -->
+                </div>
+
+                <!-- Stimulus / Teks Bacaan (mun aya) -->
+                <div id="question-stimulus" class="hidden mb-6 p-4 rounded-xl bg-slate-900/80 border border-slate-700/70 font-mono text-sunda-200 text-sm leading-relaxed whitespace-pre-line italic"></div>
+
+                <!-- Options Grid -->
+                <div id="options-container" class="space-y-3">
+                    <!-- Opsi Jawaban ku JS -->
+                </div>
+
+                <!-- Explanation Box -->
+                <div id="explanation-box" class="hidden mt-6 p-5 rounded-2xl bg-slate-900/90 border border-slate-700 text-sm leading-relaxed">
+                    <div class="flex items-center gap-2 font-bold mb-2" id="explanation-title">
+                        <i data-lucide="info" class="w-5 h-5"></i>
+                        <span>Katrangan Jawaban</span>
+                    </div>
+                    <p id="explanation-text" class="text-slate-300"></p>
+                </div>
+            </div>
+
+            <!-- Navigation Bar -->
+            <div class="flex justify-between items-center gap-4">
+                <button id="prev-btn" onclick="prevQuestion()" disabled class="px-6 py-3 bg-slate-800 text-slate-400 rounded-xl font-bold text-sm hover:bg-slate-700 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-2">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    Saméméhna
+                </button>
+                <button id="next-btn" onclick="nextQuestion()" class="px-8 py-3 bg-sunda-600 hover:bg-sunda-500 text-white rounded-xl font-bold text-sm shadow-lg shadow-sunda-600/20 transition-all flex items-center gap-2">
+                    Terasna
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="hidden glass-card rounded-3xl p-6 sm:p-10 shadow-2xl text-center">
+            <div id="result-badge-icon" class="inline-flex p-5 rounded-3xl mb-4">
+                <i id="result-icon" class="w-16 h-16"></i>
+            </div>
+            
+            <h2 id="result-title" class="text-3xl sm:text-4xl font-extrabold text-white mb-2">
+                Hasil Ujian
+            </h2>
+            <p id="result-subtitle" class="text-slate-300 text-base mb-6"></p>
+
+            <!-- Score Summary Card -->
+            <div class="bg-slate-900/80 rounded-2xl p-6 border border-slate-700/60 max-w-xl mx-auto mb-8 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                <div>
+                    <div class="text-xs text-slate-400 mb-1">Skor Akhir</div>
+                    <div id="final-score" class="text-3xl font-extrabold text-emerald-400">0</div>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-400 mb-1">Bener</div>
+                    <div id="correct-count" class="text-2xl font-bold text-sunda-400">0</div>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-400 mb-1">Salah</div>
+                    <div id="wrong-count" class="text-2xl font-bold text-rose-400">0</div>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-400 mb-1">Kategori Predikat</div>
+                    <div id="final-grade" class="text-xl font-extrabold text-amber-400">-</div>
+                </div>
+            </div>
+
+            <!-- Review Questions List -->
+            <div class="text-left mb-8">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <i data-lucide="file-check-2" class="w-5 h-5 text-sunda-400"></i>
+                    Analisis jeung Pembahasan Penuh Soal:
+                </h3>
+                <div id="review-container" class="space-y-4 max-h-96 overflow-y-auto pr-2">
+                    <!-- Item review ku JS -->
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="restartQuiz()" class="px-8 py-4 bg-gradient-to-r from-sunda-600 to-emerald-500 hover:from-sunda-500 hover:to-emerald-400 text-white font-bold rounded-2xl shadow-lg shadow-sunda-600/30 transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+                    Balikan Deui Kuis
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questionsData = [
+            {
+                id: 1,
+                level: "C4 - Relational",
+                question: "Titénan sisindiran di handap! Dumasar kana struktur sarta watekna, rumpaka di luhur kaasup kana wangun Paparikan kalawan mibanda watek...",
+                stimulus: "Hampelas raraga jati,\npalataran babaléan.\nIkhlas raga sareng pati,\nNgabélaan kasaéan.",
+                options: [
+                    "Piwuruk, sabab eusina ngandung ajakan atawa pituduh pikeun milampah kahadéan dina kahirupan.",
+                    "Silih asih, sabab eusina ngabahas ngeunaan rasa cinta jeung kanyaah ka sasama papada manusa.",
+                    "Sesebred, sabab eusina ngandung panyindiran anu sipatna heureuy sarta bisa ngahibur nu maca.",
+                    "Lelucon, sabab eusina ngagambarkeun kajadian anéh anu bisa nyababkeun batur seuri gembira."
+                ],
+                answer: 0,
+                explanation: "Rumpaka di luhur nyaéta Paparikan watek Piwuruk lantaran eusina (baris 3 & 4) ngajak tur ngadidik pikeun ikhlas ngabélaan kasaéan dina kahirupan."
+            },
+            {
+                id: 2,
+                level: "C4 - Relational",
+                question: "Titénan béda utama antara Paparikan jeung Rarakitan! Unsur naon anu wajib aya dina Rarakitan tapi teu diwajibkeun dina Paparikan?",
+                options: [
+                    "Jumlah engang dina saban padalisan kudu persis salapan suku kata ti mimiti nepi ka tungtung.",
+                    "Aya purwakanti rima a-b-a-b dina tungtung padalisan cangkang jeung tungtung padalisan eusi.",
+                    "Pangulangan kecap dina awal padalisan kahiji ka katilu sarta padalisan kadua ka kaopat.",
+                    "Tempat lumangsungna kajadian anu kudu disebutkeun secara jelas dina bagian cangkangna."
+                ],
+                answer: 2,
+                explanation: "Ciri khas utama Rarakitan nyaéta wajib mibanda pangulangan kecap di awal padalisan (baris 1=3, baris 2=4), sedengkeun Paparikan mah henteu wajib."
+            },
+            {
+                id: 3,
+                level: "C4 - Relational",
+                question: "Titénan sisindiran di handap! Watek tina Rarakitan di luhur nyaéta sesebred. Tujuan utama pangarang ngagunakeun watek sesebred dina rumpaka kasebut nyaéta...",
+                stimulus: "Rarabi jeung urang pundung,\nteu poho mawa tangkalna.\nRarabi ka urang Bandung,\nteu poho mawa hartana.",
+                options: [
+                    "Maparin papatah agama sacara teges tur lugas sangkan nu ngadéngékeun teu ngalakukeun kasalahan.",
+                    "Nyindir sifat atawa kabiasaan manusa ku cara humoris sangkan teu ngarasa kasinggung.",
+                    "Ngabudalkeun rasa cinta anu jero ka pasangan ngaliwatan puisi tur rakitan basa anu éndah.",
+                    "Nepikeun pituduh atawa paréntah penting ti tokoh masarakat anu kudu gancang dilaksanakan."
+                ],
+                answer: 1,
+                explanation: "Watek sesebred (humor/heureuy) dibentuk pikeun menyindir sifat atawa perilaku manusa secara halus ngaliwatan guyonan sangkan pamiarsa teu ngarasa kasinggung."
+            },
+            {
+                id: 4,
+                level: "C5 - Extended Abstract",
+                question: "Titénan padalisan Rarakitan anu rumpang di handap ieu! Pikeun ngalengkepan padalisan (3) jeung (4) sangkan jadi Rarakitan piwuruk anu bener nyaéta...",
+                stimulus: "(1) Kamana jalan ka Yogya,\n(2) ka ditu ka pangrumasan.\n(3) ..........................................\n(4) ..........................................",
+                options: [
+                    "Ari hayang asup sorga, kudu rajin ka pangaosan.",
+                    "Lamun hayang asup sorga, hayu urang pangaosan.",
+                    "Kamana jalan ka sorga, ka ditu ka pangrumasan.",
+                    "Kamana jalan ka sorga, kaditu ka pangaosan."
+                ],
+                answer: 3,
+                explanation: "Aturan Rarakitan ngawajibkeun pengulangan kecap awal: baris 1&3 dimimitian ku 'Kamana', sarta baris 2&4 dimimitian ku 'ka ditu/kaditu'."
+            },
+            {
+                id: 5,
+                level: "C6 - Extended Abstract",
+                question: "Pikirkeun bagian eusi Paparikan di handap ieu! Cangkang anu paling merenah tur saluyu jeung aturan purwakanti (a-b-a-b) pikeun eusi di luhur nyaéta...",
+                stimulus: "(3) Mung deukeut tapi teu salam,\n(4) rasa hate hoyong papanggih.",
+                options: [
+                    "Kembang tanjung daun salam, ditingal ti gigir linggih.",
+                    "Daun salam kembang tanjung, ditingal ti gigir resep.",
+                    "Kembang melati di taman, katampak ku urang sadaya.",
+                    "Mung deukeut ka daun salam, ditingal ti payun linggih."
+                ],
+                answer: 0,
+                explanation: "Cangkang 'Kembang tanjung daun salam / ditingal ti gigir linggih' mibanda rima tungtung '-am' jeung '-ih' nu sarua jeung rima eusi (baris 3 & 4)."
+            },
+            {
+                id: 6,
+                level: "C4 - Relational",
+                question: "Titénan wawangsalan di handap! Wangsal (jawaban) anu disumputkeun dina wawangsalan kasebut nyaéta...",
+                stimulus: "Belut sisit saba darat,\nkapiraray siang wengi.",
+                options: [
+                    "Bogo, lantaran mirip jeung kecap darat anu aya dina padalisan cangkangna.",
+                    "Oray, lantaran sorana deukeut jeung kecap kapiraray dina padalisan eusi.",
+                    "Belut, lantaran disebutkeun secara eksplisit dina awal padalisan cangkang.",
+                    "Welut, lantaran kaasup kana golongan sato cai anu mibanda sisit leueur."
+                ],
+                answer: 1,
+                explanation: "Petunjuk 'belut sisit saba darat' nyaéta oray. Dina padalisan kadua aya kecap 'kapiraray' anu sorana murwakanti jeung kecap 'oray'."
+            },
+            {
+                id: 7,
+                level: "C4 - Relational",
+                question: "Analisis padalisan kadua dina Wawangsalan di handap! Naha kecap 'dipikameumeut' dina padalisan kadua jadi kunci utama pikeun nebak wangsalna?",
+                stimulus: "Teu beunang dihurang-sawah,\nteu beunang dipikameumeut.",
+                options: [
+                    "Lantaran kecap dipikameumeut mibanda arti anu sarua persis jeung hurang sawah.",
+                    "Lantaran kecap dipikameumeut mibanda jumlah engang anu sarua jeung hurang sawah.",
+                    "Lantaran sora tungtung kecap dipikameumeut murwakanti/deukeut jeung kata simeut.",
+                    "Lantaran kecap dipikameumeut mangrupa nami ilmiah ti sato nu aya di sawah."
+                ],
+                answer: 2,
+                explanation: "Hurang sawah nyaéta simeut. Kecap 'dipikameumeut' dina eusi mibanda sora tungtung nu deukeut/murwakanti pisan jeung kata 'simeut'."
+            },
+            {
+                id: 8,
+                level: "C4 - Relational",
+                question: "Naon bédana anu paling mendasar antara Wawangsalan jeung Tatarucingan dumasar kana aturan strukturna?",
+                options: [
+                    "Wawangsalan terikat ku aturan 2 padalisan jeung rima, sedengkeun Tatarucingan wangunna bebas.",
+                    "Wawangsalan wangunna ngagunakeun 4 padalisan, sedengkeun Tatarucingan ukur mibanda 1 padalisan.",
+                    "Wawangsalan salawasna ngeunaan humor, sedengkeun Tatarucingan salawasna ngeunaan nasihat agama.",
+                    "Wawangsalan teu mibanda jawaban tersembunyi, sedengkeun Tatarucingan mibanda jawaban resmi."
+                ],
+                answer: 0,
+                explanation: "Wawangsalan mangrupa puisi kauger (2 baris, 8 engang per baris) nu mibanda purwakanti, sedengkeun tatarucingan wangunna bébas dina bentuk patanyaan/kalimah."
+            },
+            {
+                id: 9,
+                level: "C4 - Relational",
+                question: "Titénan soalan Tatarucingan di handap! Jawaban anu paling rasional tur saluyu jeung logika Tatarucingan Sunda nyaéta...",
+                stimulus: "Cing naon anu diudag lumpat, didagoan cicing?",
+                options: [
+                    "Kucing, lantaran lamun diudag bakal lumpat tapi lamun dipanggil bakal cicing.",
+                    "Angin, lantaran moal bisa ditewak ku leungeun boh nalika lumpat atawa cicing.",
+                    "Kendaraan, lantaran butuh bensin pikeun lumpat sarta bakal cicing lamun mogok.",
+                    "Kalangkang, lantaran lamun urang lumpat manéhna milu lumpat ngabaturannana."
+                ],
+                answer: 3,
+                explanation: "Jawaban tatarucingan 'diudag lumpat, didagoan cicing' nyaéta kalangkang (bayangan), lantaran poisina salawasna ngaguntang kana raga urang."
+            },
+            {
+                id: 10,
+                level: "C4 - Relational",
+                question: "Titénan kalimah di handap! Dumasar kana materi, kalimah kasebut kaasup kana gaya basa sindir jenis...",
+                stimulus: "Guru: 'Naha Jang, datang téh isuk pisan, kagok padahal mah lohor wé sakintenan Jang?'\nMurid: 'Punten bu, tadi macét pisan di jalan.'",
+                options: [
+                    "Gaya Basa Seukeut (Sinisme), lantaran ngagunakeun kecap-kecap kasar anu matak nyeri hate.",
+                    "Gaya Basa Ngomong Dua (Ironi), lantaran ucapan anu diucapkeun sabalikna ti maksud nu sabenerna.",
+                    "Gaya Basa Nyungkun (Sarkasme), lantaran langsung ngahina sipat siswa di hapeun kelas.",
+                    "Gaya Basa Silib (Alusi), lantaran ngagunakeun kiasan tokoh sejarah pikeun menyindir."
+                ],
+                answer: 1,
+                explanation: "Gaya Basa Ngomong Dua (Ironi) nyaéta rakitan basa anu ucapanna sabalikna ti maksud nu sabenerna (nyebut datang isuk pisan padahal kabeungharan/telat)."
+            },
+            {
+                id: 11,
+                level: "C4 - Relational",
+                question: "Dina hiji poé, aya budak anu pohara ngedulna tur teu pernah ngagugu ka kolot. Indungna ngucapkeun kalimah sinismeu (Gaya Basa Seukeut) ngeunaan kaayaan éta. Kalimah anu saluyu nyaéta...",
+                options: [
+                    "Naha salira bet sumping ayeuna, naha teu énjing waé supados langkung siap?",
+                    "Mangga geura tuang anu seueur sangkan awak anjeun jagjag tur kuat damel.",
+                    "Teu sangki geuning getol pisan putra ibu téh, sadintenten mung tiasa calik.",
+                    "Tuh ngobrolna di luar waé sangkan sadaya jalma tiasa ngadéngékeun sora anjeun!"
+                ],
+                answer: 2,
+                explanation: "Gaya basa seukeut/sinismeu nyaéta ucapan anu teurakna jero atawa rosa pikeun menyindir (nyebut 'getol pisan' tapi ditambahan 'mung tiasa calik' pikeun nu ngedul)."
+            },
+            {
+                id: 12,
+                level: "C4 - Relational",
+                question: "Kaayaan di jero kelas kacida raména lantaran aya budak anu ngobrol waé nalika guru nerangkeun. Guru ngagunakeun Gaya Basa Nyungkun (Sarkasme) ku cara ngajawab...",
+                options: [
+                    "Tuh ngobrolna di luar! (supados nu ngobrol rumasa salah tur eureun).",
+                    "Meni pinter pisan murid ibu, teruskeun ngobrolna dugi ka jam pelajaran réseps!",
+                    "Naha bet alus-alus teuing suara anjeun, pantes pisan jadi orator ulakan!",
+                    "Kira-kira iraha anjeun badé eureun ngobrol supados réranggangan tiasa dimimitian?"
+                ],
+                answer: 0,
+                explanation: "Gaya basa nyungkun (sarkasme) nyaéta rakitan basa anu langsung moyok/ngawada sahingga nu ditegur ngarasa diteunggeul/rumasa salah ('Tuh ngobrolna di luar!')."
+            },
+            {
+                id: 13,
+                level: "C5 - Extended Abstract",
+                question: "Analisis tingkat ketajaman tuturan dina tilu gaya basa sindir (silib)! Urutan ti anu panggampangna/halus nepi ka anu pangseukeutna/langsung nyaéta...",
+                options: [
+                    "Gaya Basa Nyungkun -> Gaya Basa Seukeut -> Gaya Basa Ngomong Dua.",
+                    "Gaya Basa Seukeut -> Gaya Basa Ngomong Dua -> Gaya Basa Nyungkun.",
+                    "Gaya Basa Nyungkun -> Gaya Basa Ngomong Dua -> Gaya Basa Seukeut.",
+                    "Gaya Basa Ngomong Dua -> Gaya Basa Seukeut -> Gaya Basa Nyungkun."
+                ],
+                answer: 3,
+                explanation: "Urutan ketajaman sindiran: Ngomong Dua/Ironi (paling halus/sabalikna) -> Seukeut/Sinismeu (rosa/jero) -> Nyungkun/Sarkasme (paling langsung/moyok)."
+            },
+            {
+                id: 14,
+                level: "C4 - Relational",
+                question: "Titénan pola bunyi tungtung (rima) dina Paparikan watek Silih Asih di handap! Persamaan sora (purwakanti) anu ngabeungkeut padalisan kasebut nyaéta antara...",
+                stimulus: "Kembang tanjung daun salam, (1)\nditingal ti gigir linggih. (2)\nMung deukeut tapi teu salam, (3)\nrasa hate hoyong papanggih. (4)",
+                options: [
+                    "Padalisan (1) rima -am jeung padalisan (3) rima -am; padalisan (2) rima -ih jeung (4) rima -ih.",
+                    "Padalisan (1) rima -am jeung padalisan (2) rima -ih; padalisan (3) rima -am jeung (4) rima -ih.",
+                    "Padalisan (1) rima -am jeung padalisan (4) rima -ih; padalisan (2) rima -ih jeung (3) rima -am.",
+                    "Sadaya padalisan ti mimiti (1) dugi ka (4) mibanda rima tungtung anu persis sarua nyaéta -am."
+                ],
+                answer: 0,
+                explanation: "Paparikan mibanda rima silang (a-b-a-b): baris 1 murwakanti jeung baris 3 (-am), sarta baris 2 murwakanti jeung baris 4 (-ih)."
+            },
+            {
+                id: 15,
+                level: "C5 - Extended Abstract",
+                question: "Evaluasi padalisan sisindiran di handap ieu! Naha padalisan (3) dianggap ngalaman cacat/salah dina aturan nyusun sisindiran Sunda?",
+                stimulus: "(1) Ka kulon jalan ka Bandung,\n(2) mawa barang ti pangaosan.\n(3) Lamun urang hayang rejeki agung,\n(4) ulah poho ka kolot neneda.",
+                options: [
+                    "Lantaran jumlah engangna kirang ti dalapan suku kata nyaéta ukur mibanda genep engang.",
+                    "Lantaran jumlah engangna langkung ti dalapan suku kata (aya 11 engang) sahingga teu standar.",
+                    "Lantaran kecap tungtungna teu murwakanti jeung kecap tungtung dina padalisan kahiji.",
+                    "Lantaran ngagunakeun kecap basa Indonesia anu teu dimeunangkeun dina puisi Sunda."
+                ],
+                answer: 1,
+                explanation: "Padalisan (3) 'La-mun u-rang ha-yang re-je-ki a-gung' diwangun ku 11 engang, padahal aturan standar sisindiran nyaéta 8 engang per padalisan."
+            },
+            {
+                id: 16,
+                level: "C4 - Relational",
+                question: "Titénan Rarakitan di handap! Sikap atawa perasaan anu digambarkeun ku pangarang dina Rarakitan Silih Asih kasebut nyaéta...",
+                stimulus: "Hayang teuing buah muris,\nteu aya nu ngalaan.\nHayang teuing ka nu geulis,\nteu aya nu nganteuran.",
+                options: [
+                    "Rasa ambeuk jeung kuciwa lantaran teu dibéré buah muris ku tatangga sakampung.",
+                    "Rasa gembira lantaran geus hasil ngadapatkan pasangan hirup anu geulis tur bageur.",
+                    "Rasa harepan atawa kahayang ka hiji jalma tapi mibanda halangan/teu aya nu maturan.",
+                    "Rasa bangga lantaran mibanda kamampuan pikeun ngala buah muris di tangkal anu luhur."
+                ],
+                answer: 2,
+                explanation: "Sisindiran silih asih di luhur ngagambarkeun pangarapan/palingseut hate ka hiji awéwé geulis tapi teu aya jembatan/nu nganteurkeun pituduh."
+            },
+            {
+                id: 17,
+                level: "C4 - Relational",
+                question: "Titénan wawangsalan ngeunaan pakakas modérn di handap! Naon wangsal (jawaban) anu saluyu jeung indikator purwakanti kata 'pintér' dina padalisan kadua?",
+                stimulus: "Mesin ketik éléktronik,\nDipakéna ku nu pintér.",
+                options: [
+                    "Radios, lantaran mangrupa alat éléktronik anu sok dipaké ngadéngékeun musik ku jalma.",
+                    "Televisi, lantaran alat visual anu mibanda layar éléktronik pikeun nonton acara berita.",
+                    "Kalkulator, lantaran sok dipaké ngitung angka ku murid-murid anu pinter di sakolaan.",
+                    "Komputer, lantaran sorana murwakanti jeung kecap pintér sarta fungsina sarua jeung mesin ketik."
+                ],
+                answer: 3,
+                explanation: "Jawaban nyaéta 'Komputer'. Mesin ketik éléktronik nuduhkeun komputer, sarta kecap 'pintér' dina baris kadua murwakanti jeung kecap 'komputer'."
+            },
+            {
+                id: 18,
+                level: "C4 - Relational",
+                question: "Titénan wawangsalan ngeunaan tempat/benda kaagamaan di handap ieu! Wangsal anu dipimaksud dina wawangsalan kasebut nyaéta...",
+                stimulus: "Kendang gedé pakauman,\nDag-dig-dug rasaning ati.",
+                options: [
+                    "Bedug, lantaran kendang gede di masjid/pakauman anu sorana mirip jeung ragam dag-dig-dug.",
+                    "Kohkol, lantaran pakakas ti kai anu sok ditakol pikeun ngagiringkeun warga ka masjid.",
+                    "Genjring, lantaran alat musik reog anu sok dipaké dina acara syukuran di pakauman.",
+                    "Mimbar, lantaran tempat nangtung penceramah anu sok nyababkeun jantung dag-dig-dug."
+                ],
+                answer: 0,
+                explanation: "Kendang gede di pakauman (masjid) nyaéta Bedug. Sorana 'dag-dig-dug' murwakanti/deukeut jeung suasana nakol bedug."
+            },
+            {
+                id: 19,
+                level: "C5 - Extended Abstract",
+                question: "Tatarucingan Sunda sering ngagunakeun prinsip 'Kirata' (dikira-kira tapi nyata) atawa plesetan. Naon fungsi utama tina hal ieu dina interaksi sosial?",
+                options: [
+                    "Pikeun ngaruksak kaedah basa Sunda anu leres sangkan leungit kaaslian strukturna.",
+                    "Pikeun nguji kamampuan nalar matematis siswa dina ngajawab soal-soal hitungan rumit.",
+                    "Pikeun nyiptakeun suasana akrab, ngalatih kacerdasan humor, sarta ngahibur pikiran.",
+                    "Pikeun memaksa pamiarsa sangkan apal kana sakabéh kosakata langka dina basa Sunda."
+                ],
+                answer: 2,
+                explanation: "Tatarucingan mibanda fungsi sosial pikeun ngahibur (sesebred), ngarakretkeun hubungan antarwarga, sarta ngasah kacerdasan uteuk ku logika humor."
+            },
+            {
+                id: 20,
+                level: "C5 - Extended Abstract",
+                question: "Upama anjeun dipentaan nyusun sisindiran pikeun dilarapkeun dina acara resmi Perpisahan Sakola kalawan pamiarsa para guru jeung sepuh murid, watek jeung jenis sisindiran anu paling merenah nyaéta...",
+                options: [
+                    "Paparikan watek Sesebred, sangkan acara resmi éta pinuh ku gura-giru jeung pangguyu.",
+                    "Rarakitan watek Piwuruk, pikeun nepikeun rasa hormat, hatur nuhun, jeung pituduh kahadéan.",
+                    "Wawangsalan watek Silih Asih, pikeun ngagambarkeun rasa bobogohan antar siswa di sakola.",
+                    "Tatarucingan kirata, pikeun nguji kacerdasan para guru dina ngajawab teka-teki lucu."
+                ],
+                answer: 1,
+                explanation: "Dina acara resmi sakola, watek Piwuruk (nasihat/pituduh) jeung bentuk Rarakitan/Paparikan nu santun leuwih merenah pikeun ngajaga kasopanan."
+            },
+            {
+                id: 21,
+                level: "C4 - Relational",
+                question: "Manamana susunan di handap ieu anu ngabuktikeun yén éta wangun nyaéta Rarakitan, dumasar kana ciri visual kecap mimiti?",
+                options: [
+                    "Kamana jalan ka Yogya / ka ditu ka pangrumasan // Kamana jalan ka sorga / kaditu ka pangaosan.",
+                    "Hampelas raraga jati / palataran babaléan // Ikhlas raga sareng pati / Ngabélaan kasaéan.",
+                    "Teu beunang dihurang-sawah / teu beunang dipikameumeut // Belut sisit saba darat / kapiraray siang wengi.",
+                    "Cikarang kana beunghar / tumpakna bari nguliling // Lapar teuing hayang dahar / piringna ge milu kagiling."
+                ],
+                answer: 0,
+                explanation: "Opsi A nembongkeun pengulangan kecap awal: 'Kamana' di baris 1 & 3, sarta 'ka ditu/kaditu' di baris 2 & 4, nu jadi ciri mutlak Rarakitan."
+            },
+            {
+                id: 22,
+                level: "C5 - Extended Abstract",
+                question: "Dina kabudayaan Sunda, naha nepikeun panyindir atawa kritik leuwih sering ngagunakeun Sisindiran tinimbang diucapkeun secara eksplisit (togmol)?",
+                options: [
+                    "Lantaran Urang Sunda teu mibanda keberanian pikeun nyarioskeun bebeneran ka batur.",
+                    "Lantaran aturan hukum adat ngalarang sasaha nyarita langsung ka jalma anu mibanda salah.",
+                    "Lantaran ngagunakeun Sisindiran langkung awis hargana tinimbang ngomong biasa sapopoé.",
+                    "Pikeun ngajaga rarasa (kerukunan), nyingkahan rasa kasinggung, tur ngagambarkeun kesopanan."
+                ],
+                answer: 3,
+                explanation: "Filsafat sisindiran (sindir/silib) nyaéta nepikeun pesen/sindiran secara teu langsung pikeun ngajaga rarasa, ngahormatan batur, tur nyingkahan pasalia paham."
+            },
+            {
+                id: 23,
+                level: "C6 - Extended Abstract",
+                question: "Titénan Rarakitan sesebred anu rumpang di handap! Pikeun ngalengkepan padalisan (1) sangkan saluyu jeung aturan Rarakitan nyaéta...",
+                stimulus: "(1) ....................................................\n(2) teu poho mawa tangkalna.\n(3) Rarabi ka urang Bandung,\n(4) teu poho mawa hartana.",
+                options: [
+                    "Lamun hayang ka urang pundung,",
+                    "Rarabi jeung urang pundung,",
+                    "Indit berlayar ka urang pundung,",
+                    "Kudu inget ka urang pundung,"
+                ],
+                answer: 1,
+                explanation: "Aturan Rarakitan méré sarat yen kecap awal baris (1) kudu sarua jeung kecap awal baris (3) nyaéta 'Rarabi'."
+            },
+            {
+                id: 24,
+                level: "C4 - Relational",
+                question: "Titénan Tatarucingan di handap! Dumasar kana jawaban umum tatarucingan Sunda anu bersipat logis-humoris, alasanna nyaéta...",
+                stimulus: "Kunaon tukang baso nakol mangkok?",
+                options: [
+                    "Sangkan mangkokna pecah sahingga pembeli kudu ngaganti ku uang anu langkung seueur.",
+                    "Sangkan bakso anu diasakan di jero panci gancang mateng tur tiasa langsung dijual.",
+                    "Ku sendok, lantaran lamun nakol ku gajah atawa batu mah bakal reksak mangkokna.",
+                    "Lantaran geus jadi tradisi ti baheula yen tukang baso kudu nakol mangkok tilu kali."
+                ],
+                answer: 2,
+                explanation: "Plesetan tatarucingan 'Kunaon' sering dirobah hartina jadi 'Ku naon' (paké naon). Jawabanana: Ku sendok!"
+            },
+            {
+                id: 25,
+                level: "C5 - Extended Abstract",
+                question: "Naon dampak psikologis anu ditimbulkeun nalika batur meunang teguran ngagunakeun Gaya Basa Nyungkun (Sarkasme)?",
+                options: [
+                    "Jalma anu ditegur bakal ngarasa diteunggeul/kasinggung rasa salahna tapi teu bisa ngalawan.",
+                    "Jalma anu ditegur bakal ngarasa gembira lantaran dianggap keur diajak heureuy ku batur.",
+                    "Jalma anu ditegur bakal langsung ngawaler ku ngagunakeun puisi pujian anu endah pisan.",
+                    "Jalma anu ditegur moal paham pisan kana maksud teguran lantaran bahasana berbelit-belit."
+                ],
+                answer: 0,
+                explanation: "Gaya basa nyungkun mangrupa panyindir teuras/langsung. Nu dipeupeuhna ngarasaeun yén diteunggeul tapi teu bisa ngalawan da rumasa salah."
+            },
+            {
+                id: 26,
+                level: "C4 - Relational",
+                question: "Titénan kelompok wangun sisindiran di handap! Kelompok sisindiran anu diwangun ku opat padalisan (2 cangkang, 2 eusi) nyaéta nomer...",
+                stimulus: "1. Paparikan\n2. Wawangsalan\n3. Rarakitan\n4. Tatarucingan",
+                options: [
+                    "2 jeung 4",
+                    "1 jeung 4",
+                    "2 jeung 3",
+                    "1 jeung 3"
+                ],
+                answer: 3,
+                explanation: "Paparikan jeung Rarakitan mangrupa wangun sisindiran anu diwangun ku 4 padalisan (baris 1-2 cangkang, baris 3-4 eusi)."
+            },
+            {
+                id: 27,
+                level: "C4 - Relational",
+                question: "Titénan padalisan Rarakitan Piwuruk di handap! Purwakanti anu aya dina tungtung padalisan (2) jeung (4) nyaéta ngagunakeun vokal/konsonan...",
+                stimulus: "Kamana jalan ka Yogya,\nka ditu ka pangrumasan.\nKamana jalan ka sorga,\nkaditu ka pangaosan.",
+                options: [
+                    "Sora vokal -a pada kecap Yogya jeung sorga.",
+                    "Sora konsonan/vokal -san pada kecap pangrumasan jeung pangaosan.",
+                    "Sora vokal -u pada kecap ka ditu jeung kaditu.",
+                    "Sora konsonan -ng pada kecap jalan jeung sorga."
+                ],
+                answer: 1,
+                explanation: "Tungtung padalisan (2) 'pangrumasan' jeung padalisan (4) 'pangaosan' mibanda purwakanti sora *-san*."
+            },
+            {
+                id: 28,
+                level: "C5 - Extended Abstract",
+                question: "Dina Wawangsalan, bagian cangkang (padalisan kahiji) fungsina nyaéta...",
+                options: [
+                    "Langsung ngajelaskeun jawaban teka-teki secara terperinci tanpa aya nu disumputkeun.",
+                    "Nyusun nasihat agama anu kedah diturut ku sadaya jalma dina kahirupan sapopoé.",
+                    "Nyediakeun gambaran/klue ngeunaan hiji barang/hal sacara terselubung (konotatif).",
+                    "Ngulang kecap awal anu aya dina padalisan kadua persis tanpa diubah saeutik oge."
+                ],
+                answer: 2,
+                explanation: "Padalisan kahiji (cangkang) dina Wawangsalan fungsina nyadiakeun silib/klue teka-teki ngeunaan barang anu disumputkeun (wangsal)."
+            },
+            {
+                id: 29,
+                level: "C4 - Relational",
+                question: "Naon nilai atikan (edukatif) dina Paparikan watek sesebred anu ngagunakeun unsur humor?",
+                options: [
+                    "Ngasongkeun kritik sosial atawa teguran ku cara anu pikaseurieun sangkan gampang ditarima.",
+                    "Ngabohongan pamiarsa ku cerita-cerita fiksi anu teu mibanda dasar bebeneran pisan.",
+                    "Ngajarkeun tata cara berdebat anu teureus/tegas di hapeun umum tanpa merhatikeun kasopanan.",
+                    "Ngawajibkeun unggal jalma sangkan salawasna seuri najan keur dina kaayaan duka."
+                ],
+                answer: 0,
+                explanation: "Unsur sesebred (humor) mibanda nilai atikan nyaéta nepikeun panyindir/kritik sosial ku cara anu simpatik tur pikaseurieun sangkan gampang ditarima."
+            },
+            {
+                id: 30,
+                level: "C6 - Extended Abstract",
+                question: "Saumpama anjeun hoyong nyindir babaturan anu sok datang telat ngumpul kelompok ngagunakeun Gaya Basa Ngomong Dua (Ironi), kalimah anu paling merenah nyaéta...",
+                options: [
+                    "Sumpingna énjing waé atuh pas acara tos réséps sadayana!",
+                    "Tuh ngabahas tugasna di luar waé ulah di jero imah!",
+                    "Naha manéh bet ngedul pisan jadi jalma, teu aya gunana!",
+                    "Meni gasik pisan sumping téh Jang, padahal kelompokan tos réséps ti tadi."
+                ],
+                answer: 3,
+                explanation: "Gaya basa ngomong dua (ironi) nyebut 'meni gasik pisan' (pantes pisan/isuk pisan) pikeun nyindir babaturan anu sabenerna datang kabeungharan."
+            }
+        ];
+
+        // App State
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let timerSeconds = 0;
+        let timerInterval = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+        });
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            
+            // Start Timer
+            timerSeconds = 0;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                const secs = String(timerSeconds % 60).padStart(2, '0');
+                document.getElementById('timer-display').textContent = `${mins}:${secs}`;
+            }, 1000);
+
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questionsData[currentQuestionIndex];
+            
+            // Update UI Counters
+            document.getElementById('question-badge').textContent = `Soal ${currentQuestionIndex + 1} / ${questionsData.length}`;
+            document.getElementById('level-badge').textContent = q.level;
+            document.getElementById('current-score').textContent = score;
+
+            // Update Progress Bar
+            const progressPct = ((currentQuestionIndex + 1) / questionsData.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPct}%`;
+
+            // Question Text
+            document.getElementById('question-text').textContent = q.question;
+
+            // Stimulus handling
+            const stimulusBox = document.getElementById('question-stimulus');
+            if (q.stimulus) {
+                stimulusBox.textContent = q.stimulus;
+                stimulusBox.classList.remove('hidden');
+            } else {
+                stimulusBox.classList.add('hidden');
+            }
+
+            // Options Rendering
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            const selectedAns = userAnswers[currentQuestionIndex];
+            const isAnswered = selectedAns !== null;
+
+            const labels = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((optText, idx) => {
+                const optionBtn = document.createElement('button');
+                optionBtn.className = `option-card w-full text-left p-4 rounded-2xl border flex items-start gap-4 transition-all ${
+                    isAnswered ? 'disabled cursor-default' : 'hover:border-emerald-400'
+                }`;
+
+                let stateStyle = "bg-slate-800/70 border-slate-700/80 text-slate-200";
+                let badgeStyle = "bg-slate-700 text-slate-300";
+
+                if (isAnswered) {
+                    if (idx === q.answer) {
+                        stateStyle = "bg-emerald-500/20 border-emerald-500/80 text-emerald-200 correct-anim";
+                        badgeStyle = "bg-emerald-500 text-white";
+                    } else if (idx === selectedAns) {
+                        stateStyle = "bg-rose-500/20 border-rose-500/80 text-rose-200 wrong-anim";
+                        badgeStyle = "bg-rose-500 text-white";
+                    } else {
+                        stateStyle = "bg-slate-900/40 border-slate-800 text-slate-500 opacity-50";
+                    }
+                }
+
+                optionBtn.className += ` ${stateStyle}`;
+
+                optionBtn.innerHTML = `
+                    <span class="px-3 py-1 rounded-xl font-bold text-sm ${badgeStyle} shrink-0 mt-0.5">
+                        ${labels[idx]}
+                    </span>
+                    <span class="text-sm sm:text-base leading-relaxed font-medium">
+                        ${optText}
+                    </span>
+                `;
+
+                if (!isAnswered) {
+                    optionBtn.onclick = () => selectAnswer(idx);
+                }
+
+                optionsContainer.appendChild(optionBtn);
+            });
+
+            // Explanation Box
+            const expBox = document.getElementById('explanation-box');
+            const expTitle = document.getElementById('explanation-title');
+            const expText = document.getElementById('explanation-text');
+
+            if (isAnswered) {
+                expBox.classList.remove('hidden');
+                if (selectedAns === q.answer) {
+                    expTitle.className = "flex items-center gap-2 font-bold mb-2 text-emerald-400";
+                    expTitle.innerHTML = `<i data-lucide="check-circle-2" class="w-5 h-5"></i> Jawaban Leres!`;
+                } else {
+                    expTitle.className = "flex items-center gap-2 font-bold mb-2 text-rose-400";
+                    expTitle.innerHTML = `<i data-lucide="x-circle" class="w-5 h-5"></i> Jawaban Kirang Tepat`;
+                }
+                expText.textContent = q.explanation;
+            } else {
+                expBox.classList.add('hidden');
+            }
+
+            // Controls
+            document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+            const nextBtn = document.getElementById('next-btn');
+            if (currentQuestionIndex === questionsData.length - 1) {
+                nextBtn.innerHTML = `Eunteun Kuis <i data-lucide="check-square" class="w-4 h-4"></i>`;
+            } else {
+                nextBtn.innerHTML = `Terasna <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+            }
+
+            lucide.createIcons();
+        }
+
+        function selectAnswer(index) {
+            if (userAnswers[currentQuestionIndex] !== null) return;
+
+            userAnswers[currentQuestionIndex] = index;
+            const q = questionsData[currentQuestionIndex];
+
+            if (index === q.answer) {
+                score += 3.33; // ~100 max for 30 questions
+            }
+
+            renderQuestion();
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questionsData.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            clearInterval(timerInterval);
+
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            const finalScoreVal = Math.min(100, Math.round(score));
+            document.getElementById('final-score').textContent = finalScoreVal;
+
+            let correctCount = 0;
+            userAnswers.forEach((ans, idx) => {
+                if (ans === questionsData[idx].answer) correctCount++;
+            });
+
+            const wrongCount = questionsData.length - correctCount;
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('wrong-count').textContent = wrongCount;
+
+            // Grade & Badge Evaluation
+            const resultBadgeIcon = document.getElementById('result-badge-icon');
+            const resultIcon = document.getElementById('result-icon');
+            const resultTitle = document.getElementById('result-title');
+            const resultSubtitle = document.getElementById('result-subtitle');
+            const finalGrade = document.getElementById('final-grade');
+
+            if (finalScoreVal >= 85) {
+                resultBadgeIcon.className = "inline-flex p-5 rounded-3xl mb-4 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+                resultIcon.setAttribute('data-lucide', 'award');
+                resultTitle.textContent = "Istimewa! Istiméwa Pisan!";
+                resultSubtitle.textContent = "Anjeun parantos paham pisan kana sakabéh materi Sisindiran jeung Gaya Basa Sindir Kelas 9.";
+                finalGrade.textContent = "A (Sangat Baik)";
+            } else if (finalScoreVal >= 75) {
+                resultBadgeIcon.className = "inline-flex p-5 rounded-3xl mb-4 bg-blue-500/20 text-blue-400 border border-blue-500/30";
+                resultIcon.setAttribute('data-lucide', 'thumbs-up');
+                resultTitle.textContent = "Lulus KKM! Hasilna Saé!";
+                resultSubtitle.textContent = "Kamampuan anjeun parantos ngahontal standar KKM. Titingkatkeun deui pemahaman materi sanésna.";
+                finalGrade.textContent = "B (Baik)";
+            } else {
+                resultBadgeIcon.className = "inline-flex p-5 rounded-3xl mb-4 bg-rose-500/20 text-rose-400 border border-rose-500/30";
+                resultIcon.setAttribute('data-lucide', 'alert-circle');
+                resultTitle.textContent = "Perlu Diajar Deui!";
+                resultSubtitle.textContent = "Ulah patah semangat! Pelajari deui materi Sisindiran sarta cobian deui kuis ieu dugi ka pinter.";
+                finalGrade.textContent = "C (Cukup)";
+            }
+
+            // Render Full Review
+            const reviewContainer = document.getElementById('review-container');
+            reviewContainer.innerHTML = '';
+
+            const labels = ['A', 'B', 'C', 'D'];
+
+            questionsData.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = userAns === q.answer;
+
+                const item = document.createElement('div');
+                item.className = `p-4 rounded-2xl border ${
+                    isCorrect 
+                        ? 'bg-slate-900/60 border-emerald-500/40' 
+                        : 'bg-slate-900/60 border-rose-500/40'
+                }`;
+
+                item.innerHTML = `
+                    <div class="flex items-start justify-between gap-3 mb-2">
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-lg ${
+                            isCorrect ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'
+                        }">
+                            Soal #${idx + 1} (${q.level}) - ${isCorrect ? 'Bener' : 'Salah'}
+                        </span>
+                        <span class="text-xs text-slate-400 font-mono">
+                            Jawaban Anjeun: ${userAns !== null ? labels[userAns] : 'Teu Diisi'}
+                        </span>
+                    </div>
+                    <p class="text-sm font-semibold text-white mb-2">${q.question}</p>
+                    <div class="text-xs text-slate-300 space-y-1">
+                        <div><span class="text-emerald-400 font-bold">Kunci Jawaban (${labels[q.answer]}):</span> ${q.options[q.answer]}</div>
+                        <div class="text-slate-400 mt-2 italic border-t border-slate-800 pt-2"><span class="font-bold">Pembahasan:</span> ${q.explanation}</div>
+                    </div>
+                `;
+
+                reviewContainer.appendChild(item);
+            });
+
+            lucide.createIcons();
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = new Array(questionsData.length).fill(null);
+            
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
