@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kuis Interaktif ASAS PAIBP Kelas 9 | 2026/2027</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & Amiri (untuk teks Arab) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            arabic: ['"Amiri"', 'serif'],
+          },
+          colors: {
+            emeraldDeep: '#064e3b',
+            emeraldMain: '#059669',
+            goldSoft: '#d97706',
+            goldLight: '#fef3c7',
+            creamBg: '#fdfbf7',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #fdfbf7;
+      background-image: radial-gradient(#d1fae5 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .arabic-text {
+      font-family: 'Amiri', serif;
+      font-size: 1.75rem;
+      line-height: 2.6rem;
+      direction: rtl;
+    }
+    .arabic-inline {
+      font-family: 'Amiri', serif;
+      font-size: 1.45rem;
+      line-height: 2rem;
+      direction: rtl;
+      display: inline-block;
+      padding: 0 4px;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.92); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop {
+      animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes pulseGold {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+    .streak-badge {
+      animation: pulseGold 1.6s infinite ease-in-out;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    @media print {
+      body { background: white !important; }
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+      .shadow-lg, .shadow-xl, .shadow-md { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ==================== CUSTOM MODAL KONFIRMASI ==================== -->
+  <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-emerald-100 animate-pop">
+      <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mb-4">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <h3 id="modal-title" class="text-xl font-bold text-slate-900 mb-2">Konfirmasi</h3>
+      <p id="modal-message" class="text-slate-600 text-sm leading-relaxed mb-6">Apakah kamu yakin?</p>
+      <div class="flex gap-3 justify-end">
+        <button id="modal-cancel" class="px-4 py-2.5 rounded-xl font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">Batal</button>
+        <button id="modal-confirm" class="px-5 py-2.5 rounded-xl font-semibold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/20 transition">Ya, Lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== LAYAR 1: START SCREEN ==================== -->
+  <main id="start-screen" class="flex-1 flex items-center justify-center p-4 sm:p-6">
+    <div class="max-w-4xl w-full bg-white rounded-3xl shadow-xl border border-emerald-100 overflow-hidden animate-pop">
+      <!-- Banner Header -->
+      <div class="bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-800 p-6 sm:p-10 text-white relative overflow-hidden">
+        <div class="absolute -right-10 -top-10 w-52 h-52 rounded-full bg-amber-400/10 blur-2xl"></div>
+        <div class="absolute right-12 bottom-4 text-emerald-700/30 font-arabic text-7xl select-none pointer-events-none">بِسْمِ اللَّهِ</div>
+        <div class="relative z-10">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/20 border border-amber-300/30 text-amber-200 text-xs font-bold tracking-wider uppercase mb-4">
+            <span>✨ Asesmen Sumatif Akhir Semester (ASAS) 2026/2027</span>
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight mb-3">
+            Tantangan Juara <span class="text-amber-300">PAIBP Kelas 9</span>
+          </h1>
+          <p class="text-emerald-100 text-sm sm:text-base max-w-2xl leading-relaxed">
+            Uji pemahamanmu pada 5 Bab utama Pendidikan Agama Islam dan Budi Pekerti dengan soal berbasis stimulus, analisis kasus, dan tantangan HOTS sesuai kisi-kisi resmi!
+          </p>
+        </div>
+      </div>
+
+      <!-- Form & Misi -->
+      <div class="p-6 sm:p-10 space-y-8">
+        <!-- Ringkasan Misi -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-emerald-50/70 border border-emerald-100 rounded-2xl p-4 flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-extrabold text-lg shrink-0">40</div>
+            <div>
+              <div class="text-xs font-semibold text-emerald-700 uppercase">Pilihan Ganda</div>
+              <div class="text-sm font-bold text-slate-800">Bab 1–5 (Level C2–C5)</div>
+            </div>
+          </div>
+          <div class="bg-amber-50/70 border border-amber-200/70 rounded-2xl p-4 flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-amber-500 text-white flex items-center justify-center font-extrabold text-lg shrink-0">05</div>
+            <div>
+              <div class="text-xs font-semibold text-amber-700 uppercase">Soal Uraian HOTS</div>
+              <div class="text-sm font-bold text-slate-800">Studi Kasus & Rubrik</div>
+            </div>
+          </div>
+          <div class="bg-teal-50/70 border border-teal-100 rounded-2xl p-4 flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-teal-600 text-white flex items-center justify-center font-extrabold text-lg shrink-0">📊</div>
+            <div>
+              <div class="text-xs font-semibold text-teal-700 uppercase">Rapor Mini</div>
+              <div class="text-sm font-bold text-slate-800">Analisis Per Bab & Cetak</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cakupan Materi -->
+        <div class="bg-slate-50 rounded-2xl p-4 sm:p-5 border border-slate-200/70">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Cakupan Materi Kisi-Kisi ASAS:</h2>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700">📖 Bab 1: Semangat Keilmuan & Mim Sukun</span>
+            <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700">⏳ Bab 2: Iman kepada Hari Akhir</span>
+            <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700">💡 Bab 3: Cinta Ilmu & Adab Digital</span>
+            <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700">🕌 Bab 4: Penyembelihan, Kurban & Akikah</span>
+            <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700">⛵ Bab 5: Sejarah Islam di Nusantara</span>
+          </div>
+        </div>
+
+        <!-- Identitas Siswa -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="student-name" class="block text-sm font-bold text-slate-700 mb-1.5">Nama Lengkap Siswa <span class="text-slate-400 font-normal">(Opsional)</span></label>
+            <input type="text" id="student-name" placeholder="Contoh: Ahmad Zaki Pratama" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition text-sm font-medium" />
+          </div>
+          <div>
+            <label for="student-class" class="block text-sm font-bold text-slate-700 mb-1.5">Kelas <span class="text-slate-400 font-normal">(Opsional)</span></label>
+            <input type="text" id="student-class" placeholder="Contoh: IX-A / 9 Unggulan" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition text-sm font-medium" />
+          </div>
+        </div>
+
+        <!-- Pilih Mode -->
+        <div>
+          <label class="block text-sm font-bold text-slate-700 mb-3">Pilih Mode Pengerjaan:</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label class="cursor-pointer relative">
+              <input type="radio" name="quiz-mode" value="practice" checked class="peer sr-only" />
+              <div class="p-5 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-600 peer-checked:bg-emerald-50/50 hover:border-emerald-300 transition h-full">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold">Direkomendasikan Belajar</span>
+                  <span class="text-xl">🎯</span>
+                </div>
+                <div class="font-extrabold text-slate-900 text-base mb-1">Mode Latihan Interaktif</div>
+                <p class="text-xs text-slate-600 leading-relaxed">Skor & streak langsung terlihat. Setiap jawaban langsung menampilkan kunci dan pembahasan lengkap.</p>
+              </div>
+            </label>
+
+            <label class="cursor-pointer relative">
+              <input type="radio" name="quiz-mode" value="exam" class="peer sr-only" />
+              <div class="p-5 rounded-2xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50/50 hover:border-amber-300 transition h-full">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 text-xs font-bold">Simulasi Ujian</span>
+                  <span class="text-xl">⏱️</span>
+                </div>
+                <div class="font-extrabold text-slate-900 text-base mb-1">Mode Ujian ASAS</div>
+                <p class="text-xs text-slate-600 leading-relaxed">Jawaban dapat diubah sebelum selesai. Nilai akhir dan seluruh pembahasan muncul setelah ujian dikumpulkan.</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Tombol Mulai -->
+        <button id="btn-start-quiz" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-base sm:text-lg shadow-lg shadow-emerald-600/25 hover:shadow-xl transition transform active:scale-[0.99] flex items-center justify-center gap-2">
+          <span>Mulai Mengerjakan Kuis Sekarang</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== LAYAR 2: WORKSPACE KUIS ==================== -->
+  <div id="quiz-screen" class="hidden flex-1 flex flex-col">
+    <!-- Top Sticky Bar -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-emerald-100 shadow-sm no-print">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+        <!-- Identitas & Mode -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-700 text-amber-300 flex items-center justify-center font-arabic text-2xl font-bold shadow-sm">☪</div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-slate-900 text-sm sm:text-base">ASAS PAIBP 9</span>
+              <span id="badge-mode" class="px-2 py-0.5 rounded-md text-[11px] font-bold bg-emerald-100 text-emerald-800">Mode Latihan</span>
+            </div>
+            <div id="display-student" class="text-xs text-slate-500 font-medium">Peserta Didik SMP</div>
+          </div>
+        </div>
+
+        <!-- Gamification Stats -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <!-- Streak Badge -->
+          <div id="streak-container" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-100 border border-amber-300 text-amber-800 text-xs font-extrabold streak-badge">
+            <span>🔥</span>
+            <span id="streak-count">2x Beruntun!</span>
+          </div>
+
+          <!-- Live Score (Practice mode) / Answered Count (Exam mode) -->
+          <div class="px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm font-bold flex items-center gap-2">
+            <span id="stat-label">Skor PG:</span>
+            <span id="stat-value" class="text-emerald-700 font-extrabold text-base">0</span>
+          </div>
+
+          <!-- Mobile Navigator Toggle -->
+          <button id="btn-toggle-nav" class="lg:hidden p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <span>Peta Soal</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="w-full bg-slate-100 h-2">
+        <div id="progress-bar" class="bg-gradient-to-r from-emerald-500 via-teal-500 to-amber-400 h-2 transition-all duration-300" style="width: 2%"></div>
+      </div>
+    </header>
+
+    <!-- Main Container: Soal + Grid Navigator -->
+    <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- Kolom Kiri: Area Soal Aktif (8 kolom di desktop) -->
+      <section class="lg:col-span-8 space-y-6">
+        <div id="question-card" class="bg-white rounded-3xl shadow-lg border border-emerald-100/80 p-5 sm:p-8 animate-pop">
+          <!-- Header Kartu Soal: Nomor, Bab, Level -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-5 border-b border-slate-100">
+            <div class="flex items-center gap-2.5">
+              <span id="q-number-badge" class="px-3.5 py-1.5 rounded-xl bg-emerald-700 text-white font-extrabold text-sm shadow-sm">
+                Soal 1 / 40
+              </span>
+              <span id="q-bab-badge" class="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-xs">
+                Bab 1: Semangat Keilmuan
+              </span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="q-level-badge" class="px-3 py-1 rounded-lg bg-amber-100 text-amber-800 font-extrabold text-xs">
+                Level C2
+              </span>
+              <span id="q-type-badge" class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 font-semibold text-xs">
+                Pilihan Ganda
+              </span>
+            </div>
+          </div>
+
+          <!-- Kotak Stimulus (A) -->
+          <div id="stimulus-box" class="mb-6 rounded-2xl bg-gradient-to-br from-amber-50/80 via-orange-50/40 to-emerald-50/40 border border-amber-200/80 p-4 sm:p-5">
+            <div class="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-amber-800 mb-2">
+              <span>📌 Stimulus / Konteks Soal</span>
+            </div>
+            <div id="stimulus-content" class="text-slate-800 text-sm sm:text-base leading-relaxed space-y-3">
+              <!-- Diisi dinamis -->
+            </div>
+          </div>
+
+          <!-- Pertanyaan (B + C) -->
+          <div id="question-stem" class="text-slate-900 font-bold text-base sm:text-lg leading-relaxed mb-6">
+            <!-- Diisi dinamis -->
+          </div>
+
+          <!-- Area Opsi Pilihan Ganda -->
+          <div id="mcq-options-container" class="space-y-3">
+            <!-- Diisi dinamis -->
+          </div>
+
+          <!-- Area Jawaban Uraian (Khusus E1 - E5) -->
+          <div id="essay-container" class="hidden space-y-4">
+            <div>
+              <label for="essay-input" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                Tuliskan Jawaban Analisis & Pendapatmu di Bawah Ini:
+              </label>
+              <textarea id="essay-input" rows="5" placeholder="Ketik jawaban lengkapmu di sini agar dapat dibandingkan dengan kunci jawaban dan rubrik..." class="w-full p-4 rounded-2xl border-2 border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none text-sm sm:text-base leading-relaxed transition"></textarea>
+            </div>
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <button id="btn-toggle-rubric" class="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm shadow-md shadow-amber-500/20 transition flex items-center gap-2">
+                <span>🔍 Cek Kunci Jawaban & Rubrik Penilaian</span>
+              </button>
+              <label class="inline-flex items-center gap-2 cursor-pointer select-none bg-emerald-50 px-3.5 py-2 rounded-xl border border-emerald-200">
+                <input type="checkbox" id="essay-self-check" class="w-4 h-4 accent-emerald-600 rounded" />
+                <span class="text-xs font-bold text-emerald-900">Tandai Uraian Selesai Dipelajari</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Kotak Pembahasan / Rubrik -->
+          <div id="explanation-box" class="hidden mt-6 rounded-2xl border-2 p-5 animate-pop">
+            <div class="flex items-center gap-2 font-extrabold text-sm sm:text-base mb-2" id="explanation-header">
+              <!-- Diisi dinamis -->
+            </div>
+            <div id="explanation-content" class="text-sm text-slate-700 leading-relaxed space-y-2">
+              <!-- Diisi dinamis -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigasi Sebelumnya / Selanjutnya -->
+        <div class="flex items-center justify-between gap-3 no-print">
+          <button id="btn-prev" class="px-5 py-3.5 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none text-slate-700 font-bold text-sm shadow-sm transition flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+            </svg>
+            <span>Sebelumnya</span>
+          </button>
+
+          <button id="btn-finish-bottom" class="px-5 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-sm shadow-md shadow-amber-500/20 transition">
+            🏁 Selesai & Lihat Rapor
+          </button>
+
+          <button id="btn-next" class="px-5 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md shadow-emerald-600/20 transition flex items-center gap-2">
+            <span>Selanjutnya</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- Kolom Kanan: Peta Nomor Soal / Grid Navigator (4 kolom di desktop) -->
+      <aside id="navigator-panel" class="hidden lg:block lg:col-span-4 bg-white rounded-3xl shadow-lg border border-emerald-100 p-5 sticky top-24 no-print">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-extrabold text-slate-900 text-sm uppercase tracking-wider">Peta Navigasi Soal</h3>
+          <button id="btn-close-nav" class="lg:hidden text-slate-400 hover:text-slate-700 font-bold text-sm">✕ Tutup</button>
+        </div>
+
+        <!-- Legenda Warna -->
+        <div class="grid grid-cols-2 gap-2 text-[11px] font-semibold text-slate-600 bg-slate-50 p-3 rounded-2xl mb-4">
+          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-200 inline-block"></span> Belum dijawab</div>
+          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-sky-500 inline-block"></span> Terjawab</div>
+          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-500 inline-block"></span> Benar (Latihan)</div>
+          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-rose-500 inline-block"></span> Salah (Latihan)</div>
+        </div>
+
+        <!-- Bagian PG (1 - 40) -->
+        <div class="mb-4">
+          <div class="text-xs font-bold text-slate-500 mb-2 flex justify-between">
+            <span>Pilihan Ganda (1–40)</span>
+            <span id="pg-answered-counter" class="text-emerald-700">0/40</span>
+          </div>
+          <div id="grid-pg" class="grid grid-cols-8 gap-1.5">
+            <!-- Tombol 1-40 -->
+          </div>
+        </div>
+
+        <!-- Bagian Uraian (E1 - E5) -->
+        <div class="mb-5 pt-3 border-t border-slate-100">
+          <div class="text-xs font-bold text-slate-500 mb-2 flex justify-between">
+            <span>Uraian HOTS (E1–E5)</span>
+            <span id="essay-answered-counter" class="text-amber-700">0/5</span>
+          </div>
+          <div id="grid-essay" class="grid grid-cols-5 gap-2">
+            <!-- Tombol E1-E5 -->
+          </div>
+        </div>
+
+        <button id="btn-finish-side" class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-emerald-700 to-teal-700 hover:from-emerald-800 hover:to-teal-800 text-white font-extrabold text-sm shadow-md transition">
+          🏁 Kumpulkan & Lihat Hasil
+        </button>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ==================== LAYAR 3: HASIL AKHIR & RAPOR MINI ==================== -->
+  <section id="result-screen" class="hidden flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8 animate-pop">
+    <!-- Kartu Utama Rapor -->
+    <div class="bg-white rounded-3xl shadow-xl border border-emerald-100 overflow-hidden">
+      <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-800 p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div>
+          <span class="inline-block px-3 py-1 rounded-full bg-amber-400/20 text-amber-200 text-xs font-bold uppercase tracking-wider mb-2">
+            Rapor Hasil Asesmen Sumatif Akhir Semester
+          </span>
+          <h2 id="res-student-name" class="text-2xl sm:text-3xl font-extrabold">Peserta Didik Kelas 9</h2>
+          <p id="res-student-meta" class="text-emerald-100 text-sm mt-1">Kelas IX • Tahun Ajaran 2026/2027</p>
+        </div>
+        <div class="text-center bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl px-7 py-4 shrink-0">
+          <div class="text-xs font-bold uppercase tracking-wider text-emerald-200">Nilai Pilihan Ganda</div>
+          <div id="res-score" class="text-4xl sm:text-5xl font-extrabold text-amber-300 my-1">0</div>
+          <div id="res-predicate" class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-950/60 text-white inline-block">Predikat</div>
+        </div>
+      </div>
+
+      <!-- Statistik Ringkas & Grafik Per Bab -->
+      <div class="p-6 sm:p-8 space-y-8">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 text-center">
+            <div class="text-xs font-bold text-emerald-700 uppercase">Jawaban Benar</div>
+            <div id="res-correct" class="text-2xl font-extrabold text-emerald-900 mt-1">0 / 40</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-rose-50 border border-rose-100 text-center">
+            <div class="text-xs font-bold text-rose-700 uppercase">Jawaban Salah / Kosong</div>
+            <div id="res-wrong" class="text-2xl font-extrabold text-rose-900 mt-1">0</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-amber-50 border border-amber-100 text-center">
+            <div class="text-xs font-bold text-amber-700 uppercase">Rekor Streak</div>
+            <div id="res-streak" class="text-2xl font-extrabold text-amber-900 mt-1">0x 🔥</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-teal-50 border border-teal-100 text-center">
+            <div class="text-xs font-bold text-teal-700 uppercase">Uraian HOTS</div>
+            <div id="res-essay-done" class="text-2xl font-extrabold text-teal-900 mt-1">0 / 5</div>
+          </div>
+        </div>
+
+        <!-- Grafik Batang Ketuntasan Per Bab -->
+        <div>
+          <h3 class="text-base font-extrabold text-slate-900 mb-4 flex items-center gap-2">
+            <span>📊 Analisis Penguasaan Materi Per Bab</span>
+          </h3>
+          <div id="bab-chart-container" class="space-y-4">
+            <!-- Bar chart diisi dinamis -->
+          </div>
+        </div>
+
+        <!-- Tombol Aksi -->
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-4 border-t border-slate-100 no-print">
+          <button id="btn-toggle-review" class="px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition flex items-center gap-2">
+            <span>📖 Lihat Semua Kunci & Pembahasan</span>
+          </button>
+          <button onclick="window.print()" class="px-6 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm shadow-md transition flex items-center gap-2">
+            <span>🖨️ Cetak / Simpan PDF Rapor</span>
+          </button>
+          <button id="btn-restart" class="px-6 py-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition flex items-center gap-2">
+            <span>🔄 Ulangi Kuis</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Container Review Lengkap Semua Soal (40 PG + 5 Uraian) -->
+    <div id="full-review-container" class="hidden space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xl font-extrabold text-slate-900">Pembahasan Lengkap 40 Soal PG & 5 Soal Uraian</h3>
+      </div>
+      <div id="review-list" class="space-y-4">
+        <!-- Diisi dinamis -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="text-center py-5 text-xs text-slate-500 border-t border-emerald-100/60 bg-white/60 no-print mt-auto">
+    Disusun sesuai Kisi-Kisi ASAS PAIBP SMP Kelas 9 Tahun Ajaran 2026/2027 • Media Belajar Interaktif
+  </footer>
+
+  <!-- ==================== DATA SOAL & LOGIKA APLIKASI ==================== -->
+  <script>
+    // =========================================================================
+    // BANK DATA 40 SOAL PILIHAN GANDA & 5 SOAL URAIAN (SESUAI KISI-KISI 2026/2027)
+    // =========================================================================
+    const quizItems = [
+      // ===================== BAB 1: SEMANGAT KEILMUAN =====================
+      {
+        id: 1,
+        type: 'pg',
+        bab: 'Bab 1: Semangat Keilmuan',
+        babNum: 1,
+        level: 'C2',
+        stimulus: `<blockquote class="italic border-l-4 border-emerald-600 pl-3 text-slate-700">"...niscaya Allah akan mengangkat (derajat) orang-orang yang beriman di antaramu dan orang-orang yang diberi ilmu beberapa derajat. Dan Allah Mahateliti terhadap apa yang kamu kerjakan." <span class="not-italic font-semibold text-emerald-800">(Q.S. Al-Mujadilah/58: 11)</span></blockquote>`,
+        question: 'Kandungan pokok dari penggalan terjemahan ayat tersebut bagi seorang pelajar muslim adalah...',
+        options: [
+          'Allah menjanjikan kedudukan mulia di dunia dan akhirat bagi orang yang memadukan keimanan dan ilmu pengetahuan',
+          'Orang yang memiliki gelar akademik tinggi pasti lebih mulia meskipun mengabaikan kewajiban ibadah',
+          'Menuntut ilmu hanya diwajibkan bagi mereka yang ingin mendapatkan jabatan tinggi di masyarakat',
+          'Keimanan seseorang sudah cukup untuk mengangkat derajatnya tanpa perlu bersusah payah belajar'
+        ],
+        answer: 0,
+        explanation: 'Q.S. Al-Mujadilah/58: 11 menegaskan bahwa Allah mengangkat derajat dua golongan secara terpadu, yakni orang-orang yang beriman dan orang-orang yang berilmu pengetahuan, disertai pengawasan Allah terhadap amal mereka.'
+      },
+      {
+        id: 2,
+        type: 'pg',
+        bab: 'Bab 1: Semangat Keilmuan',
+        babNum: 1,
+        level: 'C2',
+        stimulus: `<div class="text-center py-2"><span class="arabic-text font-bold text-emerald-900">لَكُمْ تَفَسَّحُوا</span><div class="text-xs text-slate-500 mt-1">Potongan Q.S. Al-Mujadilah/58: 11</div></div>`,
+        question: 'Alasan hukum bacaan mim sukun pada lafal bergaris bawah tersebut dibaca <em>izhar syafawi</em> adalah...',
+        options: [
+          'Mim sukun bertemu dengan huruf ba sehingga dibaca samar di bibir',
+          'Mim sukun bertemu dengan huruf mim berharakat sehingga dibaca mendengung',
+          'Mim sukun bertemu dengan huruf ta sehingga dibaca jelas di bibir tanpa dengung',
+          'Mim sukun berada di akhir kalimat sehingga dibaca panjang dua harakat'
+        ],
+        answer: 2,
+        explanation: 'Pada lafal لَكُمْ تَفَسَّحُوا terdapat mim sukun (مْ) bertemu huruf ta (ت). Karena ta bukan huruf mim maupun ba, maka hukumnya adalah <strong>izhar syafawi</strong>, yakni dibaca jelas/terang di bibir tanpa dengung.'
+      },
+      {
+        id: 3,
+        type: 'pg',
+        bab: 'Bab 1: Semangat Keilmuan',
+        babNum: 1,
+        level: 'C3',
+        stimulus: `<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center">
+          <div class="p-2.5 bg-white rounded-xl border border-amber-200"><span class="text-xs font-bold text-amber-700 block">(1)</span><span class="arabic-inline font-bold text-slate-900">لَهُمْ مَغْفِرَةٌ</span></div>
+          <div class="p-2.5 bg-white rounded-xl border border-amber-200"><span class="text-xs font-bold text-amber-700 block">(2)</span><span class="arabic-inline font-bold text-slate-900">تَرْمِيهِمْ بِحِجَارَةٍ</span></div>
+          <div class="p-2.5 bg-white rounded-xl border border-amber-200"><span class="text-xs font-bold text-amber-700 block">(3)</span><span class="arabic-inline font-bold text-slate-900">أَنْعَمْتَ عَلَيْهِمْ</span></div>
+        </div>`,
+        question: 'Hukum bacaan mim sukun secara berurutan pada ketiga lafal baru tersebut adalah...',
+        options: [
+          'Izhar syafawi, idgham mimi, dan ikhfa syafawi',
+          'Idgham mimi, ikhfa syafawi, dan izhar syafawi',
+          'Ikhfa syafawi, izhar syafawi, dan idgham mimi',
+          'Idgham mimi, izhar syafawi, dan ikhfa syafawi'
+        ],
+        answer: 1,
+        explanation: '(1) لَهُمْ مَغْفِرَةٌ: mim sukun bertemu mim = <strong>Idgham Mimi</strong> (Mutamatsilain). (2) تَرْمِيهِمْ بِحِجَارَةٍ: mim sukun bertemu ba = <strong>Ikhfa Syafawi</strong>. (3) أَنْعَمْتَ عَلَيْهِمْ: mim sukun bertemu ta = <strong>Izhar Syafawi</strong>.'
+      },
+      {
+        id: 4,
+        type: 'pg',
+        bab: 'Bab 1: Semangat Keilmuan',
+        babNum: 1,
+        level: 'C3',
+        stimulus: `<div class="flex flex-wrap justify-around gap-3 text-center">
+          <div class="p-3 bg-white rounded-xl border border-emerald-200 flex-1 min-w-[160px]"><span class="text-xs text-slate-500 block">Lafal Pertama</span><span class="arabic-inline font-bold text-emerald-900">لَكُمْ تَفَسَّحُوا</span></div>
+          <div class="p-3 bg-white rounded-xl border border-emerald-200 flex-1 min-w-[160px]"><span class="text-xs text-slate-500 block">Lafal Kedua</span><span class="arabic-inline font-bold text-emerald-900">أَمْ مَنْ هُوَ قَانِتٌ</span></div>
+        </div>`,
+        question: 'Cara membaca hukum mim sukun yang tepat pada kedua lafal tersebut secara berurutan adalah...',
+        options: [
+          'Lafal pertama dibaca samar dengan dengung, lafal kedua dibaca jelas tanpa dengung',
+          'Lafal pertama dan kedua sama-sama dibaca lebur dengan dengung panjang',
+          'Lafal pertama dibaca jelas di bibir tanpa dengung, lafal kedua dimasukkan ke huruf mim berikutnya dengan dengung',
+          'Lafal pertama dibaca memantul (qalqalah), lafal kedua dibaca samar di pangkal hidung'
+        ],
+        answer: 2,
+        explanation: 'Lafal pertama (لَكُمْ تَفَسَّحُوا) adalah izhar syafawi sehingga dibaca jelas di bibir tanpa dengung. Lafal kedua (أَمْ مَنْ) adalah idgham mimi (mim sukun bertemu mim) sehingga dileburkan ke huruf mim berikutnya disertai ghunnah (dengung).'
+      },
+      {
+        id: 5,
+        type: 'pg',
+        bab: 'Bab 1: Semangat Keilmuan',
+        babNum: 1,
+        level: 'C4',
+        stimulus: `<p>Saat kegiatan kajian keislaman di masjid sekolah berlangsung penuh sesak, Rafi segera menggeser duduknya merapat agar siswa yang baru datang mendapatkan tempat duduk. Sebaliknya, Doni tetap meletakkan tas ranselnya di kursi kosong di sampingnya meskipun melihat temannya berdiri.</p>`,
+        question: 'Berdasarkan Q.S. Al-Mujadilah/58: 11, analisis yang tepat terhadap sikap kedua tokoh dalam kasus tersebut adalah...',
+        options: [
+          'Sikap Doni wajar karena datang lebih awal sehingga berhak menjaga kenyamanan tempat duduknya',
+          'Rafi mengamalkan perintah berlapang-lapang dalam majelis ilmu yang menjadi sebab dilapangkannya rahmat Allah, sedangkan Doni mengabaikan adab bermajelis',
+          'Keduanya sudah bersikap benar karena yang terpenting dalam majelis adalah mendengarkan ceramah',
+          'Rafi seharusnya menegur Doni dengan suara keras di tengah kajian agar Doni merasa malu'
+        ],
+        answer: 1,
+        explanation: 'Q.S. Al-Mujadilah/58: 11 secara langsung memerintahkan orang beriman untuk memberi kelapangan di dalam majelis ilmu. Sikap empati Rafi mencerminkan pengamalan ayat tersebut, sementara sikap egois Doni bertentangan dengan adab majelis.'
+      },
+      {
+        id: 6,
+        type: 'pg',
+        bab: 'Bab 1: Semangat Keilmuan',
+        babNum: 1,
+        level: 'C4',
+        stimulus: `<table class="w-full text-xs sm:text-sm border-collapse bg-white rounded-xl overflow-hidden border border-slate-200">
+          <thead class="bg-emerald-700 text-white">
+            <tr><th class="p-2.5 text-left">Ayat</th><th class="p-2.5 text-left">Pokok Kandungan</th></tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200">
+            <tr><td class="p-2.5 font-bold">Q.S. Al-Mujadilah/58: 11</td><td class="p-2.5">Adab berlapang-lapang di majelis dan pengangkatan derajat orang beriman serta berilmu.</td></tr>
+            <tr><td class="p-2.5 font-bold">Q.S. Az-Zumar/39: 9</td><td class="p-2.5">Perbandingan antara ahli ibadah yang takut akhirat dan orang berilmu dengan orang yang tidak berilmu.</td></tr>
+          </tbody>
+        </table>`,
+        question: 'Keterkaitan pesan utama dari kedua ayat pada tabel perbandingan tersebut adalah...',
+        options: [
+          'Keduanya sama-sama membahas tata cara berdagang yang jujur di pasar',
+          'Keduanya menegaskan bahwa ilmu yang disertai ketaatan ibadah dan adab membedakan kemuliaan manusia di sisi Allah',
+          'Q.S. Al-Mujadilah membahas ilmu agama, sedangkan Q.S. Az-Zumar melarang mempelajari ilmu umum',
+          'Kedua ayat menunjukkan bahwa kesuksesan manusia ditentukan oleh banyaknya harta kekayaan'
+        ],
+        answer: 1,
+        explanation: 'Kedua ayat saling menguatkan: Q.S. Az-Zumar/39: 9 menegaskan tidak samanya orang berilmu (yang tekun beribadah) dengan yang tidak berilmu, sementara Q.S. Al-Mujadilah/58: 11 menjelaskan bentuk pemuliaannya berupa diangkatnya derajat oleh Allah.'
+      },
+      {
+        id: 7,
+        type: 'pg',
+        bab: 'Bab 1: Semangat Keilmuan',
+        babNum: 1,
+        level: 'C5',
+        stimulus: `<p>Dalam sebuah diskusi remaja, seorang tokoh fiktif berpendapat: <em>"Di era teknologi modern, kecerdasan intelektual dan gelar akademik yang tinggi sudah cukup menjamin kemuliaan dan kebahagiaan hidup seseorang tanpa perlu dilandasi nilai keimanan."</em></p>`,
+        question: 'Penilaian yang tepat terhadap pendapat tersebut berdasarkan Q.S. Al-Mujadilah/58: 11 adalah...',
+        options: [
+          'Setuju, karena kemajuan zaman hanya membutuhkan kecerdasan logika dan keterampilan teknis',
+          'Kurang tepat, karena kemuliaan sejati di sisi Allah mensyaratkan perpaduan antara iman dan ilmu; ilmu tanpa iman berpotensi disalahgunakan',
+          'Setuju sebagian, sebab keimanan hanya dibutuhkan ketika seseorang sudah memasuki usia lanjut',
+          'Tidak setuju, karena umat Islam seharusnya menolak gelar akademik dan fokus beribadah saja'
+        ],
+        answer: 1,
+        explanation: 'Dalam Q.S. Al-Mujadilah/58: 11, kata "beriman" disebutkan lebih dahulu sebelum "diberi ilmu". Ilmu tanpa pondasi iman dapat melahirkan kesombongan atau penyalahgunaan teknologi yang merugikan sesama.'
+      },
+      {
+        id: 8,
+        type: 'pg',
+        bab: 'Bab 1: Semangat Keilmuan',
+        babNum: 1,
+        level: 'C5',
+        stimulus: `<div class="space-y-2 text-xs sm:text-sm">
+          <div class="p-2.5 bg-white rounded-xl border border-slate-200"><strong>Rencana A:</strong> Menghafal cepat Q.S. Al-Mujadilah/58: 11 dalam satu malam menjelang setoran tanpa memperhatikan hukum tajwid dan terjemahannya.</div>
+          <div class="p-2.5 bg-white rounded-xl border border-slate-200"><strong>Rencana B:</strong> Memperbaiki bacaan hukum mim sukun terlebih dahulu, membagi ayat menjadi 3 penggalan, murojaah harian, serta memahami makna ayatnya.</div>
+        </div>`,
+        question: 'Rencana menghafal yang paling tepat dan efektif beserta alasannya adalah...',
+        options: [
+          'Rencana A, karena menghemat waktu dan dapat segera selesai dalam semalam',
+          'Rencana A, karena memahami terjemahan ayat bukan bagian dari penilaian hafalan',
+          'Rencana B, karena menjaga ketepatan makhraj dan hukum tajwid sekaligus memperkuat daya ingat jangka panjang dan penghayatan makna',
+          'Rencana B, karena ayat Al-Qur’an hanya boleh dihafal jika dibagi menjadi tiga bagian'
+        ],
+        answer: 2,
+        explanation: 'Rencana B jauh lebih unggul secara pedagogis dan syar’i karena memastikan bacaan sesuai kaidah tajwid (tahsin), mencegah hafalan cepat hilang melalui murojaah bertahap, serta menumbuhkan pemahaman makna ayat.'
+      },
+
+      // ===================== BAB 2: IMAN KEPADA HARI AKHIR =====================
+      {
+        id: 9,
+        type: 'pg',
+        bab: 'Bab 2: Iman kepada Hari Akhir',
+        babNum: 2,
+        level: 'C2',
+        stimulus: `<div class="space-y-2 italic text-slate-700">
+          <p>"Dan sungguh, (hari) Kiamat itu pasti datang, tidak ada keraguan padanya..." <span class="not-italic font-semibold text-emerald-800">(Q.S. Al-Hajj/22: 7)</span></p>
+          <p>"Sesungguhnya hanya di sisi Allah ilmu tentang hari Kiamat..." <span class="not-italic font-semibold text-emerald-800">(Q.S. Luqman/31: 34)</span></p>
+        </div>`,
+        question: 'Kesimpulan yang tepat mengenai hari kiamat berdasarkan kedua ayat tersebut adalah...',
+        options: [
+          'Hari kiamat pasti akan terjadi tanpa keraguan sedikit pun, namun waktu terjadinya mutlak menjadi rahasia Allah Swt.',
+          'Hari kiamat dapat diprediksi waktunya oleh para ilmuwan astronomi dengan perhitungan kalender modern',
+          'Kepastian datangnya hari kiamat masih bergantung pada banyaknya amal kebaikan manusia di bumi',
+          'Hanya para malaikat dan nabi yang diberitahu tanggal pasti terjadinya kehancuran alam semesta'
+        ],
+        answer: 0,
+        explanation: 'Q.S. Al-Hajj/22: 7 menegaskan kepastian mutlak datangnya kiamat (<em>la raiba fiha</em>), sedangkan Q.S. Luqman/31: 34 menegaskan bahwa pengetahuan tentang kapan terjadinya hanya berada di sisi Allah Swt.'
+      },
+      {
+        id: 10,
+        type: 'pg',
+        bab: 'Bab 2: Iman kepada Hari Akhir',
+        babNum: 2,
+        level: 'C2',
+        stimulus: `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+          <div class="p-3 bg-white rounded-xl border border-slate-200"><strong>Peristiwa 1:</strong> Terjadinya bencana tanah longsor yang menelan korban jiwa dan merusak pemukiman di suatu daerah.</div>
+          <div class="p-3 bg-white rounded-xl border border-slate-200"><strong>Peristiwa 2:</strong> Tiupan sangkakala Malaikat Israfil yang menghancurkan seluruh planet dan mematikan semua makhluk hidup.</div>
+        </div>`,
+        question: 'Perbedaan mendasar antara kedua peristiwa tersebut dalam konsep akidah Islam adalah...',
+        options: [
+          'Peristiwa 1 termasuk kiamat kubra yang bersifat lokal, sedangkan Peristiwa 2 termasuk kiamat sugra',
+          'Peristiwa 1 merupakan kiamat sugra (kecil) yang menimpa sebagian makhluk, sedangkan Peristiwa 2 merupakan kiamat kubra (besar) yang mengakhiri seluruh kehidupan dunia',
+          'Peristiwa 1 terjadi setelah hari kebangkitan, sedangkan Peristiwa 2 terjadi sebelum manusia diciptakan',
+          'Keduanya merupakan kiamat kubra karena sama-sama menimbulkan kerusakan dan kematian'
+        ],
+        answer: 1,
+        explanation: 'Kiamat sugra (kecil) adalah berakhirnya kehidupan sebagian makhluk di dunia seperti kematian dan bencana alam, sedangkan kiamat kubra (besar) adalah kehancuran total seluruh alam semesta secara serentak.'
+      },
+      {
+        id: 11,
+        type: 'pg',
+        bab: 'Bab 2: Iman kepada Hari Akhir',
+        babNum: 2,
+        level: 'C3',
+        stimulus: `<ol class="list-decimal list-inside space-y-1 bg-white p-3 rounded-xl border border-slate-200">
+          <li>Munculnya Dajjal yang menyebarkan fitnah besar</li>
+          <li>Banyaknya fitnah dan berita bohong menyebar luas di masyarakat</li>
+          <li>Terbitnya matahari dari arah barat</li>
+          <li>Ilmu agama dianggap tidak penting dan banyak orang berlomba bermegah-megahan</li>
+        </ol>`,
+        question: 'Kelompok tanda-tanda kiamat kecil (<em>sughra</em>) ditunjukkan oleh nomor...',
+        options: [
+          '(1) dan (2)',
+          '(1) dan (3)',
+          '(2) dan (4)',
+          '(3) dan (4)'
+        ],
+        answer: 2,
+        explanation: 'Tanda kiamat kecil (sughra) berkaitan dengan perubahan moral dan sosial manusia seperti merebaknya hoaks/fitnah (2) dan meredupnya semangat ilmu agama serta gaya hidup bermegah-megahan (4). Adapun munculnya Dajjal (1) dan matahari terbit dari barat (3) termasuk tanda kiamat besar (kubra).'
+      },
+      {
+        id: 12,
+        type: 'pg',
+        bab: 'Bab 2: Iman kepada Hari Akhir',
+        babNum: 2,
+        level: 'C3',
+        stimulus: `<div class="flex flex-wrap gap-2">
+          <span class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold">(1) Yaumul Mizan</span>
+          <span class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold">(2) Yaumul Ba'ats</span>
+          <span class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold">(3) Yaumul Hisab</span>
+          <span class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold">(4) Yaumul Mahsyar</span>
+          <span class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold">(5) Ash-Shirath</span>
+        </div>`,
+        question: 'Urutan tahapan peristiwa hari akhir yang benar setelah manusia dibangkitkan dari alam kubur adalah...',
+        options: [
+          '(2) – (4) – (3) – (1) – (5)',
+          '(2) – (3) – (4) – (1) – (5)',
+          '(4) – (2) – (1) – (3) – (5)',
+          '(2) – (4) – (1) – (3) – (5)'
+        ],
+        answer: 0,
+        explanation: 'Urutan tahapan akhirat setelah kiamat kubra: <strong>Yaumul Ba’ats</strong> (2 - hari kebangkitan) → <strong>Yaumul Mahsyar</strong> (4 - dikumpulkan di padang mahsyar) → <strong>Yaumul Hisab</strong> (3 - perhitungan amal) → <strong>Yaumul Mizan</strong> (1 - penimbangan amal) → <strong>Ash-Shirath</strong> (5 - jembatan menuju surga).'
+      },
+      {
+        id: 13,
+        type: 'pg',
+        bab: 'Bab 2: Iman kepada Hari Akhir',
+        babNum: 2,
+        level: 'C4',
+        stimulus: `<p>Beredar pesan berantai di grup percakapan yang mengklaim bahwa <em>"kiamat besar dipastikan terjadi pada tanggal 10 Muharam tahun depan berdasarkan perhitungan ramalan bintang dan mimpi seorang tokoh."</em></p>`,
+        question: 'Analisis yang paling tepat terhadap isi pesan berantai tersebut berdasarkan dalil naqli adalah...',
+        options: [
+          'Pesan tersebut perlu segera disebarkan agar masyarakat panik dan berhenti bersekolah',
+          'Pesan tersebut tidak benar secara akidah karena bertentangan dengan Q.S. Luqman/31: 34 dan Q.S. Al-A’raf/7: 187 yang menegaskan waktu kiamat hanya diketahui Allah',
+          'Pesan tersebut bisa dipercaya selama disertai hitungan kalender hijriah yang akurat',
+          'Kiamat memang selalu jatuh pada bulan Muharam sehingga ramalan itu masuk akal'
+        ],
+        answer: 1,
+        explanation: 'Tidak ada satu pun makhluk—bahkan Nabi Muhammad saw. maupun Malaikat Jibril—yang mengetahui tanggal pasti kiamat (Q.S. Luqman/31: 34). Klaim penentuan tanggal kiamat adalah kebohongan yang tidak boleh dipercayai maupun disebarkan.'
+      },
+      {
+        id: 14,
+        type: 'pg',
+        bab: 'Bab 2: Iman kepada Hari Akhir',
+        babNum: 2,
+        level: 'C4',
+        stimulus: `<p>Bayu aktif menggunakan media sosial. Meskipun memakai akun sekunder tanpa foto wajah asli sehingga identitasnya sulit dilacak orang lain, Bayu selalu menolak ikut berkomentar kasar (<em>cyberbullying</em>) karena yakin setiap ketikan jarinya dicatat malaikat dan dipertanggungjawabkan di hadapan Allah.</p>`,
+        question: 'Analisis perilaku Bayu kaitannya dengan keimanan kepada hari akhir adalah...',
+        options: [
+          'Bayu bersikap hati-hati karena takut akun media sosialnya diblokir oleh pihak pengelola aplikasi',
+          'Iman kepada Yaumul Hisab menumbuhkan kontrol diri (<em>muraqabah</em>) sehingga Bayu tetap berakhlak mulia meski tanpa pengawasan manusia',
+          'Bayu tidak berani berkomentar karena kurang memahami isu yang sedang ramai dibahas',
+          'Perilaku Bayu hanya menunjukkan rasa malu kepada teman-teman sekolahnya'
+        ],
+        answer: 1,
+        explanation: 'Keimanan kepada hari akhir dan Yaumul Hisab melahirkan kesadaran tanggung jawab individual yang tinggi: manusia menjaga lisan dan ketikan jarinya bukan karena diawasi sesama manusia, melainkan karena sadar Allah Maha Mengetahui segala amal.'
+      },
+      {
+        id: 15,
+        type: 'pg',
+        bab: 'Bab 2: Iman kepada Hari Akhir',
+        babNum: 2,
+        level: 'C5',
+        stimulus: `<p>Seorang remaja berkata kepada temannya: <em>"Mumpung kita masih muda, nikmati saja hidup bebas tanpa aturan dulu; soal tobat dan rajin salat lima waktu nanti saja kalau sudah tua dan pensiun."</em></p>`,
+        question: 'Penilaian yang tepat terhadap pendapat tersebut ditinjau dari keimanan kepada hari akhir adalah...',
+        options: [
+          'Pendapat yang realistis karena masa muda memang waktu untuk mencoba segala hal tanpa batas',
+          'Pendapat yang keliru dan berbahaya karena kiamat sugra (kematian) datang secara tiba-tiba tanpa menunggu usia tua, serta setiap amal masa muda akan dihisab',
+          'Pendapat yang dapat dibenarkan asalkan tidak merugikan orang tua secara materi',
+          'Pendapat yang tepat karena Allah hanya menghitung amal ibadah manusia setelah berusia 40 tahun'
+        ],
+        answer: 1,
+        explanation: 'Ajal (kiamat sugra) tidak mengenal batas usia muda atau tua. Menunda tobat berarti mempertaruhkan keselamatan akhirat, padahal masa muda termasuk perkara yang akan ditanyakan secara khusus pada Yaumul Hisab.'
+      },
+      {
+        id: 16,
+        type: 'pg',
+        bab: 'Bab 2: Iman kepada Hari Akhir',
+        babNum: 2,
+        level: 'C5',
+        stimulus: `<p>Seseorang yang pesimis berujar: <em>"Percuma berbuat jujur saat ujian dan menolong orang secara diam-diam kalau tidak ada orang lain yang melihat, memuji, atau memberi hadiah."</em></p>`,
+        question: 'Penilaian yang paling tepat terhadap pernyataan tersebut berdasarkan konsep <em>Yaumul Hisab</em> dan <em>Yaumul Mizan</em> adalah...',
+        options: [
+          'Pernyataan tersebut benar karena kebaikan baru bernilai jika mendapat pengakuan sosial',
+          'Pernyataan tersebut keliru karena pada Yaumul Hisab dan Yaumul Mizan sekecil apa pun kebaikan (seberat zarah) tetap ditimbang secara adil oleh Allah meski tersembunyi dari manusia',
+          'Pernyataan tersebut masuk akal karena amal yang tersembunyi sering terlewat dari catatan malaikat',
+          'Berbuat baik sebaiknya memang selalu direkam dan dipublikasikan agar dicatat sebagai pahala'
+        ],
+        answer: 1,
+        explanation: 'Berdasarkan Q.S. Az-Zalzalah/99: 7–8, barang siapa mengerjakan kebaikan seberat zarah pun niscaya dia akan melihat balasannya pada Yaumul Mizan. Justru amal ikhlas yang tersembunyi sangat tinggi nilainya di sisi Allah.'
+      },
+
+      // ===================== BAB 3: CINTA ILMU =====================
+      {
+        id: 17,
+        type: 'pg',
+        bab: 'Bab 3: Cinta Ilmu',
+        babNum: 3,
+        level: 'C2',
+        stimulus: `<blockquote class="italic border-l-4 border-emerald-600 pl-3 text-slate-700">"Bacalah dengan (menyebut) nama Tuhanmu yang menciptakan. Dia telah menciptakan manusia dari segumpal darah. Bacalah, dan Tuhanmulah Yang Mahamulia. Yang mengajar (manusia) dengan pena..." <span class="not-italic font-semibold text-emerald-800">(Q.S. Al-'Alaq/96: 1–5)</span></blockquote>`,
+        question: 'Makna penting dari perintah "membaca" (<em>Iqra</em>) pada wahyu pertama tersebut adalah...',
+        options: [
+          'Umat Islam diperintahkan untuk membaca dan meneliti ilmu pengetahuan dengan landasan ketauhidan kepada Allah Swt.',
+          'Membaca hanya diwajibkan ketika seseorang sedang berada di dalam masjid atau majelis taklim',
+          'Ilmu pengetahuan cukup diperoleh dengan menghafal tanpa perlu menulis dan mencatatnya dengan pena',
+          'Perintah membaca hanya berlaku pada masa turunnya Al-Qur’an di Gua Hira'
+        ],
+        answer: 0,
+        explanation: 'Wahyu pertama memerintahkan membaca (literasi, observasi, dan riset) yang dikaitkan dengan nama Tuhan (<em>bismi rabbika</em>), menandakan bahwa Islam memadukan semangat keilmuan, budaya menulis (dengan pena), dan keimanan.'
+      },
+      {
+        id: 18,
+        type: 'pg',
+        bab: 'Bab 3: Cinta Ilmu',
+        babNum: 3,
+        level: 'C2',
+        stimulus: `<div class="text-center py-1">
+          <div class="arabic-text font-bold text-emerald-900">طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ</div>
+          <p class="text-xs text-slate-600 mt-1">Sebagian orang beranggapan hadis ini hanya mewajibkan belajar bagi siswa yang masih bersekolah formal.</p>
+        </div>`,
+        question: 'Penjelasan yang tepat mengenai makna hadis tersebut adalah...',
+        options: [
+          'Menuntut ilmu hanya wajib bagi kaum laki-laki hingga lulus jenjang sekolah menengah',
+          'Menuntut ilmu adalah kewajiban sepanjang hayat bagi setiap muslim laki-laki maupun perempuan, baik ilmu agama maupun ilmu yang bermanfaat bagi kehidupan',
+          'Setelah lulus sekolah dan bekerja, seorang muslim sudah gugur kewajibannya untuk belajar',
+          'Hadis tersebut hanya mewajibkan mempelajari ilmu bahasa Arab saja'
+        ],
+        answer: 1,
+        explanation: 'Kata <em>kulli muslim</em> mencakup seluruh muslim laki-laki dan perempuan di segala usia (sepanjang hayat). Ilmu yang wajib dicari mencakup ilmu fardu ain (akidah, ibadah, akhlak) dan ilmu fardu kifayah yang bermanfaat bagi kemaslahatan umat.'
+      },
+      {
+        id: 19,
+        type: 'pg',
+        bab: 'Bab 3: Cinta Ilmu',
+        babNum: 3,
+        level: 'C3',
+        stimulus: `<p>Saat mendapat tugas membuat esai sejarah Islam, Nabila memanfaatkan kecerdasan artifisial (AI) untuk membantu menyusun kerangka ide awal. Setelah itu, ia membaca buku referensi secara mandiri, memverifikasi keakuratan data, lalu menulis ulang seluruh isi esai dengan bahasanya sendiri.</p>`,
+        question: 'Penerapan adab belajar di era digital yang ditunjukkan oleh Nabila adalah...',
+        options: [
+          'Menjadikan teknologi digital sebagai alat bantu berpikir kritis tanpa menghilangkan kejujuran akademik dan kerja keras',
+          'Menyerahkan sepenuhnya pengerjaan tugas kepada mesin agar selesai lebih cepat',
+          'Menghindari penggunaan buku cetak karena informasi dari internet selalu paling benar',
+          'Menyalin jawaban otomatis tanpa perlu memahami isi materi yang dikumpulkan'
+        ],
+        answer: 0,
+        explanation: 'Adab menuntut ilmu di era digital menuntut kejujuran intelektual, verifikasi sumber, serta kesungguhan berproses. Nabila menjadikan AI sebagai mitra diskusi, bukan alat plagiarisme.'
+      },
+      {
+        id: 20,
+        type: 'pg',
+        bab: 'Bab 3: Cinta Ilmu',
+        babNum: 3,
+        level: 'C3',
+        stimulus: `<p>Q.S. Al-Hujurat/49: 6 memerintahkan orang beriman untuk meneliti kebenaran berita (<em>tabayyun</em>) dari sumber yang belum jelas agar tidak mencelakakan suatu kaum. Suatu hari, masuk pesan berantai di grup keluarga tentang resep obat herbal ekstrem yang diklaim menyembuhkan semua penyakit secara instan tanpa rujukan medis.</p>`,
+        question: 'Tindakan penerapan sikap <em>tabayyun</em> yang paling tepat dilakukan adalah...',
+        options: [
+          'Langsung meneruskan pesan ke semua grup agar dianggap paling peduli kesehatan',
+          'Menahan diri untuk tidak langsung menyebarkan, memeriksa kredibilitas sumber medis resmi, dan meluruskan informasi secara santun jika terbukti hoaks',
+          'Menghapus pesan tersebut tanpa memberi tahu anggota keluarga yang sudah terlanjur mempercayainya',
+          'Mencoba resep tersebut terlebih dahulu tanpa berkonsultasi dengan tenaga kesehatan'
+        ],
+        answer: 1,
+        explanation: 'Tabayyun berarti verifikasi dan klarifikasi informasi sebelum bertindak atau menyebarkannya. Menahan diri dari menyebar hoaks dan mengecek sumber otoritatif adalah wujud nyata cinta ilmu.'
+      },
+      {
+        id: 21,
+        type: 'pg',
+        bab: 'Bab 3: Cinta Ilmu',
+        babNum: 3,
+        level: 'C4',
+        stimulus: `<table class="w-full text-xs sm:text-sm border-collapse bg-white rounded-xl overflow-hidden border border-slate-200">
+          <thead class="bg-emerald-700 text-white">
+            <tr><th class="p-2.5 text-left">Murid</th><th class="p-2.5 text-left">Kebiasaan Belajar</th></tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200">
+            <tr><td class="p-2.5 font-bold">Andi</td><td class="p-2.5">Rajin membaca, tetapi merasa paling pintar dan meremehkan teman yang bertanya.</td></tr>
+            <tr><td class="p-2.5 font-bold">Bela</td><td class="p-2.5">Tekun mencatat penjelasan guru, aktif bertanya dengan santun, dan berbagi ringkasan kepada teman.</td></tr>
+            <tr><td class="p-2.5 font-bold">Candra</td><td class="p-2.5">Belajar hanya saat menjelang ujian dan mengandalkan contekan agar nilai terlihat tinggi.</td></tr>
+          </tbody>
+        </table>`,
+        question: 'Analisis ciri orang yang benar-benar mencintai ilmu berdasarkan tabel sikap tiga murid tersebut adalah...',
+        options: [
+          'Andi, karena kecerdasan akademik adalah satu-satunya indikator cinta ilmu',
+          'Bela, karena memadukan kesungguhan mencatat, kerendahan hati dalam bertanya, dan semangat berbagi ilmu',
+          'Candra, karena mampu beradaptasi mencari cara tercepat untuk meraih nilai tinggi',
+          'Andi dan Candra, karena keduanya sama-sama berorientasi pada prestasi nilai'
+        ],
+        answer: 1,
+        explanation: 'Orang yang cinta ilmu tidak hanya rajin mencari pengetahuan, tetapi juga beradab (rendah hati, menghormati guru/teman) dan senang menyebarkan manfaat ilmu sebagaimana dicontohkan oleh Bela.'
+      },
+      {
+        id: 22,
+        type: 'pg',
+        bab: 'Bab 3: Cinta Ilmu',
+        babNum: 3,
+        level: 'C4',
+        stimulus: `<p>Imam Asy-Syafi’i pernah mengadukan melemahnya daya hafalannya kepada gurunya, Imam Waki’. Gurunya kemudian menasihati agar beliau meninggalkan perbuatan maksiat, seraya menjelaskan bahwa <em>"ilmu adalah cahaya Allah, dan cahaya Allah tidak akan diberikan kepada pelaku maksiat."</em></p>`,
+        question: 'Analisis hubungan antara menjauhi maksiat dan keberkahan ilmu dalam kisah tersebut adalah...',
+        options: [
+          'Daya ingat seseorang hanya ditentukan oleh faktor keturunan dan asupan gizi semata',
+          'Kebersihan hati dan ketaatan menjaga pandangan/perilaku membuat pikiran lebih jernih, fokus, dan mudah menerima cahaya hidayah ilmu',
+          'Pelaku maksiat sama sekali tidak bisa membaca buku pelajaran di sekolah',
+          'Menghafal pelajaran cukup dilakukan dengan berzikir tanpa perlu mengulang materi'
+        ],
+        answer: 1,
+        explanation: 'Maksiat mengotori hati dan memecah konsentrasi batin. Sebaliknya, menjaga diri dari perbuatan dosa (termasuk menjaga pandangan di dunia nyata maupun digital) menjernihkan hati sehingga ilmu mudah dipahami dan diberkahi.'
+      },
+      {
+        id: 23,
+        type: 'pg',
+        bab: 'Bab 3: Cinta Ilmu',
+        babNum: 3,
+        level: 'C5',
+        stimulus: `<p>Seorang siswa kelas 9 berkata: <em>"Saya menyerah belajar matematika dan bahasa Arab karena merasa sejak lahir tidak diberi bakat pintar pada dua pelajaran itu."</em></p>`,
+        question: 'Penilaian terhadap pendapat tersebut berdasarkan syair enam syarat menuntut ilmu dari Imam Asy-Syafi’i adalah...',
+        options: [
+          'Tepat, karena kecerdasan bawaan lahir adalah satu-satunya penentu keberhasilan belajar',
+          'Tidak tepat, karena menurut Imam Asy-Syafi’i keberhasilan ilmu juga ditopang oleh semangat (<em>hirsh</em>), kesungguhan (<em>ijtihad</em>), bimbingan guru, dan waktu yang panjang, bukan sekadar bakat instan',
+          'Tepat, sebaiknya siswa hanya mempelajari pelajaran yang langsung bisa dikuasai dalam satu hari',
+          'Kurang tepat, karena bahasa Arab tidak membutuhkan kesungguhan dalam mempelajarinya'
+        ],
+        answer: 1,
+        explanation: 'Imam Asy-Syafi’i merumuskan enam kunci meraih ilmu: kecerdasan, semangat/antusiasme, kesungguhan/ketekunan, bekal, bimbingan guru, dan waktu yang panjang. Rasa malas dan cepat menyerah justru penghalang utama ilmu.'
+      },
+      {
+        id: 24,
+        type: 'pg',
+        bab: 'Bab 3: Cinta Ilmu',
+        babNum: 3,
+        level: 'C5',
+        stimulus: `<ol class="list-decimal list-inside space-y-1 text-xs sm:text-sm bg-white p-3 rounded-xl border border-slate-200">
+          <li>Membuang gawai ke tempat sampah agar tidak pernah menyentuh internet lagi.</li>
+          <li>Membuat jadwal batas layar (<em>screen time</em>), mematikan notifikasi saat jam belajar, serta mengganti waktu luang dengan membaca buku atau diskusi kelompok.</li>
+          <li>Tetap bermain gim hingga larut malam asalkan tugas sekolah dikerjakan di pagi hari sebelum bel masuk.</li>
+          <li>Menggunakan gawai tanpa batas waktu dengan alasan mencari hiburan penghilang stres.</li>
+        </ol>`,
+        question: 'Rencana mengatasi kecanduan gawai yang paling realistis dan tepat untuk membangun kembali kebiasaan cinta ilmu adalah nomor...',
+        options: [
+          'Nomor 1',
+          'Nomor 2',
+          'Nomor 3',
+          'Nomor 4'
+        ],
+        answer: 1,
+        explanation: 'Rencana nomor 2 paling seimbang dan realistis: mengendalikan penggunaan gawai melalui manajemen waktu (<em>screen time</em>) dan pengalihan kebiasaan ke aktivitas literasi yang produktif tanpa bersikap ekstrem.'
+      },
+
+      // ===================== BAB 4: PENYEMBELIHAN, KURBAN, DAN AKIKAH =====================
+      {
+        id: 25,
+        type: 'pg',
+        bab: 'Bab 4: Penyembelihan, Kurban & Akikah',
+        babNum: 4,
+        level: 'C2',
+        stimulus: `<p>Q.S. Al-Ma'idah/5: 3 mengharamkan bangkai, darah, daging babi, serta hewan yang mati tercekik, terpukul, atau tertabrak kecuali yang sempat disembelih secara syar'i. Dalam sebuah kasus: <strong>Ayam A</strong> disembelih dalam keadaan hidup dengan membaca basmalah menggunakan pisau tajam hingga putus jalan napas dan makannya, sedangkan <strong>Ayam B</strong> mati seketika tertabrak motor lalu baru disembelih setelah tidak bernyawa.</p>`,
+        question: 'Alasan kehalalan Ayam A dan keharaman Ayam B berdasarkan ketentuan syariat adalah...',
+        options: [
+          'Ayam A disembelih memenuhi rukun dan syarat penyembelihan saat masih hidup, sedangkan Ayam B sudah berstatus bangkai sebelum disembelih',
+          'Ayam B haram karena dagingnya memar akibat tertabrak kendaraan bermotor',
+          'Ayam A halal karena jenis unggas tidak memerlukan pembacaan basmalah saat disembelih',
+          'Keduanya tetap halal dikonsumsi selama dimasak dengan suhu tinggi hingga matang'
+        ],
+        answer: 0,
+        explanation: 'Syarat sah penyembelihan adalah hewan masih dalam keadaan hidup (<em>hayat mustaqirrah</em>). Ayam B sudah mati sebelum disembelih sehingga berstatus bangkai yang haram dimakan.'
+      },
+      {
+        id: 26,
+        type: 'pg',
+        bab: 'Bab 4: Penyembelihan, Kurban & Akikah',
+        babNum: 4,
+        level: 'C2',
+        stimulus: `<blockquote class="italic border-l-4 border-emerald-600 pl-3 text-slate-700">"Daging (hewan kurban) dan darahnya itu sekali-kali tidak akan sampai kepada Allah, tetapi yang sampai kepada-Nya adalah ketakwaan kamu..." <span class="not-italic font-semibold text-emerald-800">(Q.S. Al-Hajj/22: 37)</span></blockquote>`,
+        question: 'Makna pokok dari ayat tersebut bagi seorang muslim yang melaksanakan ibadah kurban adalah...',
+        options: [
+          'Besar kecilnya hewan kurban menentukan diterima atau tidaknya amal ibadah seseorang',
+          'Esensi ibadah kurban terletak pada keikhlasan niat, ketaatan, dan ketakwaan pekurban, bukan sekadar wujud fisik daging atau kebanggaan sosial',
+          'Daging hewan kurban tidak perlu dibagikan kepada fakir miskin karena yang dinilai hanya niatnya',
+          'Ibadah kurban hanya diwajibkan bagi pejabat atau orang kaya yang membeli sapi berukuran besar'
+        ],
+        answer: 1,
+        explanation: 'Q.S. Al-Hajj/22: 37 mengingatkan bahwa Allah menilai ketakwaan dan keikhlasan di balik penyembelihan hewan kurban, bukan pamer harga hewan atau jumlah dagingnya.'
+      },
+      {
+        id: 27,
+        type: 'pg',
+        bab: 'Bab 4: Penyembelihan, Kurban & Akikah',
+        babNum: 4,
+        level: 'C3',
+        stimulus: `<p>Panitia OSIS dan Rohis melaksanakan penyembelihan hewan kurban di halaman masjid sekolah. Banyak siswa berkumpul menyaksikan proses penyembelihan dari dekat.</p>`,
+        question: 'Tindakan panitia yang paling sesuai dengan sunah dan adab penyembelihan dalam Islam (<em>ihsan</em> terhadap hewan) adalah...',
+        options: [
+          'Mengasah pisau tepat di depan mata hewan kurban agar prosesnya lebih cepat',
+          'Menajamkan pisau di tempat tersembunyi, membaringkan hewan ke sisi kiri menghadap kiblat, dan menyembelih di area yang tidak terlihat hewan kurban lainnya',
+          'Menyeret hewan secara paksa dengan menarik ekornya menuju lubang penampungan darah',
+          'Menyembelih hewan secara bersamaan dalam satu tempat agar hewan lain ikut menyaksikan'
+        ],
+        answer: 1,
+        explanation: 'Rasulullah saw. memerintahkan berbuat baik (<em>ihsan</em>) saat menyembelih: menajamkan pisau di luar pandangan hewan, tidak menyembelih di depan hewan lain, membaringkan di sisi kiri menghadap kiblat, dan mempercepat proses penyembelihan.'
+      },
+      {
+        id: 28,
+        type: 'pg',
+        bab: 'Bab 4: Penyembelihan, Kurban & Akikah',
+        babNum: 4,
+        level: 'C3',
+        stimulus: `<p>Keluarga Pak Hasan baru saja dikaruniai seorang bayi laki-laki yang lahir dalam keadaan sehat walafiat pada hari Senin.</p>`,
+        question: 'Ketentuan pelaksanaan akikah yang paling utama dan sesuai syariat untuk bayi Pak Hasan adalah...',
+        options: [
+          'Disembelih pada hari ke-7 kelahiran sebanyak 1 ekor kambing dan dibagikan dalam keadaan mentah',
+          'Disembelih pada hari ke-7 kelahiran sebanyak 2 ekor kambing/domba yang memenuhi syarat dan diutamakan dibagikan setelah dimasak',
+          'Disembelih pada hari ke-10 Zulhijah sebanyak 2 ekor sapi untuk seluruh warga desa',
+          'Menunggu hingga anak memasuki usia remaja karena akikah tidak memiliki waktu utama'
+        ],
+        answer: 1,
+        explanation: 'Akikah untuk bayi laki-laki adalah 2 ekor kambing/domba (bayi perempuan 1 ekor), waktu paling utama adalah hari ke-7 kelahiran (atau ke-14/ke-21), dan sunahnya dibagikan dalam kondisi sudah dimasak.'
+      },
+      {
+        id: 29,
+        type: 'pg',
+        bab: 'Bab 4: Penyembelihan, Kurban & Akikah',
+        babNum: 4,
+        level: 'C4',
+        stimulus: `<table class="w-full text-xs sm:text-sm border-collapse bg-white rounded-xl overflow-hidden border border-slate-200">
+          <thead class="bg-emerald-700 text-white">
+            <tr><th class="p-2 text-left">Hewan</th><th class="p-2 text-left">Usia</th><th class="p-2 text-left">Kondisi Fisik</th></tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200">
+            <tr><td class="p-2 font-bold">Sapi A</td><td class="p-2">2,5 tahun</td><td class="p-2">Sehat, gemuk, tidak cacat</td></tr>
+            <tr><td class="p-2 font-bold">Kambing B</td><td class="p-2">1,5 tahun</td><td class="p-2">Kaki belakang pincang jelas</td></tr>
+            <tr><td class="p-2 font-bold">Domba C</td><td class="p-2">1 tahun lebih</td><td class="p-2">Sehat, lincah, tidak cacat</td></tr>
+            <tr><td class="p-2 font-bold">Sapi D</td><td class="p-2">1 tahun</td><td class="p-2">Sehat, tidak cacat</td></tr>
+          </tbody>
+        </table>`,
+        question: 'Analisis hewan yang sah dijadikan kurban berdasarkan data usia dan kondisi fisik pada tabel tersebut adalah...',
+        options: [
+          'Sapi A dan Kambing B',
+          'Sapi A dan Domba C',
+          'Kambing B dan Sapi D',
+          'Domba C dan Sapi D'
+        ],
+        answer: 1,
+        explanation: 'Syarat usia kurban: sapi minimal genap 2 tahun (Sapi A sah; Sapi D belum cukup umur), domba minimal 1 tahun atau 6 bulan jika sudah berganti gigi (Domba C sah). Kambing B tidak sah karena pincang yang jelas.'
+      },
+      {
+        id: 30,
+        type: 'pg',
+        bab: 'Bab 4: Penyembelihan, Kurban & Akikah',
+        babNum: 4,
+        level: 'C4',
+        stimulus: `<p>Sebuah panitia kurban berinisiatif menjual seluruh kulit sapi kurban kepada pengepul, lalu uang hasil penjualannya digunakan untuk membayar upah tukang jagal yang menyembelih dan menguliti hewan tersebut.</p>`,
+        question: 'Analisis hukum fikih terhadap tindakan panitia kurban tersebut adalah...',
+        options: [
+          'Boleh dan sah, karena mempermudah panitia menutupi biaya operasional penyembelihan',
+          'Tidak diperbolehkan (terlarang), karena bagian hewan kurban tidak boleh diperjualbelikan maupun dijadikan upah tukang jagal; upah jagal harus diambil dari dana terpisah',
+          'Boleh, asalkan tukang jagalnya berasal dari kalangan warga sekitar masjid',
+          'Wajib dilakukan agar kulit hewan kurban tidak terbuang sia-sia'
+        ],
+        answer: 1,
+        explanation: 'Berdasarkan hadis riwayat Bukhari dan Muslim dari Ali bin Abi Thalib r.a., Rasulullah saw. melarang menjual bagian apa pun dari hewan kurban (termasuk kulit) dan melarang memberi tukang jagal bagian kurban sebagai upah.'
+      },
+      {
+        id: 31,
+        type: 'pg',
+        bab: 'Bab 4: Penyembelihan, Kurban & Akikah',
+        babNum: 4,
+        level: 'C5',
+        stimulus: `<p>Karena ingin segera membagikan daging kepada tetangga sebelum matahari terik, Pak Rendi menyembelih kambing kurbannya pada pukul 06.00 pagi tanggal 10 Zulhijah sebelum pelaksanaan salat Iduladha di masjid selesai.</p>`,
+        question: 'Penilaian yang tepat mengenai keabsahan ibadah kurban Pak Rendi adalah...',
+        options: [
+          'Sah sebagai kurban karena sudah memasuki tanggal 10 Zulhijah sejak terbit fajar',
+          'Tidak sah sebagai ibadah kurban dan status dagingnya hanya menjadi sedekah daging biasa, karena waktu penyembelihan kurban dimulai setelah selesai salat Iduladha',
+          'Sah apabila Pak Rendi sudah berniat kurban sejak malam takbiran',
+          'Tetap sah asalkan Pak Rendi tidak ikut memakan daging kambing tersebut'
+        ],
+        answer: 1,
+        explanation: 'Berdasarkan hadis riwayat Al-Bara’ bin ‘Azib r.a., barang siapa menyembelih sebelum salat Iduladha, maka sembelihannya hanyalah daging biasa untuk keluarganya dan bukan bagian dari ibadah kurban.'
+      },
+      {
+        id: 32,
+        type: 'pg',
+        bab: 'Bab 4: Penyembelihan, Kurban & Akikah',
+        babNum: 4,
+        level: 'C5',
+        stimulus: `<p>Panitia kurban masjid mengganti penggunaan kantong plastik sekali pakai dengan besek bambu dan daun jati sebagai wadah daging, serta mengolah limbah kotoran hewan menjadi pupuk kompos agar tidak dibuang ke sungai.</p>`,
+        question: 'Penilaian yang paling tepat terhadap inisiatif panitia tersebut adalah...',
+        options: [
+          'Kurang efektif karena merepotkan panitia dan menambah anggaran kegiatan',
+          'Sangat tepat dan patut diapresiasi karena mengintegrasikan nilai ibadah kurban dengan amanah menjaga kelestarian lingkungan (<em>khalifah fil ardh</em>) serta higienitas daging',
+          'Tidak perlu dilakukan karena limbah hewan akan hilang sendiri terbawa aliran sungai',
+          'Bertentangan dengan tradisi masyarakat yang sudah terbiasa memakai kantong plastik hitam'
+        ],
+        answer: 1,
+        explanation: 'Ibadah kurban bertujuan menebar rahmat dan maslahat. Mengurangi sampah plastik dan mencegah pencemaran sungai mencerminkan tanggung jawab manusia sebagai khalifah yang memelihara kelestarian alam.'
+      },
+
+      // ===================== BAB 5: SEJARAH MASUKNYA ISLAM DI INDONESIA =====================
+      {
+        id: 33,
+        type: 'pg',
+        bab: 'Bab 5: Sejarah Islam di Nusantara',
+        babNum: 5,
+        level: 'C2',
+        stimulus: `<p>Para sejarawan menemukan bukti arkeologis berupa batu nisan <strong>Sultan Malik as-Salih</strong> (wafat 696 H / 1297 M), raja pertama Kesultanan Samudra Pasai di Aceh, yang memiliki corak pahatan serupa dengan batu nisan yang berasal dari Cambay, India.</p>`,
+        question: 'Teori masuknya Islam ke Nusantara yang didukung secara langsung oleh temuan arkeologis tersebut adalah...',
+        options: [
+          'Teori Makkah (Arab)',
+          'Teori Gujarat (India)',
+          'Teori Persia (Iran)',
+          'Teori Tiongkok (Cina)'
+        ],
+        answer: 1,
+        explanation: 'Kesamaan corak batu nisan Sultan Malik as-Salih dengan batu nisan di Cambay, Gujarat (India) menjadi argumen utama pendukung <strong>Teori Gujarat</strong> (dikemukakan Snouck Hurgronje & J. Pijnappel).'
+      },
+      {
+        id: 34,
+        type: 'pg',
+        bab: 'Bab 5: Sejarah Islam di Nusantara',
+        babNum: 5,
+        level: 'C2',
+        stimulus: `<p>Di Desa Leran, Kecamatan Manyar, Kabupaten Gresik (Jawa Timur), terdapat situs makam kuno <strong>Fatimah binti Maimun</strong> yang berangka tahun 475 H (1082 M) dengan inskripsi kaligrafi Arab bergaya <em>Kufi</em>.</p>`,
+        question: 'Makna penting dari keberadaan bukti sejarah tersebut bagi studi masuknya Islam di Nusantara adalah...',
+        options: [
+          'Membuktikan bahwa Islam baru masuk ke Pulau Jawa pada abad ke-16 Masehi',
+          'Menunjukkan bahwa komunitas muslim berbudaya Arab sudah hadir dan menetap di pesisir utara Jawa sejak abad ke-11 Masehi (jauh sebelum berdirinya kerajaan-kerajaan Islam)',
+          'Menandakan bahwa Gresik merupakan pusat kekuasaan Kerajaan Majapahit',
+          'Membuktikan bahwa penyebaran Islam di Jawa hanya dilakukan melalui jalur penaklukan militer'
+        ],
+        answer: 1,
+        explanation: 'Makam Fatimah binti Maimun (1082 M) merupakan salah satu bukti tertua kehadiran pemeluk Islam di Pulau Jawa pada abad ke-11 M, sekaligus menguatkan argumen interaksi langsung dengan dunia Arab (kaligrafi Kufi).'
+      },
+      {
+        id: 35,
+        type: 'pg',
+        bab: 'Bab 5: Sejarah Islam di Nusantara',
+        babNum: 5,
+        level: 'C3',
+        stimulus: `<p>Pengurus ekstrakurikuler Rohis SMP berencana mengadakan festival dakwah remaja melalui lomba musik akustik religi bernuansa Nusantara dan pameran poster digital bernilai akhlak mulia.</p>`,
+        question: 'Bentuk penerapan teladan metode dakwah Wali Songo dalam rencana kegiatan tersebut adalah...',
+        options: [
+          'Memanfaatkan media seni dan budaya yang digemari masyarakat sebagai sarana penyampaian nilai-nilai tauhid dan akhlak secara damai',
+          'Menolak seluruh bentuk kesenian modern karena dianggap tidak sesuai zaman dahulu',
+          'Mewajibkan seluruh peserta lomba mengenakan pakaian adat kerajaan masa lampau',
+          'Membatasi kegiatan dakwah hanya melalui ceramah satu arah di dalam ruang kelas'
+        ],
+        answer: 0,
+        explanation: 'Wali Songo (seperti Sunan Kalijaga dan Sunan Bonang) sukses berdakwah karena menjadikan seni, musik (gamelan/tembang), dan budaya lokal sebagai media pendidikan Islam yang persuasif dan ramah.'
+      },
+      {
+        id: 36,
+        type: 'pg',
+        bab: 'Bab 5: Sejarah Islam di Nusantara',
+        babNum: 5,
+        level: 'C3',
+        stimulus: `<p>Kelompok belajar kelas 9 sedang menyusun poster infografis biografi Wali Songo yang masih rumpang pada bagian pasangan tokoh wali dan ciri khas media dakwahnya.</p>`,
+        question: 'Pasangan nama Wali Songo dan ciri dakwahnya yang paling tepat untuk melengkapi poster tersebut adalah...',
+        options: [
+          'Sunan Ampel — menciptakan tembang <em>Lir-Ilir</em> dan pertunjukan wayang kulit',
+          'Sunan Kalijaga — berdakwah melalui seni wayang kulit, gamelan, dan tembang suluk bernuansa Islami',
+          'Sunan Giri — membangun Masjid Menara Kudus yang berarsitektur mirip candi',
+          'Sunan Kudus — mendirikan jaringan pesantren tertua di Ampeldenta Surabaya dengan ajaran <em>Moh Limo</em>'
+        ],
+        answer: 1,
+        explanation: 'Sunan Kalijaga terkenal berdakwah melalui wayang kulit dan tembang (seperti <em>Lir-Ilir</em>). Adapun <em>Moh Limo</em> & Ampeldenta adalah Sunan Ampel, sedangkan Masjid Menara Kudus dibangun oleh Sunan Kudus.'
+      },
+      {
+        id: 37,
+        type: 'pg',
+        bab: 'Bab 5: Sejarah Islam di Nusantara',
+        babNum: 5,
+        level: 'C4',
+        stimulus: `<table class="w-full text-xs sm:text-sm border-collapse bg-white rounded-xl overflow-hidden border border-slate-200">
+          <thead class="bg-emerald-700 text-white">
+            <tr><th class="p-2 text-left">Teori</th><th class="p-2 text-left">Fokus Bukti Utama</th></tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200">
+            <tr><td class="p-2 font-bold">Makkah</td><td class="p-2">Perkampungan Arab abad ke-7 M & dominasi mazhab Syafi'i.</td></tr>
+            <tr><td class="p-2 font-bold">Gujarat</td><td class="p-2">Corak batu nisan abad ke-13 M & catatan perjalanan Marco Polo.</td></tr>
+            <tr><td class="p-2 font-bold">Persia</td><td class="p-2">Tradisi budaya peringatan 10 Muharam (Tabot) & kesamaan istilah tajwid.</td></tr>
+            <tr><td class="p-2 font-bold">Cina</td><td class="p-2">Kronik Tiongkok, Laksamana Cheng Ho, & arsitektur atap masjid kuno.</td></tr>
+          </tbody>
+        </table>`,
+        question: 'Analisis penyebab munculnya perbedaan empat teori masuknya Islam ke Indonesia di kalangan para sejarawan tersebut adalah...',
+        options: [
+          'Para sejarawan saling menolak bukti arkeologis yang ditemukan di daerah lain',
+          'Proses islamisasi Nusantara berlangsung berabad-abad melalui jalur pelayaran internasional yang kosmopolitan sehingga melibatkan interaksi pedagang dan ulama dari berbagai wilayah sekaligus',
+          'Setiap wilayah di Indonesia hanya pernah dikunjungi oleh satu bangsa asing saja',
+          'Tidak adanya peninggalan sejarah Islam di Indonesia sebelum abad ke-19 Masehi'
+        ],
+        answer: 1,
+        explanation: 'Nusantara berada di jalur perdagangan maritim strategis dunia. Keempat teori tidak saling meniadakan, melainkan saling melengkapi karena Islam datang secara bertahap dari berbagai jalur (Arab, India, Persia, Tiongkok) dalam kurun waktu panjang.'
+      },
+      {
+        id: 38,
+        type: 'pg',
+        bab: 'Bab 5: Sejarah Islam di Nusantara',
+        babNum: 5,
+        level: 'C4',
+        stimulus: `<p>Masjid Menara Kudus (Masjid Al-Aqsa Manarat Qudus) yang didirikan oleh Sunan Kudus memiliki menara bata merah berarsitektur menyerupai bangunan candi Hindu-Jawa, namun berfungsi sebagai tempat mengumandangkan azan dan pusat ibadah salat umat Islam.</p>`,
+        question: 'Analisis bentuk akulturasi budaya dalam strategi dakwah Islam pada peninggalan sejarah tersebut adalah...',
+        options: [
+          'Mencampuradukkan ajaran akidah Hindu dan Islam dalam tata cara salat',
+          'Mempertahankan wujud fisik seni bangunan lokal yang akrab bagi masyarakat sambil mengisi fungsinya dengan nilai tauhid dan ibadah Islam tanpa merusak tradisi',
+          'Menghapus seluruh unsur budaya Jawa agar masyarakat segera berpindah agama',
+          'Menjadikan bangunan candi lama sebagai tempat penyimpanan benda pusaka kerajaan'
+        ],
+        answer: 1,
+        explanation: 'Akulturasi budaya dalam dakwah Islam memadukan bentuk estetika budaya lokal (arsitektur menara candi) dengan substansi nilai-nilai Islam (fungsi masjid dan azan), sehingga masyarakat menerima Islam secara damai tanpa gegar budaya.'
+      },
+      {
+        id: 39,
+        type: 'pg',
+        bab: 'Bab 5: Sejarah Islam di Nusantara',
+        babNum: 5,
+        level: 'C5',
+        stimulus: `<p>Dalam sebuah forum diskusi daring, muncul pernyataan keliru: <em>"Islam dapat menjadi agama mayoritas di Indonesia karena pada masa lalu disebarkan melalui invasi militer dan pemaksaan terhadap penduduk lokal."</em></p>`,
+        question: 'Penilaian yang tepat terhadap pernyataan tersebut berdasarkan fakta sejarah peradaban Islam di Nusantara adalah...',
+        options: [
+          'Benar, karena semua kerajaan Nusantara ditaklukkan oleh pasukan dari Timur Tengah',
+          'Tidak benar dan bertentangan dengan fakta sejarah; Islam berkembang pesat di Nusantara justru melalui jalur damai (perdagangan jujur, pernikahan, pendidikan pesantren, seni budaya, dan keteladanan akhlak)',
+          'Benar sebagian, karena masyarakat pesisir dipaksa masuk Islam agar boleh berdagang',
+          'Tidak benar, karena Islam masuk ke Indonesia setelah masa kemerdekaan tahun 1945'
+        ],
+        answer: 1,
+        explanation: 'Sejarah membuktikan tidak pernah ada ekspedisi militer asing untuk mengislamkan Nusantara. Islam diterima secara sukarela karena sifatnya yang egaliter (tanpa kasta), keluhuran akhlak pedagang/ulama, dan pendekatan budaya yang santun.'
+      },
+      {
+        id: 40,
+        type: 'pg',
+        bab: 'Bab 5: Sejarah Islam di Nusantara',
+        babNum: 5,
+        level: 'C5',
+        stimulus: `<p>Sebuah berita lokal melaporkan adanya aksi vandalisme berupa coretan cat semprot oleh oknum tidak bertanggung jawab pada dinding kawasan situs cagar budaya bersejarah peninggalan wali di Jawa.</p>`,
+        question: 'Penilaian dan sikap yang paling tepat sebagai pelajar muslim terhadap peristiwa tersebut adalah...',
+        options: [
+          'Menganggap hal biasa karena coretan tersebut bagian dari ekspresi seni jalanan remaja',
+          'Mengecam tindakan vandalisme tersebut karena merusak amanah cagar budaya sejarah peradaban Islam, serta turut mengedukasi teman sebaya untuk menjaga kelestarian situs sejarah',
+          'Membiarkannya karena perawatan situs bersejarah sepenuhnya tugas penjaga makam',
+          'Ikut berfoto di depan coretan tersebut lalu mengunggahnya ke media sosial untuk hiburan'
+        ],
+        answer: 1,
+        explanation: 'Situs peninggalan sejarah Islam adalah bukti otentik perjuangan dakwah para ulama. Merusaknya adalah perilaku tercela, sedangkan pelajar muslim wajib merawat, menghormati, dan meneladani nilai dakwah di baliknya.'
+      },
+
+      // ===================== 5 SOAL URAIAN HOTS (E1 - E5) =====================
+      {
+        id: 'E1',
+        type: 'essay',
+        bab: 'Bab 1: Semangat Keilmuan',
+        babNum: 1,
+        level: 'C3',
+        stimulus: `<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="p-2.5 bg-white rounded-xl border border-amber-200"><span class="text-xs font-bold text-amber-700 block">(1)</span><span class="arabic-inline font-bold text-slate-900">لَهُمْ مَغْفِرَةٌ</span></div>
+          <div class="p-2.5 bg-white rounded-xl border border-amber-200"><span class="text-xs font-bold text-amber-700 block">(2)</span><span class="arabic-inline font-bold text-slate-900">تَرْمِيهِمْ بِحِجَارَةٍ</span></div>
+          <div class="p-2.5 bg-white rounded-xl border border-amber-200"><span class="text-xs font-bold text-amber-700 block">(3)</span><span class="arabic-inline font-bold text-slate-900">لَكُمْ تَفَسَّحُوا</span></div>
+          <div class="p-2.5 bg-white rounded-xl border border-amber-200"><span class="text-xs font-bold text-amber-700 block">(4)</span><span class="arabic-inline font-bold text-slate-900">أَنْعَمْتَ عَلَيْهِمْ</span></div>
+        </div>`,
+        question: 'Tentukan hukum bacaan mim sukun beserta alasan pada keempat lafal di atas, lalu berikan 3 contoh nyata penerapan adab di majelis ilmu (kelas/masjid) sesuai Q.S. Al-Mujadilah/58: 11!',
+        keyAnswer: `
+          <div class="space-y-3">
+            <div>
+              <strong class="text-emerald-900">A. Hukum Bacaan Mim Sukun & Alasan:</strong>
+              <ul class="list-disc list-inside mt-1 space-y-1">
+                <li><strong>(1) لَهُمْ مَغْفِرَةٌ:</strong> <em>Idgham Mimi (Mutamatsilain)</em>, karena mim sukun (مْ) bertemu huruf mim (م). Dibaca lebur dengan dengung.</li>
+                <li><strong>(2) تَرْمِيهِمْ بِحِجَارَةٍ:</strong> <em>Ikhfa Syafawi</em>, karena mim sukun (مْ) bertemu huruf ba (ب). Dibaca samar di bibir dengan dengung.</li>
+                <li><strong>(3) لَكُمْ تَفَسَّحُوا:</strong> <em>Izhar Syafawi</em>, karena mim sukun (مْ) bertemu huruf ta (ت). Dibaca jelas di bibir tanpa dengung.</li>
+                <li><strong>(4) أَنْعَمْتَ عَلَيْهِمْ:</strong> <em>Izhar Syafawi</em>, karena mim sukun (مْ) bertemu huruf ta (ت) pada kata <em>an'amta</em>. Dibaca jelas tanpa dengung.</li>
+              </ul>
+            </div>
+            <div>
+              <strong class="text-emerald-900">B. Tiga Contoh Adab di Majelis Ilmu (Q.S. Al-Mujadilah/58: 11):</strong>
+              <ol class="list-decimal list-inside mt-1 space-y-1">
+                <li>Memberi kelapangan tempat duduk bagi teman yang baru datang (tidak menaruh tas di kursi kosong saat ruangan penuh).</li>
+                <li>Menyimak penjelasan guru/penceramah dengan tenang, fokus, dan tidak mengobrol sendiri.</li>
+                <li>Segera merespons dengan sigap dan tertib ketika diminta berpindah posisi atau melaksanakan kebaikan di majelis.</li>
+              </ol>
+            </div>
+          </div>
+        `,
+        rubric: 'Skor Maksimal 20: Menyebutkan 4 hukum bacaan & alasannya dengan benar (skor 12, masing-masing 3 poin) + Memberikan 3 contoh adab majelis ilmu yang relevan (skor 8).'
+      },
+      {
+        id: 'E2',
+        type: 'essay',
+        bab: 'Bab 2: Iman kepada Hari Akhir',
+        babNum: 2,
+        level: 'C4',
+        stimulus: `<p class="italic">"Di dunia digital modern, setiap unggahan foto, komentar, dan jejak aktivitas online tersimpan abadi di server internet (jejak digital) meskipun pengguna merasa sudah menghapusnya di layar ponsel."</p>`,
+        question: 'Analisislah keterkaitan fenomena jejak digital tersebut dengan tahapan peristiwa akhirat (Yaumul Ba’ats, Yaumul Mahsyar, Yaumul Hisab, dan Yaumul Mizan) serta dampaknya terhadap etika bermedia sosial seorang muslim!',
+        keyAnswer: `
+          <div class="space-y-3">
+            <div>
+              <strong class="text-emerald-900">A. Analisis Keterkaitan dengan Tahapan Akhirat:</strong>
+              <ul class="list-disc list-inside mt-1 space-y-1">
+                <li><strong>Yaumul Ba’ats & Yaumul Mahsyar:</strong> Sebagaimana data digital dipanggil kembali dari server, seluruh manusia akan dibangkitkan (<em>Ba’ats</em>) dan dikumpulkan di Padang Mahsyar untuk menerima buku catatan amal yang mencatat seluruh perbuatan tanpa ada yang terhapus.</li>
+                <li><strong>Yaumul Hisab:</strong> Setiap unggahan, komentar, dan penyebaran hoaks akan diperiksa dan dimintai pertanggungjawaban secara detail (bahkan anggota tubuh menjadi saksi).</li>
+                <li><strong>Yaumul Mizan:</strong> Konten positif/dakwah akan memberatkan timbangan kebaikan, sedangkan ujaran kebencian/fitnah digital akan memberatkan timbangan keburukan.</li>
+              </ul>
+            </div>
+            <div>
+              <strong class="text-emerald-900">B. Dampak Terhadap Etika Bermedia Sosial:</strong>
+              <p class="mt-1">Pelajar muslim akan menerapkan prinsip <em>saring sebelum sharing</em>, menjauhi <em>cyberbullying</em> dan hoaks, menjaga aurat/kehormatan di ruang publik digital, serta memanfaatkan media sosial untuk menyebarkan ilmu dan kebaikan.</p>
+            </div>
+          </div>
+        `,
+        rubric: 'Skor Maksimal 20: Menganalisis hubungan jejak digital dengan minimal 3–4 tahapan akhirat secara logis (skor 12) + Menjelaskan dampak nyata pada etika bermedia sosial (skor 8).'
+      },
+      {
+        id: 'E3',
+        type: 'essay',
+        bab: 'Bab 3: Cinta Ilmu',
+        babNum: 3,
+        level: 'C5',
+        stimulus: `<p>Dalam sebuah tugas kelompok proyek PAI, terdapat tiga murid dengan sikap berbeda: <strong>Sinta</strong> menyalin penuh jawaban dari internet (copy-paste) tanpa membaca ulang; <strong>Raka</strong> membagi tugas mencari referensi buku/jurnal, mendiskusikan isinya bersama, lalu menulis kesimpulan dengan bahasa sendiri; sedangkan <strong>Tono</strong> menolak mencari sumber dan hanya meminta namanya dicantumkan di sampul makalah.</p>`,
+        question: 'Nilailah perilaku ketiga murid tersebut berdasarkan adab menuntut ilmu dalam Islam dan berikan rekomendasi langkah perbaikan yang konkret bagi Sinta dan Tono!',
+        keyAnswer: `
+          <div class="space-y-3">
+            <div>
+              <strong class="text-emerald-900">A. Penilaian Perilaku Ketiga Murid:</strong>
+              <ul class="list-disc list-inside mt-1 space-y-1">
+                <li><strong>Raka (Sangat Baik/Terpuji):</strong> Mencerminkan semangat cinta ilmu, literasi kritis, kerja sama amanah, dan kejujuran akademik.</li>
+                <li><strong>Sinta (Kurang Tepat):</strong> Melakukan plagiarisme/jalan pintas yang melanggar kejujuran ilmiah dan membuat ilmu tidak dipahami secara mendalam.</li>
+                <li><strong>Tono (Tercela/Tidak Amanah):</strong> Bersikap malas dan tidak jujur (<em>free rider</em>), bertentangan dengan kewajiban kesungguhan (<em>ijtihad</em>) dalam menuntut ilmu.</li>
+              </ul>
+            </div>
+            <div>
+              <strong class="text-emerald-900">B. Rekomendasi Langkah Perbaikan Konkret:</strong>
+              <ol class="list-decimal list-inside mt-1 space-y-1">
+                <li><strong>Untuk Sinta:</strong> Membaca kembali artikel yang ditemukan, menandai poin pentingnya, mencantumkan sumber rujukan, dan memparafrasekan dengan kalimat sendiri.</li>
+                <li><strong>Untuk Tono:</strong> Meminta maaf kepada kelompok, mengambil porsi tugas spesifik (misal merangkum satu subbab atau menyusun bahan presentasi), dan berkomitmen berkontribusi aktif.</li>
+              </ol>
+            </div>
+          </div>
+        `,
+        rubric: 'Skor Maksimal 20: Menilai perilaku ketiga murid secara objektif berdasarkan adab ilmu (skor 10) + Memberikan rekomendasi perbaikan konkret dan aplikatif untuk Sinta dan Tono (skor 10).'
+      },
+      {
+        id: 'E4',
+        type: 'essay',
+        bab: 'Bab 4: Penyembelihan, Kurban & Akikah',
+        babNum: 4,
+        level: 'C4',
+        stimulus: `<p>Rafi (siswa kelas 9 SMP) sejak bayi belum sempat diakikahkan karena keterbatasan ekonomi orang tuanya saat itu. Menjelang Hari Raya Iduladha tahun ini, keluarga Rafi memiliki rezeki yang cukup untuk membeli satu ekor kambing yang memenuhi syarat.</p>`,
+        question: 'Bandingkan ketentuan pelaksanaan kurban dan akikah (dari segi waktu, hukum, jumlah hewan, dan pembagian daging), lalu analisislah pendapat tentang ibadah mana yang sebaiknya didahulukan oleh keluarga Rafi!',
+        keyAnswer: `
+          <div class="space-y-3">
+            <div>
+              <strong class="text-emerald-900">A. Perbandingan Kurban dan Akikah:</strong>
+              <ul class="list-disc list-inside mt-1 space-y-1">
+                <li><strong>Waktu:</strong> Kurban dilaksanakan pada 10 Zulhijah (setelah salat Id) hingga hari Tasyrik (11–13 Zulhijah); Akikah diutamakan pada hari ke-7 kelahiran (atau ke-14/21, dan boleh saat mampu).</li>
+                <li><strong>Hukum:</strong> Keduanya berhukum <em>sunah muakkadah</em> (sunah yang sangat dianjurkan).</li>
+                <li><strong>Jumlah Hewan:</strong> Kurban 1 ekor kambing untuk 1 orang (atau 1 sapi untuk 7 orang); Akikah 2 ekor kambing untuk anak laki-laki dan 1 ekor untuk anak perempuan.</li>
+                <li><strong>Pembagian Daging:</strong> Kurban disunahkan dibagikan dalam keadaan mentah; Akikah disunahkan dibagikan dalam keadaan sudah dimasak.</li>
+              </ul>
+            </div>
+            <div>
+              <strong class="text-emerald-900">B. Analisis Prioritas untuk Keluarga Rafi:</strong>
+              <p class="mt-1">Keluarga Rafi sebaiknya <strong>mendahulukan ibadah kurban</strong> karena waktunya terbatas dan khusus pada momentum Hari Raya Iduladha (sedangkan akikah memiliki kelonggaran waktu di luar hari raya, dan bagi anak laki-laki jumlah utamanya 2 ekor kambing). Adapun jika kelak rezeki bertambah, orang tua dapat menunaikan akikah di waktu lainnya.</p>
+            </div>
+          </div>
+        `,
+        rubric: 'Skor Maksimal 20: Membandingkan 4 aspek kurban & akikah dengan tepat (skor 12) + Analisis pertimbangan prioritas ibadah yang logis sesuai fikih (skor 8).'
+      },
+      {
+        id: 'E5',
+        type: 'essay',
+        bab: 'Bab 5: Sejarah Islam di Nusantara',
+        babNum: 5,
+        level: 'C5',
+        stimulus: `<p>Penyebaran Islam di Nusantara berlangsung damai melalui lima saluran utama: <strong>perdagangan, pernikahan, pendidikan pesantren, kesenian budaya, dan ajaran tasawuf</strong>.</p>`,
+        question: 'Nilailah saluran mana yang menurutmu paling efektif mengakar kuat di masyarakat Nusantara beserta alasannya, kemudian rancanglah sebuah ide program dakwah digital kreatif yang terinspirasi dari pendekatan dakwah para ulama Nusantara untuk generasi Z!',
+        keyAnswer: `
+          <div class="space-y-3">
+            <div>
+              <strong class="text-emerald-900">A. Penilaian Saluran Paling Efektif (Contoh Analisis):</strong>
+              <p class="mt-1"><strong>Pendidikan Pesantren & Kesenian Budaya:</strong> Pendidikan pesantren efektif mencetak kader ulama lokal yang menyebarkan ilmu secara berkelanjutan hingga ke pelosok desa, sementara kesenian (wayang, tembang, arsitektur) efektif menjembatani nilai tauhid dengan budaya lokal tanpa menimbulkan konflik.</p>
+            </div>
+            <div>
+              <strong class="text-emerald-900">B. Rancangan Program Dakwah Digital Generasi Z:</strong>
+              <ul class="list-disc list-inside mt-1 space-y-1">
+                <li><strong>Nama Program:</strong> <em>"Ngaji Kalcer & Akhlak Reels"</em> (Konten video pendek 60 detik di Instagram/TikTok/YouTube Shorts).</li>
+                <li><strong>Konsep & Metode:</strong> Mengadaptasi gaya <em>tembang/tutur Wali Songo</em> ke dalam musik akustik lo-fi remaja, komik strip digital, dan kisah teladan sejarah Islam Nusantara yang dikaitkan dengan isu remaja (anti-perundungan, etika medsos, semangat belajar).</li>
+              </ul>
+            </div>
+          </div>
+        `,
+        rubric: 'Skor Maksimal 20: Memberikan penilaian logis terhadap efektivitas saluran dakwah Nusantara (skor 10) + Merancang program dakwah digital kreatif yang relevan untuk Gen Z dan terinspirasi metode ulama Nusantara (skor 10).'
+      }
+    ];
+
+    // =========================================================================
+    // STATE APLIKASI
+    // =========================================================================
+    const state = {
+      studentName: '',
+      studentClass: '',
+      mode: 'practice', // 'practice' | 'exam'
+      currentIndex: 0,
+      userAnswers: {},      // { questionId: optionIndex (0-3) }
+      essayResponses: {},   // { essayId: text }
+      essayCompleted: {},   // { essayId: boolean }
+      streak: 0,
+      maxStreak: 0,
+      isSubmitted: false
+    };
+
+    // =========================================================================
+    // REFERENSI ELEMEN DOM
+    // =========================================================================
+    const startScreen = document.getElementById('start-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const resultScreen = document.getElementById('result-screen');
+
+    const toastContainer = document.getElementById('toast-container');
+    const confirmModal = document.getElementById('confirm-modal');
+
+    // =========================================================================
+    // HELPER: TOAST & MODAL KONFIRMASI (PENGGANTI ALERT/CONFIRM)
+    // =========================================================================
+    function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      const colors = {
+        success: 'bg-emerald-800 text-white border-emerald-600',
+        warning: 'bg-amber-600 text-white border-amber-400',
+        error: 'bg-rose-700 text-white border-rose-500',
+        info: 'bg-slate-800 text-white border-slate-600'
+      };
+      toast.className = `pointer-events-auto px-4 py-3 rounded-2xl shadow-xl border text-xs sm:text-sm font-bold flex items-center gap-2 animate-pop ${colors[type] || colors.info}`;
+      toast.innerHTML = `<span>${message}</span>`;
+      toastContainer.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 2800);
+    }
+
+    function openConfirmModal(title, message, onConfirm) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-message').textContent = message;
+      confirmModal.classList.remove('hidden');
+      confirmModal.classList.add('flex');
+
+      const btnConfirm = document.getElementById('modal-confirm');
+      const btnCancel = document.getElementById('modal-cancel');
+
+      const cleanup = () => {
+        confirmModal.classList.add('hidden');
+        confirmModal.classList.remove('flex');
+        btnConfirm.onclick = null;
+        btnCancel.onclick = null;
+      };
+
+      btnCancel.onclick = cleanup;
+      btnConfirm.onclick = () => {
+        cleanup();
+        onConfirm();
+      };
+    }
+
+    // =========================================================================
+    // MULAI KUIS
+    // =========================================================================
+    document.getElementById('btn-start-quiz').addEventListener('click', () => {
+      state.studentName = document.getElementById('student-name').value.trim() || 'Peserta Didik Kelas 9';
+      state.studentClass = document.getElementById('student-class').value.trim() || 'Kelas IX SMP';
+      const selectedMode = document.querySelector('input[name="quiz-mode"]:checked').value;
+      state.mode = selectedMode;
+      state.currentIndex = 0;
+      state.userAnswers = {};
+      state.essayResponses = {};
+      state.essayCompleted = {};
+      state.streak = 0;
+      state.maxStreak = 0;
+      state.isSubmitted = false;
+
+      // Update Header Info
+      document.getElementById('display-student').textContent = `${state.studentName} • ${state.studentClass}`;
+      const badgeMode = document.getElementById('badge-mode');
+      if (state.mode === 'practice') {
+        badgeMode.textContent = 'Mode Latihan';
+        badgeMode.className = 'px-2 py-0.5 rounded-md text-[11px] font-bold bg-emerald-100 text-emerald-800';
+      } else {
+        badgeMode.textContent = 'Mode Ujian ASAS';
+        badgeMode.className = 'px-2 py-0.5 rounded-md text-[11px] font-bold bg-amber-100 text-amber-800';
+      }
+
+      startScreen.classList.add('hidden');
+      resultScreen.classList.add('hidden');
+      quizScreen.classList.remove('hidden');
+
+      buildNavigatorGrid();
+      renderCurrentQuestion();
+      updateTopStats();
+      showToast(`Semangat mengerjakan, ${state.studentName}!`, 'success');
+    });
+
+    // =========================================================================
+    // NAVIGATOR GRID (1-40 PG & E1-E5 URAIAN)
+    // =========================================================================
+    function buildNavigatorGrid() {
+      const gridPg = document.getElementById('grid-pg');
+      const gridEssay = document.getElementById('grid-essay');
+      gridPg.innerHTML = '';
+      gridEssay.innerHTML = '';
+
+      quizItems.forEach((item, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.dataset.index = idx;
+        btn.textContent = item.id;
+        btn.className = 'h-9 rounded-xl font-bold text-xs transition flex items-center justify-center border';
+        btn.addEventListener('click', () => {
+          state.currentIndex = idx;
+          renderCurrentQuestion();
+          // Tutup drawer di mobile jika terbuka
+          const navPanel = document.getElementById('navigator-panel');
+          if (window.innerWidth < 1024) {
+            navPanel.classList.add('hidden');
+          }
+        });
+
+        if (item.type === 'pg') {
+          gridPg.appendChild(btn);
+        } else {
+          gridEssay.appendChild(btn);
+        }
+      });
+      updateNavigatorStyles();
+    }
+
+    function updateNavigatorStyles() {
+      const allBtns = document.querySelectorAll('#grid-pg button, #grid-essay button');
+      let pgAnsweredCount = 0;
+      let essayDoneCount = 0;
+
+      allBtns.forEach((btn) => {
+        const idx = parseInt(btn.dataset.index, 10);
+        const item = quizItems[idx];
+        const isCurrent = idx === state.currentIndex;
+
+        let baseClass = 'h-9 rounded-xl font-bold text-xs transition flex items-center justify-center ';
+        if (isCurrent) {
+          baseClass += 'ring-2 ring-offset-1 ring-amber-500 scale-105 ';
+        }
+
+        if (item.type === 'pg') {
+          const userAns = state.userAnswers[item.id];
+          if (userAns !== undefined) {
+            pgAnsweredCount++;
+            if (state.mode === 'practice') {
+              if (userAns === item.answer) {
+                baseClass += 'bg-emerald-500 text-white border-emerald-600';
+              } else {
+                baseClass += 'bg-rose-500 text-white border-rose-600';
+              }
+            } else {
+              baseClass += 'bg-sky-500 text-white border-sky-600';
+            }
+          } else {
+            baseClass += 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200';
+          }
+        } else {
+          const hasText = (state.essayResponses[item.id] || '').trim().length > 0;
+          const isChecked = !!state.essayCompleted[item.id];
+          if (hasText || isChecked) {
+            essayDoneCount++;
+            baseClass += 'bg-amber-500 text-white border-amber-600';
+          } else {
+            baseClass += 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200';
+          }
+        }
+        btn.className = baseClass;
+      });
+
+      document.getElementById('pg-answered-counter').textContent = `${pgAnsweredCount}/40`;
+      document.getElementById('essay-answered-counter').textContent = `${essayDoneCount}/5`;
+
+      const totalProgress = Math.round(((pgAnsweredCount + essayDoneCount) / quizItems.length) * 100);
+      document.getElementById('progress-bar').style.width = `${Math.max(2, totalProgress)}%`;
+    }
+
+    // =========================================================================
+    // UPDATE STATISTIK ATAS (SKOR / PROGRES / STREAK)
+    // =========================================================================
+    function updateTopStats() {
+      const statLabel = document.getElementById('stat-label');
+      const statValue = document.getElementById('stat-value');
+      const streakContainer = document.getElementById('streak-container');
+      const streakCount = document.getElementById('streak-count');
+
+      if (state.mode === 'practice') {
+        let correct = 0;
+        quizItems.forEach((item) => {
+          if (item.type === 'pg' && state.userAnswers[item.id] === item.answer) {
+            correct++;
+          }
+        });
+        const score = Math.round((correct / 40) * 100);
+        statLabel.textContent = 'Skor Sementara:';
+        statValue.textContent = `${score} (${correct}/40)`;
+
+        if (state.streak >= 2) {
+          streakContainer.classList.remove('hidden');
+          streakContainer.classList.add('flex');
+          streakCount.textContent = `${state.streak}x Beruntun!`;
+        } else {
+          streakContainer.classList.add('hidden');
+          streakContainer.classList.remove('flex');
+        }
+      } else {
+        const answered = Object.keys(state.userAnswers).length;
+        statLabel.textContent = 'Terjawab PG:';
+        statValue.textContent = `${answered} / 40`;
+        streakContainer.classList.add('hidden');
+      }
+    }
+
+    // =========================================================================
+    // RENDER SOAL AKTIF
+    // =========================================================================
+    function renderCurrentQuestion() {
+      const item = quizItems[state.currentIndex];
+      const card = document.getElementById('question-card');
+      card.classList.remove('animate-pop');
+      void card.offsetWidth; // trigger reflow
+      card.classList.add('animate-pop');
+
+      // Badges
+      if (item.type === 'pg') {
+        document.getElementById('q-number-badge').textContent = `Soal ${item.id} / 40`;
+        document.getElementById('q-type-badge').textContent = 'Pilihan Ganda';
+        document.getElementById('q-type-badge').className = 'px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 font-semibold text-xs';
+      } else {
+        document.getElementById('q-number-badge').textContent = `Uraian ${item.id}`;
+        document.getElementById('q-type-badge').textContent = 'Uraian HOTS';
+        document.getElementById('q-type-badge').className = 'px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 font-bold text-xs';
+      }
+      document.getElementById('q-bab-badge').textContent = item.bab;
+      document.getElementById('q-level-badge').textContent = `Level ${item.level}`;
+
+      // Stimulus & Pertanyaan
+      document.getElementById('stimulus-content').innerHTML = item.stimulus;
+      document.getElementById('question-stem').innerHTML = item.question;
+
+      const mcqContainer = document.getElementById('mcq-options-container');
+      const essayContainer = document.getElementById('essay-container');
+      const expBox = document.getElementById('explanation-box');
+      const expHeader = document.getElementById('explanation-header');
+      const expContent = document.getElementById('explanation-content');
+
+      expBox.classList.add('hidden');
+
+      if (item.type === 'pg') {
+        mcqContainer.classList.remove('hidden');
+        essayContainer.classList.add('hidden');
+        mcqContainer.innerHTML = '';
+
+        const letters = ['A', 'B', 'C', 'D'];
+        const userAns = state.userAnswers[item.id];
+        const isAnswered = userAns !== undefined;
+
+        item.options.forEach((optText, optIdx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+
+          let btnStyle = 'w-full text-left p-4 rounded-2xl border-2 transition flex items-start gap-3.5 group ';
+          let badgeStyle = 'w-8 h-8 rounded-xl font-extrabold text-sm flex items-center justify-center shrink-0 transition ';
+
+          if (state.mode === 'practice' && isAnswered) {
+            btn.disabled = true;
+            if (optIdx === item.answer) {
+              btnStyle += 'bg-emerald-50 border-emerald-500 text-emerald-950';
+              badgeStyle += 'bg-emerald-600 text-white';
+            } else if (optIdx === userAns) {
+              btnStyle += 'bg-rose-50 border-rose-500 text-rose-950';
+              badgeStyle += 'bg-rose-600 text-white';
+            } else {
+              btnStyle += 'bg-white border-slate-200 text-slate-400 opacity-70';
+              badgeStyle += 'bg-slate-100 text-slate-400';
+            }
+          } else {
+            // Mode Ujian atau belum dijawab
+            if (userAns === optIdx) {
+              btnStyle += 'bg-emerald-50/80 border-emerald-600 text-emerald-950 shadow-sm';
+              badgeStyle += 'bg-emerald-600 text-white';
+            } else {
+              btnStyle += 'bg-white border-slate-200 hover:border-emerald-400 hover:bg-emerald-50/30 text-slate-800';
+              badgeStyle += 'bg-slate-100 group-hover:bg-emerald-100 text-slate-700 group-hover:text-emerald-800';
+            }
+          }
+
+          btn.className = btnStyle;
+          btn.innerHTML = `
+            <span class="${badgeStyle}">${letters[optIdx]}</span>
+            <span class="text-sm sm:text-base font-medium leading-relaxed pt-0.5">${optText}</span>
+          `;
+
+          btn.addEventListener('click', () => handleSelectOption(item, optIdx));
+          mcqContainer.appendChild(btn);
+        });
+
+        // Tampilkan pembahasan langsung pada mode latihan jika sudah dijawab
+        if (state.mode === 'practice' && isAnswered) {
+          const isCorrect = userAns === item.answer;
+          expBox.classList.remove('hidden');
+          if (isCorrect) {
+            expBox.className = 'mt-6 rounded-2xl border-2 border-emerald-300 bg-emerald-50/80 p-5 animate-pop';
+            expHeader.className = 'flex items-center gap-2 font-extrabold text-sm sm:text-base mb-2 text-emerald-800';
+            expHeader.innerHTML = `<span>✅ MasyaAllah, Jawabanmu Benar! (Kunci: ${letters[item.answer]})</span>`;
+          } else {
+            expBox.className = 'mt-6 rounded-2xl border-2 border-rose-300 bg-rose-50/80 p-5 animate-pop';
+            expHeader.className = 'flex items-center gap-2 font-extrabold text-sm sm:text-base mb-2 text-rose-800';
+            expHeader.innerHTML = `<span>💡 Belum Tepat — Kunci Jawaban: ${letters[item.answer]}</span>`;
+          }
+          expContent.innerHTML = item.explanation;
+        }
+      } else {
+        // SOAL URAIAN (E1 - E5)
+        mcqContainer.classList.add('hidden');
+        essayContainer.classList.remove('hidden');
+
+        const essayInput = document.getElementById('essay-input');
+        const essayCheck = document.getElementById('essay-self-check');
+        essayInput.value = state.essayResponses[item.id] || '';
+        essayCheck.checked = !!state.essayCompleted[item.id];
+
+        essayInput.oninput = (e) => {
+          state.essayResponses[item.id] = e.target.value;
+          updateNavigatorStyles();
+        };
+
+        essayCheck.onchange = (e) => {
+          state.essayCompleted[item.id] = e.target.checked;
+          updateNavigatorStyles();
+          if (e.target.checked) {
+            showToast(`Uraian ${item.id} ditandai selesai dipelajari!`, 'success');
+          }
+        };
+
+        document.getElementById('btn-toggle-rubric').onclick = () => {
+          if (expBox.classList.contains('hidden')) {
+            expBox.classList.remove('hidden');
+            expBox.className = 'mt-6 rounded-2xl border-2 border-amber-300 bg-amber-50/70 p-5 animate-pop';
+            expHeader.className = 'flex items-center gap-2 font-extrabold text-sm sm:text-base mb-3 text-amber-900';
+            expHeader.innerHTML = `<span>📋 Kunci Jawaban & Pedoman Penskoran (${item.id})</span>`;
+            expContent.innerHTML = `
+              ${item.keyAnswer}
+              <div class="mt-3 pt-3 border-t border-amber-200 text-xs font-bold text-amber-800">
+                🎯 Rubrik Penilaian: ${item.rubric}
+              </div>
+            `;
+          } else {
+            expBox.classList.add('hidden');
+          }
+        };
+      }
+
+      // Update tombol Prev / Next
+      document.getElementById('btn-prev').disabled = state.currentIndex === 0;
+      const btnNext = document.getElementById('btn-next');
+      if (state.currentIndex === quizItems.length - 1) {
+        btnNext.innerHTML = `<span>Lihat Rapor Hasil</span> <span>🏁</span>`;
+      } else {
+        btnNext.innerHTML = `
+          <span>Selanjutnya</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+          </svg>
+        `;
+      }
+
+      updateNavigatorStyles();
+    }
+
+    function handleSelectOption(item, optIdx) {
+      if (state.mode === 'practice' && state.userAnswers[item.id] !== undefined) {
+        return; // Sudah dikunci di mode latihan
+      }
+
+      state.userAnswers[item.id] = optIdx;
+
+      if (state.mode === 'practice') {
+        if (optIdx === item.answer) {
+          state.streak++;
+          if (state.streak > state.maxStreak) state.maxStreak = state.streak;
+          if (state.streak === 3) {
+            showToast('🔥 Mantap! 3 Jawaban Benar Beruntun!', 'success');
+          } else if (state.streak === 5) {
+            showToast('🌟 Luar Biasa! 5x Streak Jawaban Benar!', 'success');
+          }
+        } else {
+          state.streak = 0;
+        }
+      }
+
+      updateTopStats();
+      renderCurrentQuestion();
+    }
+
+    // =========================================================================
+    // KONTROL NAVIGASI TOMBOL
+    // =========================================================================
+    document.getElementById('btn-prev').addEventListener('click', () => {
+      if (state.currentIndex > 0) {
+        state.currentIndex--;
+        renderCurrentQuestion();
+      }
+    });
+
+    document.getElementById('btn-next').addEventListener('click', () => {
+      if (state.currentIndex < quizItems.length - 1) {
+        state.currentIndex++;
+        renderCurrentQuestion();
+      } else {
+        promptFinishQuiz();
+      }
+    });
+
+    document.getElementById('btn-toggle-nav').addEventListener('click', () => {
+      const panel = document.getElementById('navigator-panel');
+      panel.classList.toggle('hidden');
+      if (!panel.classList.contains('hidden')) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+
+    document.getElementById('btn-close-nav').addEventListener('click', () => {
+      document.getElementById('navigator-panel').classList.add('hidden');
+    });
+
+    document.getElementById('btn-finish-bottom').addEventListener('click', promptFinishQuiz);
+    document.getElementById('btn-finish-side').addEventListener('click', promptFinishQuiz);
+
+    function promptFinishQuiz() {
+      const answeredPg = Object.keys(state.userAnswers).length;
+      const unanswered = 40 - answeredPg;
+      const msg = unanswered > 0
+        ? `Masih ada ${unanswered} soal pilihan ganda yang belum dijawab. Apakah kamu yakin ingin menyelesaikan kuis dan melihat rapor hasil sekarang?`
+        : `Semua 40 soal pilihan ganda telah dijawab! Yakin ingin mengumpulkan dan melihat rapor hasil akhir?`;
+
+      openConfirmModal('Kumpulkan Jawaban Kuis?', msg, () => {
+        showResultScreen();
+      });
+    }
+
+    // =========================================================================
+    // LAYAR HASIL AKHIR & RAPOR MINI
+    // =========================================================================
+    function showResultScreen() {
+      state.isSubmitted = true;
+      quizScreen.classList.add('hidden');
+      resultScreen.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Hitung Skor & Statistik Per Bab
+      let totalCorrect = 0;
+      const babStats = {
+        1: { title: 'Bab 1: Semangat Keilmuan & Mim Sukun', correct: 0, total: 8 },
+        2: { title: 'Bab 2: Iman kepada Hari Akhir', correct: 0, total: 8 },
+        3: { title: 'Bab 3: Cinta Ilmu & Adab Digital', correct: 0, total: 8 },
+        4: { title: 'Bab 4: Penyembelihan, Kurban & Akikah', correct: 0, total: 8 },
+        5: { title: 'Bab 5: Sejarah Islam di Nusantara', correct: 0, total: 8 }
+      };
+
+      quizItems.forEach((item) => {
+        if (item.type === 'pg') {
+          if (state.userAnswers[item.id] === item.answer) {
+            totalCorrect++;
+            babStats[item.babNum].correct++;
+          }
+        }
+      });
+
+      const finalScore = Math.round((totalCorrect / 40) * 100);
+      const wrongOrBlank = 40 - totalCorrect;
+
+      let essayDone = 0;
+      quizItems.forEach((item) => {
+        if (item.type === 'essay') {
+          if ((state.essayResponses[item.id] || '').trim().length > 0 || state.essayCompleted[item.id]) {
+            essayDone++;
+          }
+        }
+      });
+
+      // Predikat
+      let predicate = 'Perlu Bimbingan';
+      if (finalScore >= 90) predicate = 'Mumtaz (Sangat Memuaskan) 🌟';
+      else if (finalScore >= 80) predicate = 'Jayyid Jiddan (Baik Sekali) 🏆';
+      else if (finalScore >= 70) predicate = 'Jayyid (Baik / Tuntas) ✅';
+
+      document.getElementById('res-student-name').textContent = state.studentName;
+      document.getElementById('res-student-meta').textContent = `${state.studentClass} • Mode: ${state.mode === 'practice' ? 'Latihan Interaktif' : 'Ujian ASAS'}`;
+      document.getElementById('res-score').textContent = finalScore;
+      document.getElementById('res-predicate').textContent = predicate;
+      document.getElementById('res-correct').textContent = `${totalCorrect} / 40`;
+      document.getElementById('res-wrong').textContent = wrongOrBlank;
+      document.getElementById('res-streak').textContent = state.mode === 'practice' ? `${state.maxStreak}x 🔥` : 'Mode Ujian';
+      document.getElementById('res-essay-done').textContent = `${essayDone} / 5`;
+
+      // Render Bar Chart Per Bab
+      const chartContainer = document.getElementById('bab-chart-container');
+      chartContainer.innerHTML = '';
+      Object.values(babStats).forEach((b) => {
+        const pct = Math.round((b.correct / b.total) * 100);
+        let barColor = 'bg-emerald-500';
+        if (pct < 50) barColor = 'bg-rose-500';
+        else if (pct < 75) barColor = 'bg-amber-500';
+
+        const row = document.createElement('div');
+        row.className = 'bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80';
+        row.innerHTML = `
+          <div class="flex justify-between items-center text-xs sm:text-sm font-bold mb-1.5">
+            <span class="text-slate-800">${b.title}</span>
+            <span class="text-emerald-800">${b.correct}/${b.total} Benar (${pct}%)</span>
+          </div>
+          <div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
+            <div class="${barColor} h-3 rounded-full transition-all duration-700" style="width: ${pct}%"></div>
+          </div>
+        `;
+        chartContainer.appendChild(row);
+      });
+
+      buildFullReview();
+    }
+
+    function buildFullReview() {
+      const reviewList = document.getElementById('review-list');
+      reviewList.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      quizItems.forEach((item) => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3';
+
+        if (item.type === 'pg') {
+          const userAns = state.userAnswers[item.id];
+          const isCorrect = userAns === item.answer;
+          const userText = userAns !== undefined ? `${letters[userAns]}. ${item.options[userAns]}` : 'Tidak dijawab';
+          const keyText = `${letters[item.answer]}. ${item.options[item.answer]}`;
+
+          card.innerHTML = `
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-white font-bold text-xs">No. ${item.id}</span>
+                <span class="text-xs font-bold text-emerald-700">${item.bab} (${item.level})</span>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg text-xs font-extrabold ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                ${isCorrect ? '✅ Benar' : '❌ Belum Tepat'}
+              </span>
+            </div>
+            <div class="text-xs sm:text-sm bg-amber-50/70 p-3 rounded-xl border border-amber-100">${item.stimulus}</div>
+            <p class="font-bold text-sm sm:text-base text-slate-900">${item.question}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+              <div class="p-2.5 rounded-xl ${isCorrect ? 'bg-emerald-50 border border-emerald-200 text-emerald-900' : 'bg-rose-50 border border-rose-200 text-rose-900'}">
+                <strong>Jawabanmu:</strong> ${userText}
+              </div>
+              <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900">
+                <strong>Kunci Jawaban:</strong> ${keyText}
+              </div>
+            </div>
+            <div class="text-xs sm:text-sm text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-200/70">
+              <strong class="text-slate-800">Pembahasan:</strong> ${item.explanation}
+            </div>
+          `;
+        } else {
+          const userEssay = (state.essayResponses[item.id] || '').trim() || '(Belum menuliskan jawaban)';
+          card.innerHTML = `
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-lg bg-amber-600 text-white font-bold text-xs">Uraian ${item.id}</span>
+                <span class="text-xs font-bold text-emerald-700">${item.bab} (${item.level})</span>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 text-xs font-bold">Soal Uraian HOTS</span>
+            </div>
+            <div class="text-xs sm:text-sm bg-amber-50/70 p-3 rounded-xl border border-amber-100">${item.stimulus}</div>
+            <p class="font-bold text-sm sm:text-base text-slate-900">${item.question}</p>
+            <div class="p-3 rounded-xl bg-sky-50 border border-sky-200 text-xs sm:text-sm text-sky-950">
+              <strong>Jawabanmu:</strong><br/>
+              <span class="whitespace-pre-line">${userEssay}</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-emerald-50/80 border border-emerald-200 text-xs sm:text-sm text-slate-800">
+              ${item.keyAnswer}
+              <div class="mt-2 pt-2 border-t border-emerald-200 font-bold text-emerald-900">🎯 ${item.rubric}</div>
+            </div>
+          `;
+        }
+
+        reviewList.appendChild(card);
+      });
+    }
+
+    document.getElementById('btn-toggle-review').addEventListener('click', () => {
+      const rev = document.getElementById('full-review-container');
+      rev.classList.toggle('hidden');
+      if (!rev.classList.contains('hidden')) {
+        rev.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    document.getElementById('btn-restart').addEventListener('click', () => {
+      openConfirmModal('Ulangi Kuis dari Awal?', 'Semua progres jawaban saat ini akan diatur ulang. Lanjutkan?', () => {
+        resultScreen.classList.add('hidden');
+        document.getElementById('full-review-container').classList.add('hidden');
+        startScreen.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
