@@ -1,0 +1,2242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASAS Informatika Kelas IX - Tahun Ajaran 2026/2027</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          animation: {
+            'bounce-short': 'bounce 0.6s ease-in-out 1',
+            'pop': 'pop 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+            'float': 'float 3s ease-in-out infinite',
+          },
+          keyframes: {
+            pop: {
+              '0%': { transform: 'scale(0.95)', opacity: '0.7' },
+              '100%': { transform: 'scale(1)', opacity: '1' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-6px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at top left, #eef2ff 0%, #f8fafc 45%, #fdf2f8 100%);
+      min-height: 100vh;
+    }
+    .option-card {
+      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .option-card:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+    .option-card:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+    .spreadsheet-table th {
+      background-color: #e2e8f0;
+      color: #1e293b;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      border: 1px solid #cbd5e1;
+      padding: 6px 10px;
+    }
+    .spreadsheet-table td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 10px;
+      font-size: 0.84rem;
+      background-color: #ffffff;
+    }
+    .spreadsheet-table td.row-num {
+      background-color: #f1f5f9;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      text-align: center;
+      color: #475569;
+      width: 36px;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    @media print {
+      body {
+        background: #ffffff !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-break-inside {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-indigo-600 selection:text-white">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Custom Modal Dialog (Replaces alert/confirm) -->
+  <div id="custom-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-pop">
+      <div id="modal-icon" class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-2xl bg-indigo-100 text-indigo-600">
+        🚀
+      </div>
+      <h3 id="modal-title" class="text-xl font-extrabold text-slate-900 mb-2">Konfirmasi</h3>
+      <p id="modal-message" class="text-slate-600 text-sm leading-relaxed mb-6">Pesan konfirmasi di sini.</p>
+      <div class="flex items-center justify-end gap-3">
+        <button id="modal-cancel-btn" class="px-4 py-2.5 rounded-xl font-semibold text-sm text-slate-600 hover:bg-slate-100 transition">
+          Batal
+        </button>
+        <button id="modal-confirm-btn" class="px-5 py-2.5 rounded-xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-200 transition">
+          Ya, Lanjutkan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       SCREEN 1: START SCREEN
+  ========================================================== -->
+  <section id="start-screen" class="min-h-screen flex items-center justify-center p-4 sm:p-6">
+    <div class="max-w-4xl w-full bg-white/95 backdrop-blur-md rounded-3xl shadow-xl border border-white/80 overflow-hidden">
+      <!-- Hero Banner -->
+      <div class="bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 p-6 sm:p-10 text-white relative overflow-hidden">
+        <div class="absolute -right-10 -top-10 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
+        <div class="absolute left-1/3 -bottom-12 w-56 h-56 bg-fuchsia-400/20 rounded-full blur-2xl"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold tracking-wider uppercase mb-3">
+              <span>⚡ Asesmen Sumatif Akhir Semester</span>
+              <span>•</span>
+              <span>TA 2026/2027</span>
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight mb-2">
+              ASAS Informatika Kelas IX
+            </h1>
+            <p class="text-indigo-100 text-sm sm:text-base max-w-xl">
+              Uji pemahaman literasi digital, keamanan data pribadi, dan berpikir komputasional berbasis lembar kerja dalam tantangan kuis interaktif!
+            </p>
+          </div>
+          <div class="bg-white/15 backdrop-blur-md border border-white/25 rounded-2xl p-4 shrink-0 text-sm">
+            <div class="text-indigo-200 text-xs font-semibold uppercase">Guru Penyusun</div>
+            <div class="font-bold text-white text-base mt-0.5">Dewi Karmilawati, SH</div>
+            <div class="mt-2 pt-2 border-t border-white/20 flex items-center gap-3 text-xs font-medium">
+              <span class="bg-white/20 px-2.5 py-1 rounded-lg">40 Pilihan Ganda</span>
+              <span class="bg-white/20 px-2.5 py-1 rounded-lg">5 Essai Kasus</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content & Form -->
+      <div class="p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Left: Kisi-kisi Summary -->
+        <div class="lg:col-span-7 space-y-4">
+          <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+            <span>📚</span> Cakupan Materi & Kisi-Kisi Soal
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="p-3.5 rounded-2xl bg-rose-50/80 border border-rose-100">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold px-2 py-0.5 rounded-md bg-rose-100 text-rose-700">No. 1 – 10</span>
+                <span class="text-xs font-semibold text-rose-500">C2 – C4</span>
+              </div>
+              <h3 class="font-bold text-slate-800 text-sm">Perundungan Digital</h3>
+              <p class="text-xs text-slate-600 mt-1">Bentuk & dampak cyberbullying di ruang publik virtual & media pers.</p>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-amber-50/80 border border-amber-100">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold px-2 py-0.5 rounded-md bg-amber-100 text-amber-700">No. 11 – 20</span>
+                <span class="text-xs font-semibold text-amber-600">C2 – C4</span>
+              </div>
+              <h3 class="font-bold text-slate-800 text-sm">Etika & Kewargaan Digital</h3>
+              <p class="text-xs text-slate-600 mt-1">Toleransi, empati, netiket, anti-hoaks, & hak cipta digital.</p>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-100">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700">No. 21 – 30</span>
+                <span class="text-xs font-semibold text-emerald-600">C3 – C5</span>
+              </div>
+              <h3 class="font-bold text-slate-800 text-sm">Keamanan Data & Privasi</h3>
+              <p class="text-xs text-slate-600 mt-1">Jejak digital, data privat vs publik, 2FA, OTP, & proteksi identitas.</p>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-sky-50/80 border border-sky-100">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold px-2 py-0.5 rounded-md bg-sky-100 text-sky-700">No. 31 – 40</span>
+                <span class="text-xs font-semibold text-sky-600">C3 – C5</span>
+              </div>
+              <h3 class="font-bold text-slate-800 text-sm">Berpikir Komputasional</h3>
+              <p class="text-xs text-slate-600 mt-1">Dekomposisi, abstraksi, pola, algoritma & rumus Spreadsheet.</p>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-violet-50/80 border border-violet-100 flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center font-bold shrink-0">
+              ✍️
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold px-2 py-0.5 rounded-md bg-violet-100 text-violet-700">No. 41 – 45</span>
+                <span class="text-xs font-bold text-slate-800">Uraian Studi Kasus (HOTS C3–C5)</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1">
+                Analisis kasus perundungan digital & media pers (No. 41–42) serta analisis data spreadsheet & proteksi data sensitif (No. 43–45) lengkap dengan rubrik pembahasan.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Identity Form -->
+        <div class="lg:col-span-5 flex flex-col justify-between bg-slate-50 p-6 rounded-2xl border border-slate-200/80">
+          <div class="space-y-4">
+            <h2 class="text-lg font-extrabold text-slate-900">Identitas Peserta</h2>
+            
+            <div>
+              <label for="student-name" class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+                Nama Lengkap Siswa <span class="text-rose-500">*</span>
+              </label>
+              <input type="text" id="student-name" placeholder="Contoh: Raka Aditya Pratama"
+                class="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm font-medium transition" />
+            </div>
+
+            <div>
+              <label for="student-class" class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+                Kelas <span class="text-rose-500">*</span>
+              </label>
+              <select id="student-class"
+                class="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm font-medium transition">
+                <option value="">-- Pilih Kelas IX --</option>
+                <option value="IX-A">Kelas IX-A</option>
+                <option value="IX-B">Kelas IX-B</option>
+                <option value="IX-C">Kelas IX-C</option>
+                <option value="IX-D">Kelas IX-D</option>
+                <option value="IX-E">Kelas IX-E</option>
+                <option value="IX-F">Kelas IX-F</option>
+                <option value="IX-G">Kelas IX-G</option>
+                <option value="IX-H">Kelas IX-H</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+                Mode Pengerjaan Kuis
+              </label>
+              <div class="grid grid-cols-2 gap-2.5">
+                <button type="button" id="mode-instant-btn" onclick="selectQuizMode('instant')"
+                  class="p-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-left transition">
+                  <div class="text-xs font-extrabold text-indigo-700 flex items-center gap-1">
+                    <span>⚡</span> Mode Latihan
+                  </div>
+                  <div class="text-[11px] text-slate-600 mt-0.5 leading-snug">
+                    Umpan balik & XP langsung tiap menjawab
+                  </div>
+                </button>
+                <button type="button" id="mode-exam-btn" onclick="selectQuizMode('exam')"
+                  class="p-3 rounded-xl border-2 border-slate-200 bg-white text-left hover:border-slate-300 transition">
+                  <div class="text-xs font-extrabold text-slate-700 flex items-center gap-1">
+                    <span>🎯</span> Mode Ujian
+                  </div>
+                  <div class="text-[11px] text-slate-500 mt-0.5 leading-snug">
+                    Pembahasan & kunci dibuka di akhir
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" onclick="startQuiz()"
+            class="mt-6 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-extrabold text-base shadow-lg shadow-indigo-500/30 flex items-center justify-center gap-2 transition transform active:scale-[0.99]">
+            <span>Mulai Mengerjakan Kuis</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SCREEN 2: INTERACTIVE QUIZ SCREEN
+  ========================================================== -->
+  <section id="quiz-screen" class="hidden min-h-screen flex flex-col">
+    <!-- Top Gamified Header -->
+    <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+        <!-- Student Info -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white flex items-center justify-center font-extrabold text-sm shadow-sm">
+            IX
+          </div>
+          <div>
+            <div id="hud-student-name" class="font-bold text-slate-900 text-sm leading-tight">Nama Siswa</div>
+            <div class="flex items-center gap-2 text-xs text-slate-500">
+              <span id="hud-student-class" class="font-semibold text-indigo-600">Kelas IX</span>
+              <span>•</span>
+              <span id="hud-mode-badge" class="font-medium">Mode Latihan</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Bar (Desktop/Tablet) -->
+        <div class="hidden md:flex flex-col flex-1 max-w-md mx-4">
+          <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
+            <span>Progres Pengerjaan</span>
+            <span id="hud-progress-text">0 / 45 Terjawab</span>
+          </div>
+          <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+            <div id="hud-progress-bar" class="h-full bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Gamified Stats & Controls -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Streak Badge -->
+          <div id="hud-streak-box" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 text-xs font-extrabold" title="Jawaban Benar Beruntun">
+            <span>🔥</span>
+            <span id="hud-streak">0</span>
+          </div>
+
+          <!-- XP Counter -->
+          <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-extrabold" title="Total Poin XP">
+            <span>⚡</span>
+            <span id="hud-xp">0 XP</span>
+          </div>
+
+          <!-- Sound Toggle -->
+          <button type="button" id="sound-toggle-btn" onclick="toggleSound()"
+            class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition text-sm" title="Suara Efek">
+            🔊
+          </button>
+
+          <!-- Mobile Drawer Nav Button -->
+          <button type="button" onclick="toggleMobileNav()"
+            class="lg:hidden px-3 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold flex items-center gap-1.5">
+            <span>🔢</span>
+            <span>Soal</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Progress Bar -->
+      <div class="md:hidden px-4 pb-2.5">
+        <div class="flex justify-between text-[11px] font-bold text-slate-500 mb-1">
+          <span>Progres</span>
+          <span id="hud-progress-text-mobile">0 / 45 Terjawab</span>
+        </div>
+        <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+          <div id="hud-progress-bar-mobile" class="h-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Quiz Body -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- Left/Center: Question Card Area -->
+      <div class="lg:col-span-8 space-y-5">
+        <div id="question-card" class="bg-white rounded-3xl shadow-md border border-slate-200/80 p-5 sm:p-8 animate-pop">
+          <!-- Question Meta Header -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-5 border-b border-slate-100">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="q-number-badge" class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-extrabold text-sm">
+                Soal 1 / 45
+              </span>
+              <span id="q-topic-badge" class="px-3 py-1.5 rounded-xl bg-rose-100 text-rose-700 font-bold text-xs">
+                Perundungan Digital
+              </span>
+              <span id="q-level-badge" class="px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-600 font-bold text-xs">
+                PG • C3
+              </span>
+            </div>
+
+            <button type="button" id="flag-btn" onclick="toggleFlagCurrent()"
+              class="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-amber-50 hover:border-amber-300 text-slate-600 text-xs font-bold flex items-center gap-1.5 transition">
+              <span>🚩</span>
+              <span id="flag-btn-text">Tandai Ragu</span>
+            </button>
+          </div>
+
+          <!-- Question Text & Optional Context/Table -->
+          <div id="q-content-area" class="space-y-4">
+            <div id="q-text" class="text-slate-800 text-base sm:text-lg font-semibold leading-relaxed">
+              Memuat soal...
+            </div>
+            <div id="q-extra-html" class="hidden overflow-x-auto"></div>
+          </div>
+
+          <!-- Multiple Choice Options Container (Q1 - Q40) -->
+          <div id="pg-options-container" class="mt-6 grid grid-cols-1 gap-3">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Instant Feedback Box (Mode Latihan for PG) -->
+          <div id="instant-feedback-box" class="hidden mt-6 p-4 rounded-2xl border">
+            <div class="flex items-start gap-3">
+              <div id="feedback-icon" class="text-2xl shrink-0">💡</div>
+              <div>
+                <h4 id="feedback-title" class="font-extrabold text-sm">Pembahasan</h4>
+                <p id="feedback-text" class="text-xs sm:text-sm mt-1 leading-relaxed"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Essay Answer Container (Q41 - Q45) -->
+          <div id="essay-container" class="hidden mt-6 space-y-4">
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="essay-input" class="text-xs font-extrabold uppercase tracking-wider text-slate-600">
+                  ✍️ Lembar Jawaban Uraian Siswa
+                </label>
+                <span id="essay-char-count" class="text-xs font-medium text-slate-400">0 karakter</span>
+              </div>
+              <textarea id="essay-input" rows="5" oninput="handleEssayInput(this.value)"
+                placeholder="Tuliskan analisis dan jawaban lengkapmu di sini berdasarkan studi kasus di atas..."
+                class="w-full p-4 rounded-2xl bg-slate-50 border border-slate-300 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm leading-relaxed transition"></textarea>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <button type="button" id="toggle-rubric-btn" onclick="toggleEssayRubric()"
+                class="px-4 py-2.5 rounded-xl bg-violet-100 hover:bg-violet-200 text-violet-800 font-bold text-xs sm:text-sm flex items-center gap-2 transition">
+                <span>🔑</span>
+                <span id="toggle-rubric-text">Lihat Kunci Jawaban & Rubrik Pembahasan</span>
+              </button>
+              <span class="text-xs text-slate-400 italic">Jawaban tersimpan otomatis</span>
+            </div>
+
+            <!-- Collapsible Essay Key & Rubric -->
+            <div id="essay-rubric-box" class="hidden p-5 rounded-2xl bg-gradient-to-br from-violet-50 to-indigo-50 border border-violet-200 space-y-3 animate-pop">
+              <div class="flex items-center gap-2 text-violet-900 font-extrabold text-sm">
+                <span>📋</span>
+                <span>Kunci Jawaban Ideal & Rubrik Penilaian</span>
+              </div>
+              <div id="essay-key-content" class="text-xs sm:text-sm text-slate-700 leading-relaxed bg-white/80 p-3.5 rounded-xl border border-violet-100"></div>
+              <div id="essay-rubric-content" class="text-xs text-slate-600 leading-relaxed bg-white/60 p-3.5 rounded-xl border border-violet-100"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Navigation Buttons -->
+        <div class="flex items-center justify-between gap-3">
+          <button type="button" id="prev-btn" onclick="navigateQuestion(-1)"
+            class="px-5 py-3 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-sm shadow-sm flex items-center gap-2 disabled:opacity-40 disabled:pointer-events-none transition">
+            <span>←</span>
+            <span>Sebelumnya</span>
+          </button>
+
+          <div class="flex items-center gap-3">
+            <button type="button" id="next-btn" onclick="navigateQuestion(1)"
+              class="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-200 flex items-center gap-2 transition">
+              <span>Selanjutnya</span>
+              <span>→</span>
+            </button>
+
+            <button type="button" id="finish-btn" onclick="confirmFinishQuiz()"
+              class="px-6 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold text-sm shadow-md shadow-emerald-200 flex items-center gap-2 transition">
+              <span>🏁</span>
+              <span>Selesai & Lihat Hasil</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Sidebar: Question Number Navigator (Desktop) -->
+      <aside id="nav-sidebar" class="hidden lg:block lg:col-span-4 bg-white rounded-3xl shadow-md border border-slate-200/80 p-5 sticky top-24">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-extrabold text-slate-900 text-sm">Navigasi Nomor Soal</h3>
+          <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">45 Soal</span>
+        </div>
+
+        <!-- Legend -->
+        <div class="grid grid-cols-2 gap-2 text-[11px] font-semibold text-slate-600 mb-4 pb-3 border-b border-slate-100">
+          <div class="flex items-center gap-1.5">
+            <span class="w-3 h-3 rounded-sm bg-emerald-500 inline-block"></span> Sudah Dijawab
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-3 h-3 rounded-sm bg-amber-400 inline-block"></span> Ragu-ragu
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-3 h-3 rounded-sm ring-2 ring-indigo-600 bg-indigo-50 inline-block"></span> Sedang Dibuka
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-3 h-3 rounded-sm bg-slate-100 border border-slate-300 inline-block"></span> Belum Dijawab
+          </div>
+        </div>
+
+        <!-- Part A Grid -->
+        <div class="mb-4">
+          <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">
+            Bagian A • Pilihan Ganda (1–40)
+          </div>
+          <div id="nav-grid-pg" class="grid grid-cols-8 gap-1.5">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Part B Grid -->
+        <div class="mb-5">
+          <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">
+            Bagian B • Uraian Studi Kasus (41–45)
+          </div>
+          <div id="nav-grid-essay" class="grid grid-cols-5 gap-1.5">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <button type="button" onclick="confirmFinishQuiz()"
+          class="w-full py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs tracking-wide uppercase transition">
+          Kumpulkan Jawaban Sekarang
+        </button>
+      </aside>
+    </main>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-nav-drawer" class="fixed inset-0 z-40 hidden bg-slate-900/60 backdrop-blur-sm lg:hidden">
+      <div class="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white p-5 overflow-y-auto shadow-2xl flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+            <h3 class="font-extrabold text-slate-900">Daftar Nomor Soal</h3>
+            <button type="button" onclick="toggleMobileNav()" class="p-1.5 rounded-lg bg-slate-100 text-slate-600 font-bold text-xs">
+              ✕ Tutup
+            </button>
+          </div>
+
+          <div class="mb-4">
+            <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">
+              Pilihan Ganda (1–40)
+            </div>
+            <div id="mobile-nav-grid-pg" class="grid grid-cols-5 gap-2"></div>
+          </div>
+
+          <div class="mb-6">
+            <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">
+              Uraian Studi Kasus (41–45)
+            </div>
+            <div id="mobile-nav-grid-essay" class="grid grid-cols-5 gap-2"></div>
+          </div>
+        </div>
+
+        <button type="button" onclick="toggleMobileNav(); confirmFinishQuiz();"
+          class="w-full py-3 rounded-xl bg-emerald-600 text-white font-bold text-sm">
+          🏁 Selesai & Lihat Hasil
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SCREEN 3: RESULTS & FULL REVIEW SCREEN
+  ========================================================== -->
+  <section id="result-screen" class="hidden min-h-screen py-8 px-4 sm:px-6">
+    <div class="max-w-5xl mx-auto space-y-6">
+      
+      <!-- Score Hero Card -->
+      <div class="bg-white rounded-3xl shadow-xl border border-slate-200/80 overflow-hidden print-break-inside">
+        <div class="bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <div class="inline-block px-3 py-1 rounded-full bg-white/20 text-xs font-bold uppercase tracking-wider mb-2">
+              Laporan Hasil ASAS Informatika IX
+            </div>
+            <h1 id="res-student-name" class="text-2xl sm:text-3xl font-extrabold">Nama Siswa</h1>
+            <p id="res-student-meta" class="text-indigo-100 text-sm mt-1">Kelas IX • Tahun Ajaran 2026/2027</p>
+            <div id="res-predicate-badge" class="mt-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-white text-indigo-700 font-extrabold text-sm shadow">
+              🏆 Predikat: Sangat Baik
+            </div>
+          </div>
+
+          <!-- Circular / Big Score Card -->
+          <div class="flex items-center gap-4">
+            <div class="bg-white/15 backdrop-blur-md border border-white/25 rounded-3xl px-6 py-4 text-center">
+              <div class="text-xs font-bold uppercase tracking-wider text-indigo-100">Nilai Pilihan Ganda</div>
+              <div id="res-final-score" class="text-4xl sm:text-5xl font-extrabold mt-1">0</div>
+              <div class="text-xs text-indigo-200 mt-1">Skala 100 (40 Soal)</div>
+            </div>
+            <div class="bg-white/15 backdrop-blur-md border border-white/25 rounded-3xl px-5 py-4 text-center">
+              <div class="text-xs font-bold uppercase tracking-wider text-indigo-100">Total XP</div>
+              <div id="res-total-xp" class="text-2xl sm:text-3xl font-extrabold text-amber-300 mt-1">0</div>
+              <div id="res-correct-count" class="text-xs text-indigo-200 mt-1">0/40 Benar</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Competency Breakdown -->
+        <div class="p-6 sm:p-8">
+          <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-400 mb-4">
+            📊 Analisis Penguasaan Kompetensi (Pilihan Ganda)
+          </h2>
+          <div id="competency-breakdown" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Populated dynamically -->
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="mt-6 pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 no-print">
+            <button type="button" onclick="confirmRestartQuiz()"
+              class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm flex items-center gap-2 transition">
+              <span>🔄</span>
+              <span>Ulangi Kuis</span>
+            </button>
+            <button type="button" onclick="window.print()"
+              class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-200 flex items-center gap-2 transition">
+              <span>🖨️</span>
+              <span>Cetak / Simpan PDF Hasil</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Review Section -->
+      <div class="bg-white rounded-3xl shadow-md border border-slate-200/80 p-6 sm:p-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-slate-100">
+          <div>
+            <h2 class="text-xl font-extrabold text-slate-900">Kunci Jawaban & Pembahasan Lengkap</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+              Evaluasi seluruh 40 soal Pilihan Ganda dan bandingkan jawaban Uraianmu dengan rubrik penilaian.
+            </p>
+          </div>
+
+          <!-- Filter Tabs -->
+          <div class="flex flex-wrap gap-1.5 no-print">
+            <button type="button" onclick="filterReview('all')" id="filter-all"
+              class="px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white transition">
+              Semua (45)
+            </button>
+            <button type="button" onclick="filterReview('wrong')" id="filter-wrong"
+              class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
+              PG Salah
+            </button>
+            <button type="button" onclick="filterReview('correct')" id="filter-correct"
+              class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
+              PG Benar
+            </button>
+            <button type="button" onclick="filterReview('essay')" id="filter-essay"
+              class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
+              Uraian (5)
+            </button>
+          </div>
+        </div>
+
+        <div id="review-list" class="space-y-5">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50 hidden"></canvas>
+
+  <script>
+    // =========================================================================
+    // 1. BANK SOAL LENGKAP (40 PILIHAN GANDA + 5 URAIAN STUDI KASUS)
+    // =========================================================================
+    const QUESTIONS = [
+      // -----------------------------------------------------------------------
+      // MATERI 1: PERUNDUNGAN DIGITAL (CYBERBULLYING) - NO 1 s.d. 10 (C2 - C4)
+      // -----------------------------------------------------------------------
+      {
+        id: 1,
+        type: 'pg',
+        topic: 'Perundungan Digital',
+        topicColor: 'rose',
+        level: 'C2',
+        question: 'Sebuah kolom komentar di portal berita daring dipenuhi perdebatan sengit yang saling melontarkan kata-kata kasar, penghinaan personal, dan provokasi penuh kemarahan tanpa membahas substansi berita. Dalam klasifikasi perundungan digital, fenomena tersebut dikenal dengan istilah ....',
+        options: [
+          'Flaming',
+          'Cyberstalking',
+          'Impersonation',
+          'Exclusion'
+        ],
+        answer: 0,
+        explanation: 'Flaming adalah tindakan mengirimkan pesan teks yang penuh kemarahan, frontal, kasar, dan provokatif di ruang publik digital seperti kolom komentar media berita atau forum daring.'
+      },
+      {
+        id: 2,
+        type: 'pg',
+        topic: 'Perundungan Digital',
+        topicColor: 'rose',
+        level: 'C3',
+        question: 'Seorang warganet merasa kesal terhadap opini seorang jurnalis muda di media sosial. Warganet tersebut kemudian mencari alamat rumah pribadi, nomor telepon, dan foto keluarga sang jurnalis lalu menyebarkannya ke publik agar diserang massa. Tindakan ini tergolong kejahatan perundungan digital berupa ....',
+        options: [
+          'Trickery',
+          'Doxing',
+          'Exclusion',
+          'Trolling'
+        ],
+        answer: 1,
+        explanation: 'Doxing (dropping dox) adalah praktik mencari, mengumpulkan, dan memublikasikan informasi pribadi/sensitif seseorang tanpa izin di ruang publik digital dengan tujuan mempermalukan atau mengintimidasi.'
+      },
+      {
+        id: 3,
+        type: 'pg',
+        topic: 'Perundungan Digital',
+        topicColor: 'rose',
+        level: 'C3',
+        question: 'Pelaku perundungan membuat akun media sosial palsu menggunakan foto profil dan nama lengkap seorang ketua OSIS, lalu mengunggah status yang menghina guru dan sekolah sehingga reputasi korban hancur di ruang publik virtual. Bentuk cyberbullying ini disebut ....',
+        options: [
+          'Harassment',
+          'Denigration',
+          'Impersonation (Masquerade)',
+          'Outing'
+        ],
+        answer: 2,
+        explanation: 'Impersonation atau masquerade terjadi ketika pelaku menyamar dan berpura-pura menjadi korban (membuat akun tiruan) untuk merusak nama baik dan hubungan sosial korban.'
+      },
+      {
+        id: 4,
+        type: 'pg',
+        topic: 'Perundungan Digital',
+        topicColor: 'rose',
+        level: 'C4',
+        question: 'Perhatikan dampak fenomena viralitas di ruang publik virtual berikut:\n1) Korban mengalami tekanan psikologis berat dan menarik diri dari lingkungan sosial.\n2) Media pers arus utama ikut memberitakan rumor tanpa verifikasi fakta terlebih dahulu.\n3) Jejak digital negatif sulit dihapus sepenuhnya meskipun klarifikasi telah dibuat.\n\nMengapa perundungan digital sering kali menimbulkan dampak lebih luas dibandingkan perundungan tatap muka?',
+        options: [
+          'Karena pelaku perundungan digital selalu memiliki kemampuan pemrograman tingkat tinggi',
+          'Karena sifat ruang digital yang persisten (permanen), mudah direplikasi, dan menjangkau audiens tanpa batas geografis',
+          'Karena media pers tidak memiliki kode etik jurnalistik dalam memberitakan isu viral',
+          'Karena korban tidak memiliki hak hukum untuk melaporkan kejahatan di dunia maya'
+        ],
+        answer: 1,
+        explanation: 'Ruang digital memiliki karakteristik persisten (jejak digital tersimpan lama), mudah digandakan/dibagikan ulang (virality), dan menjangkau publik luas secara instan.'
+      },
+      {
+        id: 5,
+        type: 'pg',
+        topic: 'Perundungan Digital',
+        topicColor: 'rose',
+        level: 'C2',
+        question: 'Seseorang membujuk temannya untuk menceritakan rahasia keluarga melalui pesan pribadi, kemudian secara diam-diam mengambil tangkapan layar (screenshot) percakapan tersebut dan menyebarkannya ke grup kelas. Kombinasi tindakan ini disebut ....',
+        options: [
+          'Outing dan Trickery',
+          'Flaming dan Cyberstalking',
+          'Exclusion dan Harassment',
+          'Phishing dan Spoofing'
+        ],
+        answer: 0,
+        explanation: 'Trickery adalah tipu daya agar korban membocorkan rahasia, sedangkan Outing adalah menyebarkan rahasia atau informasi pribadi korban ke publik tanpa persetujuan.'
+      },
+      {
+        id: 6,
+        type: 'pg',
+        topic: 'Perundungan Digital',
+        topicColor: 'rose',
+        level: 'C4',
+        question: 'Dalam ekosistem informasi modern, media pers sering mengutip topik yang sedang ramai diperbincangkan (trending) di media sosial. Apabila media pers memberitakan kasus perundungan digital dengan tetap mencantumkan identitas lengkap korban di bawah umur tanpa sensor, pelanggaran prinsip apakah yang terjadi?',
+        options: [
+          'Pelanggaran hak cipta konten media sosial',
+          'Pelanggaran Kode Etik Jurnalistik dan perlindungan privasi anak yang memperparah viktimisasi sekunder',
+          'Pelanggaran algoritma mesin pencari berita',
+          'Pelanggaran kebebasan berekspresi bagi warganet'
+        ],
+        answer: 1,
+        explanation: 'Sesuai Kode Etik Jurnalistik dan UU Perlindungan Anak, pers wajib menyamarkan identitas anak yang menjadi korban maupun pelaku kejahatan agar tidak menimbulkan trauma berkepanjangan (viktimisasi sekunder).'
+      },
+      {
+        id: 7,
+        type: 'pg',
+        topic: 'Perundungan Digital',
+        topicColor: 'rose',
+        level: 'C3',
+        question: 'Seseorang terus-menerus memantau aktivitas daring korbannya, mengirimkan ancaman berulang kali lewat pesan langsung (DM), hingga melacak lokasi terkini korban melalui unggahan foto sehingga korban merasa ketakutan. Perilaku ini dikategorikan sebagai ....',
+        options: [
+          'Exclusion',
+          'Cyberstalking',
+          'Clickbaiting',
+          'Denigration'
+        ],
+        answer: 1,
+        explanation: 'Cyberstalking adalah penguntitan dan pengawasan intensif di dunia maya yang disertai ancaman atau intimidasi terus-menerus sehingga menimbulkan rasa tidak aman bagi korban.'
+      },
+      {
+        id: 8,
+        type: 'pg',
+        topic: 'Perundungan Digital',
+        topicColor: 'rose',
+        level: 'C3',
+        question: 'Sekelompok siswa sengaja mengeluarkan satu teman sekelasnya dari grup diskusi belajar daring tanpa alasan yang jelas, lalu mengunggah tangkapan layar aktivitas kelompok mereka untuk menyindir siswa tersebut. Bentuk perundungan digital ini adalah ....',
+        options: [
+          'Exclusion',
+          'Flaming',
+          'Doxing',
+          'Impersonation'
+        ],
+        answer: 0,
+        explanation: 'Exclusion adalah tindakan pengucilan atau pengeluaran seseorang secara sengaja dari komunitas, grup percakapan, atau lingkungan permainan daring.'
+      },
+      {
+        id: 9,
+        type: 'pg',
+        topic: 'Perundungan Digital',
+        topicColor: 'rose',
+        level: 'C4',
+        question: 'Ketika melihat sebuah video perundungan antar-pelajar beredar di lini masa media sosial, banyak pengguna ikut membagikan ulang (repost) dengan alasan "sekadar menyebarkan agar viral". Dampak negatif utama dari perilaku bystanders (penonton pasif yang ikut menyebarkan) tersebut adalah ....',
+        options: [
+          'Membantu aparat penegak hukum menghapus video secara otomatis',
+          'Memperluas jangkauan perundungan dan memperpanjang trauma psikologis korban di ruang publik',
+          'Mengurangi beban penyimpanan server platform media sosial',
+          'Meningkatkan literasi digital masyarakat secara instan'
+        ],
+        answer: 1,
+        explanation: 'Ikut membagikan ulang konten perundungan hanya memperluas eksposur penghinaan terhadap korban dan membuat jejak digital semakin sulit dikendalikan.'
+      },
+      {
+        id: 10,
+        type: 'pg',
+        topic: 'Perundungan Digital',
+        topicColor: 'rose',
+        level: 'C3',
+        question: 'Langkah paling tepat dan bertanggung jawab ketika kamu menerima pesan berantai berisi foto editan yang mempermalukan salah satu teman sekolahmu di grup WhatsApp adalah ....',
+        options: [
+          'Menyimpannya di galeri ponsel sebagai bahan candaan pribadi',
+          'Meneruskannya ke grup lain untuk menanyakan kebenaran foto tersebut',
+          'Tidak ikut menyebarkan, melaporkan pesan tersebut, serta memberikan dukungan empati kepada korban',
+          'Membalas dengan mengedit foto pelaku agar adil'
+        ],
+        answer: 2,
+        explanation: 'Memutus rantai penyebaran konten negatif, melaporkan akun/pesan pelanggar, dan mendukung korban adalah tindakan upstander yang bertanggung jawab.'
+      },
+
+      // -----------------------------------------------------------------------
+      // MATERI 2: ETIKA DIGITAL & KEWARGAAN DIGITAL - NO 11 s.d. 20 (C2 - C4)
+      // -----------------------------------------------------------------------
+      {
+        id: 11,
+        type: 'pg',
+        topic: 'Etika & Kewargaan Digital',
+        topicColor: 'amber',
+        level: 'C2',
+        question: 'Dalam berkomunikasi melalui surat elektronik (email) atau grup diskusi resmi sekolah, penggunaan huruf kapital pada seluruh kalimat (CONTOH: "TOLONG SEGERA DIKIRIM SEKARANG!") sebaiknya dihindari karena dalam netiket (netiquette) dianggap sebagai ....',
+        options: [
+          'Tanda penghormatan tinggi kepada penerima pesan',
+          'Simbol berteriak, marah, atau bersikap agresif',
+          'Format standar penulisan berita daring',
+          'Cara mempercepat proses pengiriman data di jaringan'
+        ],
+        answer: 1,
+        explanation: 'Dalam tata krama komunikasi digital (netiket), menulis seluruh teks dengan huruf kapital (ALL CAPS) dimaknai sebagai nada berteriak atau emosi tinggi.'
+      },
+      {
+        id: 12,
+        type: 'pg',
+        topic: 'Etika & Kewargaan Digital',
+        topicColor: 'amber',
+        level: 'C3',
+        question: 'Indonesia merupakan negara majemuk dengan keberagaman suku, agama, ras, dan budaya. Saat berinteraksi di forum publik digital lintas daerah, wujud nyata integrasi nilai toleransi dan empati adalah ....',
+        options: [
+          'Memaksakan standar budaya daerah sendiri kepada pengguna lain di kolom komentar',
+          'Menghargai perbedaan pendapat, menghindari stereotip SARA, serta mempertimbangkan perasaan pembaca sebelum mengunggah konten',
+          'Hanya berteman dan berdiskusi dengan pengguna yang memiliki latar belakang sama persis',
+          'Menggunakan bahasa daerah yang tidak dipahami peserta lain dalam forum nasional'
+        ],
+        answer: 1,
+        explanation: 'Kewargaan digital yang berempati dan toleran tercermin dari sikap menghormati keragaman, menjauhi ujaran kebencian berbasis SARA, dan menjaga kesantunan.'
+      },
+      {
+        id: 13,
+        type: 'pg',
+        topic: 'Etika & Kewargaan Digital',
+        topicColor: 'amber',
+        level: 'C3',
+        question: 'Dina sedang menyusun infografis kampanye kebersihan lingkungan untuk diunggah ke media sosial OSIS. Ia menemukan ilustrasi vektor yang sangat bagus di internet dengan lisensi Creative Commons Attribution (CC BY). Tindakan etis yang wajib dilakukan Dina adalah ....',
+        options: [
+          'Mengunduh dan mengklaim ilustrasi tersebut sebagai karya orisinal dirinya',
+          'Menggunakan ilustrasi tersebut dan mencantumkan nama pencipta/sumber aslinya secara jelas',
+          'Menghapus tanda air (watermark) pembuat agar tampilan infografis lebih bersih',
+          'Menjual kembali ilustrasi tersebut kepada pihak ketiga tanpa izin'
+        ],
+        answer: 1,
+        explanation: 'Lisensi Creative Commons Attribution (CC BY) mengizinkan penggunaan dan modifikasi karya dengan syarat wajib memberikan atribusi (penghargaan kredit) kepada pencipta aslinya.'
+      },
+      {
+        id: 14,
+        type: 'pg',
+        topic: 'Etika & Kewargaan Digital',
+        topicColor: 'amber',
+        level: 'C4',
+        question: 'Beredar pesan berantai di grup keluarga yang mengklaim bahwa meminum air rebusan tanaman tertentu dapat menyembuhkan penyakit berat dalam 24 jam, disertai kalimat "Sebarkan ke 10 grup jika kamu peduli!". Sebelum memercayai atau membagikannya, langkah verifikasi informasi (cek fakta) paling tepat adalah ....',
+        options: [
+          'Melihat jumlah tanda seru dan emoji pada pesan tersebut',
+          'Memeriksa sumber resmi Kementerian Kesehatan, situs cek fakta kredibel, serta tanggal publikasi informasi',
+          'Langsung meneruskannya karena pengirimnya adalah anggota keluarga dekat',
+          'Membaca komentar di media sosial yang menyetujui klaim tersebut'
+        ],
+        answer: 1,
+        explanation: 'Hoaks kesehatan sering memanfaatkan kepanikan dan dorongan emosional. Verifikasi harus dilakukan melalui otoritas kesehatan resmi atau kanal cek fakta tepercaya.'
+      },
+      {
+        id: 15,
+        type: 'pg',
+        topic: 'Etika & Kewargaan Digital',
+        topicColor: 'amber',
+        level: 'C2',
+        question: 'Konsep "Think Before You Post" dalam kewargaan digital mengajak pengguna internet untuk menyaring konten sebelum dipublikasikan. Pertanyaan reflektif yang paling tepat diterapkan dalam konsep tersebut adalah ....',
+        options: [
+          'Apakah unggahan ini akan mendapatkan ribuan tanda suka dalam satu jam?',
+          'Apakah informasi ini benar (True), bermanfaat (Helpful), menginspirasi (Inspiring), perlu (Necessary), dan santun (Kind)?',
+          'Apakah unggahan ini menggunakan filter foto terbaru yang sedang tren?',
+          'Apakah unggahan ini dapat menjatuhkan reputasi pesaing saya?'
+        ],
+        answer: 1,
+        explanation: 'Akronim THINK (True, Helpful, Inspiring, Necessary, Kind) merupakan panduan etika praktis sebelum membagikan informasi di ruang publik digital.'
+      },
+      {
+        id: 16,
+        type: 'pg',
+        topic: 'Etika & Kewargaan Digital',
+        topicColor: 'amber',
+        level: 'C4',
+        question: 'Sebuah portal daring menggunakan judul berita yang sangat sensasional dan menyesatkan ("HEBOH! Sekolah Ini Akan Ditutup Selamanya Besok!"), padahal isi beritanya hanya membahas libur akhir semester selama satu pekan. Fenomena penyajian informasi seperti ini disebut ....',
+        options: [
+          'Deepfake',
+          'Clickbait (umpan klik) yang mengaburkan substansi fakta',
+          'Open Source Journalism',
+          'Crowdsourcing'
+        ],
+        answer: 1,
+        explanation: 'Clickbait adalah penggunaan judul sensasional atau melebih-lebihkan fakta demi memancing klik dan trafik kunjungan, yang sering kali menyesatkan pembaca.'
+      },
+      {
+        id: 17,
+        type: 'pg',
+        topic: 'Etika & Kewargaan Digital',
+        topicColor: 'amber',
+        level: 'C3',
+        question: 'Dalam rapat koordinasi panitia pentas seni melalui aplikasi konferensi video (Zoom/Google Meet), etika digital yang menunjukkan sikap menghargai pembicara adalah ....',
+        options: [
+          'Menyalakan mikrofon terus-menerus meskipun suasana di sekitar rumah sedang bising',
+          'Menonaktifkan mikrofon (mute) saat tidak berbicara dan menggunakan fitur "Raise Hand" sebelum menyampaikan pendapat',
+          'Mencoret-coret layar presentasi (annotate) saat ketua panitia sedang menjelaskan',
+          'Meninggalkan rapat tanpa pemberitahuan di tengah diskusi penting'
+        ],
+        answer: 1,
+        explanation: 'Menjaga mikrofon tetap mute saat mendengarkan dan memakai fitur Raise Hand mencegah gangguan audio serta menjaga ketertiban forum virtual.'
+      },
+      {
+        id: 18,
+        type: 'pg',
+        topic: 'Etika & Kewargaan Digital',
+        topicColor: 'amber',
+        level: 'C3',
+        question: 'Budi mengutip dua paragraf penuh dari sebuah artikel ilmiah di internet untuk tugas makalah Informatika tanpa mencantumkan tanda kutip maupun daftar pustaka sehingga seolah-olah tulisan tersebut adalah hasil pemikirannya sendiri. Perbuatan Budi melanggar etika akademik dan hak kekayaan intelektual yang disebut ....',
+        options: [
+          'Enkripsi',
+          'Plagiarisme',
+          'Kolaborasi',
+          'Kurasi konten'
+        ],
+        answer: 1,
+        explanation: 'Plagiarisme adalah tindakan mengambil karya, gagasan, atau tulisan orang lain dan mengakuinya sebagai karya sendiri tanpa menyebutkan sumber aslinya.'
+      },
+      {
+        id: 19,
+        type: 'pg',
+        topic: 'Etika & Kewargaan Digital',
+        topicColor: 'amber',
+        level: 'C4',
+        question: 'Algoritma media sosial cenderung menampilkan konten yang sesuai dengan minat dan keyakinan pengguna secara berulang, sehingga pengguna jarang melihat sudut pandang yang berbeda. Kondisi ruang gema informasi ini dikenal sebagai Echo Chamber / Filter Bubble. Sikap kritis warga digital untuk mengatasi hal ini adalah ....',
+        options: [
+          'Memblokir semua akun yang memiliki pandangan berbeda',
+          'Aktif mencari informasi dari berbagai sumber kredibel dan membuka diri terhadap perspektif yang beragam secara objektif',
+          'Hanya membaca judul unggahan tanpa memeriksa isi artikel',
+          'Membuat banyak akun anonim untuk memperdebatkan setiap unggahan'
+        ],
+        answer: 1,
+        explanation: 'Untuk keluar dari jebakan Filter Bubble/Echo Chamber, warga digital perlu melakukan literasi lintas sumber dan mengevaluasi informasi secara berimbang.'
+      },
+      {
+        id: 20,
+        type: 'pg',
+        topic: 'Etika & Kewargaan Digital',
+        topicColor: 'amber',
+        level: 'C3',
+        question: 'Saat mengunggah foto kegiatan bakti sosial bersama anak-anak panti asuhan ke akun media sosial publik, pertimbangan etis paling penting terkait martabat manusia adalah ....',
+        options: [
+          'Memastikan logo merek ponsel terlihat jelas di sudut foto',
+          'Meminta izin pengelola panti dan menjaga privasi/martabat wajah anak-anak agar tidak dieksploitasi demi pencitraan',
+          'Menambahkan musik latar yang sedang viral agar masuk beranda utama',
+          'Menyebutkan kondisi kekurangan setiap anak secara rinci di takarir (caption)'
+        ],
+        answer: 1,
+        explanation: 'Etika digital menekankan penghormatan terhadap privasi dan martabat manusia, terutama anak-anak, sehingga publikasi foto harus seizin pihak berwenang dan tidak bersifat eksploitatif.'
+      },
+
+      // -----------------------------------------------------------------------
+      // MATERI 3: KEAMANAN DATA PRIBADI & PRIVASI - NO 21 s.d. 30 (C3 - C5)
+      // -----------------------------------------------------------------------
+      {
+        id: 21,
+        type: 'pg',
+        topic: 'Keamanan Data & Privasi',
+        topicColor: 'emerald',
+        level: 'C3',
+        question: 'Seorang siswa baru saja lulus ujian kelulusan SMP dan karena sangat gembira, ia mengunggah foto kartu peserta ujian serta Kartu Keluarga (KK) ke Instagram Story publik. Risiko keamanan data paling fatal dari tindakan tersebut adalah ....',
+        options: [
+          'Kapasitas penyimpanan akun Instagram menjadi cepat penuh',
+          'Penyalahgunaan Nomor Induk Kependudukan (NIK), tanggal lahir, dan nama ibu kandung oleh pelaku kejahatan siber untuk pencurian identitas atau pinjaman ilegal',
+          'Akun Instagram otomatis berubah menjadi akun bisnis',
+          'Koneksi internet ponsel menjadi melambat akibat resolusi foto tinggi'
+        ],
+        answer: 1,
+        explanation: 'Dokumen seperti KK memuat data pribadi spesifik (NIK, tanggal lahir, nama ibu kandung) yang sering dipakai sebagai verifikasi layanan perbankan dan identitas.'
+      },
+      {
+        id: 22,
+        type: 'pg',
+        topic: 'Keamanan Data & Privasi',
+        topicColor: 'emerald',
+        level: 'C3',
+        question: 'Perhatikan jenis-jenis data berikut:\n1) Nama panggilan atau hobi membaca buku\n2) Kode OTP (One-Time Password) yang masuk lewat SMS\n3) Nomor Induk Kependudukan (NIK) dan alamat rumah lengkap\n4) Karya poster digital yang sengaja dipublikasikan untuk portofolio\n5) Kata sandi (password) akun surat elektronik\n\nKelompok data yang tergolong DATA PRIVAT / SENSITIF dan wajib dirahasiakan ditunjukkan oleh nomor ....',
+        options: [
+          '1, 2, dan 3',
+          '1, 3, dan 4',
+          '2, 3, dan 5',
+          '2, 4, dan 5'
+        ],
+        answer: 2,
+        explanation: 'Kode OTP (2), NIK & alamat rumah lengkap (3), serta kata sandi akun (5) merupakan data privat/sensitif yang dapat membahayakan keamanan identitas jika diketahui pihak lain.'
+      },
+      {
+        id: 23,
+        type: 'pg',
+        topic: 'Keamanan Data & Privasi',
+        topicColor: 'emerald',
+        level: 'C4',
+        question: 'Rani menerima pesan WhatsApp dari nomor tidak dikenal yang mengaku sebagai kurir paket. Pengirim mengirimkan file bernama "Foto_Resi_Paket.apk" dan meminta Rani menginstalnya untuk melacak kiriman. Modus serangan siber yang sedang dialami Rani adalah ....',
+        options: [
+          'DDoS Attack',
+          'Phishing berkedok malware/aplikasi berbahaya (APK) untuk mencuri data dan membajak SMS/OTP',
+          'Brute Force pada jaringan Wi-Fi',
+          'Defacement situs web'
+        ],
+        answer: 1,
+        explanation: 'Mengirimkan file instalasi Android (.apk) palsu berkedok resi paket atau undangan adalah modus social engineering/phishing untuk menyusupkan malware pencuri kode OTP dan data perbankan.'
+      },
+      {
+        id: 24,
+        type: 'pg',
+        topic: 'Keamanan Data & Privasi',
+        topicColor: 'emerald',
+        level: 'C3',
+        question: 'Mengaktifkan fitur Autentikasi Dua Faktor (Two-Factor Authentication / 2FA) pada akun email dan media sosial sangat disarankan karena ....',
+        options: [
+          'Membuat pengguna tidak perlu lagi mengingat kata sandi saat masuk akun',
+          'Memberikan lapisan keamanan tambahan berupa kode verifikasi kedua sehingga peretas tidak bisa masuk meskipun berhasil mengetahui kata sandi',
+          'Mempercepat proses pengunduhan file berukuran besar',
+          'Menghapus seluruh riwayat penjelajahan browser secara otomatis'
+        ],
+        answer: 1,
+        explanation: '2FA menggabungkan dua faktor verifikasi (misal kata sandi + kode authenticator/OTP), sehingga akun tetap terlindungi meski kata sandi bocor.'
+      },
+      {
+        id: 25,
+        type: 'pg',
+        topic: 'Keamanan Data & Privasi',
+        topicColor: 'emerald',
+        level: 'C4',
+        question: 'Perbedaan mendasar antara Rekam Jejak Digital Aktif (Active Digital Footprint) dan Rekam Jejak Digital Pasif (Passive Digital Footprint) terletak pada ....',
+        options: [
+          'Jejak digital aktif ditinggalkan secara sadar oleh pengguna (seperti mengunggah foto/komentar), sedangkan jejak digital pasif terekam tanpa disadari pengguna (seperti alamat IP, cookies, dan riwayat lokasi)',
+          'Jejak digital aktif hanya terjadi di komputer desktop, sedangkan jejak pasif hanya di ponsel pintar',
+          'Jejak digital aktif mudah dihapus permanen, sedangkan jejak pasif tidak pernah tersimpan',
+          'Jejak digital aktif bersifat rahasia, sedangkan jejak pasif selalu ditampilkan di profil publik'
+        ],
+        answer: 0,
+        explanation: 'Jejak digital aktif terbentuk dari aktivitas yang sengaja dilakukan pengguna (posting, mengisi formulir), sedangkan jejak pasif dikumpulkan otomatis oleh sistem/situs (IP address, cookies, metadata).'
+      },
+      {
+        id: 26,
+        type: 'pg',
+        topic: 'Keamanan Data & Privasi',
+        topicColor: 'emerald',
+        level: 'C5',
+        question: 'Evaluasilah empat kombinasi kata sandi (password) berikut untuk mengamankan akun penyimpanan awan (cloud storage) berisi dokumen penting sekolah:\n- Opsi 1: `Informatika2026`\n- Opsi 2: `1234567890`\n- Opsi 3: `BudiSantoso9A`\n- Opsi 4: `K7#mP9$vL2@qR8!x`\n\nManakah evaluasi keamanan yang paling tepat?',
+        options: [
+          'Opsi 3 paling kuat karena memuat nama pemilik akun sehingga mudah diverifikasi',
+          'Opsi 1 paling kuat karena menggunakan nama mata pelajaran dan tahun ajaran terbaru',
+          'Opsi 4 paling kuat karena memiliki panjang minimal 12 karakter dengan kombinasi acak huruf besar, huruf kecil, angka, dan simbol khusus tanpa pola kata umum',
+          'Opsi 2 paling kuat karena terdiri dari 10 digit angka berurutan'
+        ],
+        answer: 2,
+        explanation: 'Kata sandi yang kuat memiliki entropi tinggi: panjang (≥12 karakter), acak, tidak menggunakan nama/tanggal lahir, serta memadukan huruf kapital, huruf kecil, angka, dan simbol.'
+      },
+      {
+        id: 27,
+        type: 'pg',
+        topic: 'Keamanan Data & Privasi',
+        topicColor: 'emerald',
+        level: 'C3',
+        question: 'Saat mengerjakan tugas kelompok menggunakan komputer umum di laboratorium sekolah atau warnet, tindakan wajib sebelum meninggalkan komputer agar akun tidak disalahgunakan pengguna berikutnya adalah ....',
+        options: [
+          'Menutup jendela peramban (browser) dengan menekan tombol silang (X) saja',
+          'Melakukan Log Out (keluar) dari seluruh akun, menghapus riwayat/cache jika perlu, serta tidak menyimpan kata sandi di browser',
+          'Mematikan layar monitor tanpa keluar dari akun',
+          'Mengubah ukuran huruf pada tampilan browser'
+        ],
+        answer: 1,
+        explanation: 'Menutup jendela browser tidak otomatis mengeluarkan sesi login. Pengguna harus melakukan Log Out dan menolak opsi "Save Password" pada perangkat bersama.'
+      },
+      {
+        id: 28,
+        type: 'pg',
+        topic: 'Keamanan Data & Privasi',
+        topicColor: 'emerald',
+        level: 'C4',
+        question: 'Ketika mengakses situs web untuk melakukan transaksi atau login akun, pengguna disarankan memastikan alamat URL diawali dengan `https://` dan memiliki ikon gembok tertutup. Fungsi utama protokol HTTPS tersebut adalah ....',
+        options: [
+          'Menjamin bahwa pemilik situs web tidak akan pernah menjual barang palsu',
+          'Mengenkripsi jalur komunikasi data antara browser pengguna dan server sehingga data tidak mudah disadap di tengah jalan (Man-in-the-Middle)',
+          'Membuat tampilan situs web menjadi bebas dari iklan pop-up',
+          'Menghemat kuota internet hingga 50 persen'
+        ],
+        answer: 1,
+        explanation: 'HTTPS menggunakan enkripsi TLS/SSL untuk mengamankan pertukaran data antara perangkat pengguna dan server agar tidak dapat dibaca oleh penyadap jaringan.'
+      },
+      {
+        id: 29,
+        type: 'pg',
+        topic: 'Keamanan Data & Privasi',
+        topicColor: 'emerald',
+        level: 'C5',
+        question: 'Sebuah aplikasi kalkulator sederhana di ponsel meminta izin akses (permissions) ke Kontak, Mikrofon, Log Panggilan, dan Lokasi GPS secara terus-menerus. Sebagai pengguna yang sadar privasi data, keputusan paling tepat yang harus diambil adalah ....',
+        options: [
+          'Menyetujui semua izin agar aplikasi kalkulator dapat menghitung lebih cepat',
+          'Menolak izin yang tidak relevan dengan fungsi utama aplikasi dan mencari aplikasi alternatif yang lebih tepercaya',
+          'Tetap menyetujui izin lalu mematikan paket data setiap kali berhitung',
+          'Membagikan tautan aplikasi tersebut kepada teman-teman sekelas'
+        ],
+        answer: 1,
+        explanation: 'Prinsip hak akses minimal (principle of least privilege): aplikasi kalkulator tidak memerlukan akses kontak, mikrofon, maupun lokasi. Izin berlebihan mengindikasikan potensi pencurian data (spyware).'
+      },
+      {
+        id: 30,
+        type: 'pg',
+        topic: 'Keamanan Data & Privasi',
+        topicColor: 'emerald',
+        level: 'C4',
+        question: 'Mengapa menggunakan jaringan Wi-Fi publik gratis tanpa kata sandi di kafe atau bandara sangat berisiko apabila digunakan untuk mengakses layanan perbankan atau memasukkan kata sandi akun utama?',
+        options: [
+          'Karena sinyal Wi-Fi publik selalu memiliki kecepatan unduh yang lambat',
+          'Karena jaringan terbuka rentan terhadap serangan penyadapan paket data (sniffing) dan titik akses palsu (Evil Twin) oleh peretas di jaringan yang sama',
+          'Karena baterai ponsel akan langsung habis dalam lima menit',
+          'Karena alamat IP perangkat akan terhapus secara permanen'
+        ],
+        answer: 1,
+        explanation: 'Pada jaringan Wi-Fi publik terbuka, lalu lintas data lebih mudah dipantau pelaku kejahatan siber menggunakan teknik packet sniffing atau hotspot tiruan (Evil Twin).'
+      },
+
+      // -----------------------------------------------------------------------
+      // MATERI 4: BERPIKIR KOMPUTASIONAL & SPREADSHEET - NO 31 s.d. 40 (C3 - C5)
+      // -----------------------------------------------------------------------
+      {
+        id: 31,
+        type: 'pg',
+        topic: 'Berpikir Komputasional & Spreadsheet',
+        topicColor: 'sky',
+        level: 'C3',
+        question: 'Panitia class meeting ingin mengelola data ratusan peserta lomba dengan membaginya menjadi beberapa lembar kerja (sheet) terpisah: Sheet Pendaftaran, Sheet Jadwal Pertandingan, Sheet Rekap Skor, dan Sheet Klasemen Akhir. Dalam berpikir komputasional, langkah memecah masalah besar menjadi bagian-bagian kecil yang lebih mudah dikelola disebut ....',
+        options: [
+          'Abstraksi (Abstraction)',
+          'Dekomposisi (Decomposition)',
+          'Pengenalan Pola (Pattern Recognition)',
+          'Algoritma (Algorithm)'
+        ],
+        answer: 1,
+        explanation: 'Dekomposisi adalah proses memecah persoalan atau sistem yang kompleks menjadi sub-bagian yang lebih kecil, spesifik, dan mudah diselesaikan.'
+      },
+      {
+        id: 32,
+        type: 'pg',
+        topic: 'Berpikir Komputasional & Spreadsheet',
+        topicColor: 'sky',
+        level: 'C3',
+        question: 'Saat menganalisis kelulusan akademik siswa dalam tabel spreadsheet yang memuat 20 kolom (seperti hobi, golongan darah, tinggi badan, nomor sepatu, nilai tugas, nilai PTS, dan nilai ASAS), guru hanya mengambil kolom Nilai Tugas, Nilai PTS, dan Nilai ASAS untuk menghitung nilai akhir. Penerapan pilar berpikir komputasional ini disebut ....',
+        options: [
+          'Abstraksi (menyaring informasi relevan dan mengabaikan detail yang tidak penting)',
+          'Dekomposisi (memecah rumus menjadi beberapa sel)',
+          'Debugging (memperbaiki kesalahan sintaks)',
+          'Iterasi (mengulang perhitungan secara beruntun)'
+        ],
+        answer: 0,
+        explanation: 'Abstraksi adalah kemampuan menyaring informasi dengan fokus pada data penting yang relevan untuk solusi dan mengabaikan detail yang tidak diperlukan.'
+      },
+      {
+        id: 33,
+        type: 'pg',
+        topic: 'Berpikir Komputasional & Spreadsheet',
+        topicColor: 'sky',
+        level: 'C4',
+        question: 'Perhatikan cuplikan tabel lembar kerja berikut untuk menentukan status ketuntasan siswa (KKM = 75):',
+        extraHtml: `
+          <table class="spreadsheet-table w-full max-w-md rounded-lg overflow-hidden my-2">
+            <thead>
+              <tr><th></th><th>A</th><th>B</th><th>C</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="row-num">1</td><td class="font-bold">Nama Siswa</td><td class="font-bold">Nilai Akhir</td><td class="font-bold">Keterangan</td></tr>
+              <tr><td class="row-num">2</td><td>Alya</td><td>84</td><td>?</td></tr>
+              <tr><td class="row-num">3</td><td>Bagas</td><td>72</td><td>?</td></tr>
+              <tr><td class="row-num">4</td><td>Citra</td><td>75</td><td>?</td></tr>
+            </tbody>
+          </table>
+        `,
+        options: [
+          '=IF(B2>75; "Tuntas"; "Remedial")',
+          '=IF(B2>=75; "Tuntas"; "Remedial")',
+          '=COUNTIF(B2:B4; ">=75")',
+          '=SUMIF(B2:B4; ">=75")'
+        ],
+        answer: 1,
+        explanation: 'Karena KKM = 75 berarti nilai 75 sudah dinyatakan Tuntas, operator perbandingan yang tepat adalah >=75 (lebih besar atau sama dengan 75), yaitu =IF(B2>=75; "Tuntas"; "Remedial").'
+      },
+      {
+        id: 34,
+        type: 'pg',
+        topic: 'Berpikir Komputasional & Spreadsheet',
+        topicColor: 'sky',
+        level: 'C4',
+        question: 'Perhatikan tabel rekap transaksi koperasi siswa berikut:',
+        extraHtml: `
+          <table class="spreadsheet-table w-full max-w-lg rounded-lg overflow-hidden my-2">
+            <thead>
+              <tr><th></th><th>A</th><th>B</th><th>C</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="row-num">1</td><td class="font-bold">Kategori</td><td class="font-bold">Nama Barang</td><td class="font-bold">Total Penjualan (Rp)</td></tr>
+              <tr><td class="row-num">2</td><td>ATK</td><td>Buku Tulis</td><td>150000</td></tr>
+              <tr><td class="row-num">3</td><td>Minuman</td><td>Air Mineral</td><td>90000</td></tr>
+              <tr><td class="row-num">4</td><td>ATK</td><td>Pulpen Gel</td><td>120000</td></tr>
+              <tr><td class="row-num">5</td><td>Seragam</td><td>Dasi SMP</td><td>200000</td></tr>
+            </tbody>
+          </table>
+        `,
+        options: [
+          '=COUNTIF(A2:A5; "ATK")',
+          '=SUM(C2:C5)',
+          '=SUMIF(A2:A5; "ATK"; C2:C5)',
+          '=AVERAGEIF(C2:C5; "ATK"; A2:A5)'
+        ],
+        answer: 2,
+        explanation: 'Untuk menjumlahkan total penjualan (kolom C) khusus untuk kategori "ATK" (kolom A), digunakan fungsi SUMIF(range_kriteria; kriteria; sum_range), menghasilkan 150.000 + 120.000 = 270.000.'
+      },
+      {
+        id: 35,
+        type: 'pg',
+        topic: 'Berpikir Komputasional & Spreadsheet',
+        topicColor: 'sky',
+        level: 'C3',
+        question: 'Dalam pengolahan data spreadsheet, saat sebuah rumus pada sel `C2` berbunyi `=B2*$E$1` kemudian disalin (drag/autofill) ke sel `C3` dan `C4`, tanda dolar (`$`) pada `$E$1` berfungsi sebagai ....',
+        options: [
+          'Format mata uang Dolar Amerika secara otomatis',
+          'Referensi sel absolut (Absolute Reference) agar alamat sel E1 tidak berubah saat rumus disalin ke baris atau kolom lain',
+          'Penanda kesalahan perhitungan rumus',
+          'Pengubah angka desimal menjadi bilangan bulat'
+        ],
+        answer: 1,
+        explanation: 'Tanda $ sebelum huruf kolom dan nomor baris ($E$1) mengunci referensi sel (Absolute Reference) agar tetap menunjuk ke sel E1 ketika rumus disalin.'
+      },
+      {
+        id: 36,
+        type: 'pg',
+        topic: 'Berpikir Komputasional & Spreadsheet',
+        topicColor: 'sky',
+        level: 'C4',
+        question: 'Seorang bendahara kelas ingin menghitung berapa banyak siswa yang berstatus "Lunas" pada rentang sel `D2:D35`. Rumus fungsi lembar kerja yang paling tepat digunakan adalah ....',
+        options: [
+          '=SUMIF(D2:D35; "Lunas")',
+          '=COUNTIF(D2:D35; "Lunas")',
+          '=COUNTA(D2:D35)',
+          '=IF(D2:D35="Lunas"; 1; 0)'
+        ],
+        answer: 1,
+        explanation: 'COUNTIF(range; criteria) digunakan untuk menghitung jumlah sel dalam suatu rentang yang memenuhi kriteria teks atau angka tertentu ("Lunas").'
+      },
+      {
+        id: 37,
+        type: 'pg',
+        topic: 'Berpikir Komputasional & Spreadsheet',
+        topicColor: 'sky',
+        level: 'C4',
+        question: 'Perhatikan dua tabel berikut pada lembar kerja: Tabel Utama berisi kolom Kode Ekskul (`B2`), dan Tabel Referensi pada rentang `$F$2:$G$6` berisi daftar Kode Ekskul (kolom F) dan Nama Pembina (kolom G). Untuk menampilkan Nama Pembina secara otomatis pada sel `C2`, rumus yang tepat adalah ....',
+        options: [
+          '=VLOOKUP(B2; $F$2:$G$6; 2; FALSE)',
+          '=HLOOKUP(B2; $F$2:$G$6; 2; FALSE)',
+          '=VLOOKUP($F$2:$G$6; B2; 1; TRUE)',
+          '=LOOKUP(2; B2; $F$2:$G$6)'
+        ],
+        answer: 0,
+        explanation: 'VLOOKUP(lookup_value; table_array; col_index_num; FALSE) mencari nilai B2 pada kolom pertama tabel referensi ($F$2:$G$6) dan mengambil data dari kolom ke-2 secara persis (FALSE).'
+      },
+      {
+        id: 38,
+        type: 'pg',
+        topic: 'Berpikir Komputasional & Spreadsheet',
+        topicColor: 'sky',
+        level: 'C5',
+        question: 'Seorang siswa menuliskan rumus `=AVERAGE(B2:B6)` untuk mencari nilai rata-rata 5 kali ulangan. Namun, pada salah satu sel tertulis teks `"Izin"` (bukan angka), sedangkan pada ulangan lain siswa mendapat nilai `0` (angka nol). Bagaimana perilaku fungsi `AVERAGE` terhadap kedua sel tersebut?',
+        options: [
+          'Sel berisi teks "Izin" diabaikan dari pembagi, sedangkan sel berisi angka 0 tetap dihitung sebagai pembagi',
+          'Kedua sel tersebut dianggap bernilai 0 sehingga pembaginya tetap 5',
+          'Fungsi AVERAGE akan menghasilkan pesan error #VALUE!',
+          'Kedua sel tersebut diabaikan sehingga pembaginya hanya 3'
+        ],
+        answer: 0,
+        explanation: 'Fungsi AVERAGE secara otomatis mengabaikan sel kosong atau sel berisi teks (tidak dihitung dalam jumlah maupun pembagi), tetapi tetap memperhitungkan nilai numerik 0.'
+      },
+      {
+        id: 39,
+        type: 'pg',
+        topic: 'Berpikir Komputasional & Spreadsheet',
+        topicColor: 'sky',
+        level: 'C4',
+        question: 'Untuk mencegah kesalahan input pengguna saat mengisi kolom "Jenis Kelamin" pada formulir spreadsheet agar hanya menerima pilihan `"Laki-laki"` atau `"Perempuan"`, fitur lembar kerja yang paling tepat diterapkan adalah ....',
+        options: [
+          'Conditional Formatting',
+          'Data Validation (List / Daftar Pilihan)',
+          'Freeze Panes',
+          'Merge & Center'
+        ],
+        answer: 1,
+        explanation: 'Data Validation dengan kriteria List membatasi nilai yang boleh dimasukkan ke dalam sel hanya dari daftar dropdown yang telah ditentukan, sehingga mencegah typo/kesalahan input.'
+      },
+      {
+        id: 40,
+        type: 'pg',
+        topic: 'Berpikir Komputasional & Spreadsheet',
+        topicColor: 'sky',
+        level: 'C5',
+        question: 'Perhatikan urutan langkah algoritma pengolahan data nilai rapor pada spreadsheet berikut:\n1) Mengurutkan (Sorting) peringkat siswa dari nilai rata-rata tertinggi ke terendah.\n2) Menghitung nilai akhir tiap siswa dengan rumus pembobotan.\n3) Memvalidasi dan membersihkan data mentah (menghapus duplikasi nama/NISN).\n4) Memberikan penanda warna merah (Conditional Formatting) bagi siswa dengan nilai di bawah KKM.\n\nUrutan algoritma yang paling logis dan sistematis agar hasil analisis akurat adalah ....',
+        options: [
+          '1 – 2 – 3 – 4',
+          '3 – 2 – 4 – 1',
+          '2 – 1 – 4 – 3',
+          '4 – 3 – 1 – 2'
+        ],
+        answer: 1,
+        explanation: 'Dalam siklus pengolahan data: (3) bersihkan dan validasi data terlebih dahulu, (2) lakukan kalkulasi nilai akhir, (4) tandai status ketuntasan, lalu (1) urutkan peringkat akhir.'
+      },
+
+      // -----------------------------------------------------------------------
+      // BAGIAN B: 5 SOAL URAIAN / ESSAI STUDI KASUS (NO 41 s.d. 45) (C3 - C5)
+      // -----------------------------------------------------------------------
+      {
+        id: 41,
+        type: 'essay',
+        topic: 'Studi Kasus Perundungan & Etika Digital',
+        topicColor: 'violet',
+        level: 'C4',
+        question: '<strong>Studi Kasus 1 (Perundungan Digital & Ruang Publik Virtual):</strong><br>Sebuah video berdurasi 20 detik yang memperlihatkan seorang siswa SMP terjatuh saat tampil di panggung pentas seni direkam tanpa izin oleh penonton, lalu diunggah ke media sosial dengan tambahan efek suara tertawa dan takarir (caption) mengejek. Dalam beberapa jam, video tersebut viral dan memicu ribuan komentar perundungan terhadap siswa tersebut.<br><br><strong>Pertanyaan:</strong><br>a) Identifikasi <strong>dua bentuk perundungan digital</strong> yang terjadi dalam kasus tersebut!<br>b) Jelaskan <strong>dua dampak jangka panjang</strong> yang dialami korban akibat karakteristik jejak digital di ruang publik virtual!',
+        keyAnswer: 'a) Bentuk perundungan digital: (1) <em>Denigration</em> (pencemaran nama baik/penyebaran konten yang merendahkan martabat korban dengan mengedit video menjadi bahan ejekan) dan (2) <em>Harassment / Flaming</em> (serangan komentar negatif dan penghinaan berulang kali di kolom komentar publik).<br>b) Dampak jangka panjang: (1) Tekanan psikologis serius seperti kecemasan sosial, trauma, dan hilangnya rasa percaya diri; (2) Jejak digital negatif bersifat persisten/permanen sehingga video mudah diunduh ulang dan muncul kembali di mesin pencari di masa depan meskipun unggahan asli telah dihapus.',
+        rubric: '<strong>Rubrik Penskoran (Maksimal 20 Poin):</strong><br>• Menyebutkan & menjelaskan 2 bentuk cyberbullying yang tepat: 10 poin (masing-masing 5 poin).<br>• Menjelaskan 2 dampak jangka panjang terkait sifat jejak digital: 10 poin (masing-masing 5 poin).'
+      },
+      {
+        id: 42,
+        type: 'essay',
+        topic: 'Studi Kasus Perundungan & Etika Digital',
+        topicColor: 'violet',
+        level: 'C5',
+        question: '<strong>Studi Kasus 2 (Etika Media Pers & Kewargaan Digital):</strong><br>Menanggapi kasus viral pada soal nomor 41, sebuah portal berita daring lokal menerbitkan artikel berjudul <em>"Memalukan! Detik-Detik Siswa SMP X Jatuh Tersungkur Jadi Bahan Tertawaan Warganet"</em> dengan menyertakan foto wajah jelas dan nama lengkap siswa tersebut tanpa konfirmasi maupun sensor.<br><br><strong>Pertanyaan:</strong><br>a) Evaluasilah <strong>dua pelanggaran etika</strong> yang dilakukan oleh portal berita tersebut!<br>b) Rumuskan <strong>tiga langkah etis</strong> yang seharusnya dilakukan oleh pihak media pers maupun warganet dalam menyikapi peristiwa tersebut!',
+        keyAnswer: 'a) Pelanggaran etika media pers: (1) Menggunakan judul sensasional/clickbait yang menghakimi dan mempermalukan anak di bawah umur; (2) Melanggar Kode Etik Jurnalistik dan prinsip perlindungan privasi anak dengan menampilkan wajah dan identitas lengkap korban tanpa sensor.<br>b) Tiga langkah etis: (1) Media pers wajib menyamarkan wajah/identitas anak dan memberitakan secara edukatif tentang bahaya perundungan; (2) Warganet tidak ikut membagikan ulang (repost) video perundungan; (3) Menggunakan fitur lapor (Report) pada platform untuk menurunkan konten perundungan serta memberikan dukungan empati kepada korban.',
+        rubric: '<strong>Rubrik Penskoran (Maksimal 20 Poin):</strong><br>• Mengidentifikasi 2 pelanggaran etika pers dengan tepat: 8 poin.<br>• Merumuskan 3 solusi etis bagi pers dan warganet: 12 poin (masing-masing 4 poin).'
+      },
+      {
+        id: 43,
+        type: 'essay',
+        topic: 'Analisis Data & Proteksi Data',
+        topicColor: 'violet',
+        level: 'C4',
+        question: '<strong>Studi Kasus 3 (Penerapan Berpikir Komputasional & Rumus Spreadsheet):</strong><br>Perhatikan tabel rekap nilai Informatika berikut yang memuat data siswa di kolom A hingga F:',
+        extraHtml: `
+          <table class="spreadsheet-table w-full max-w-2xl rounded-lg overflow-hidden my-2">
+            <thead>
+              <tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="row-num">1</td><td class="font-bold">NISN</td><td class="font-bold">Nama</td><td class="font-bold">Tugas</td><td class="font-bold">PTS</td><td class="font-bold">ASAS</td><td class="font-bold">Nilai Akhir</td></tr>
+              <tr><td class="row-num">2</td><td>00912345</td><td>Nadia</td><td>85</td><td>80</td><td>90</td><td>...</td></tr>
+              <tr><td class="row-num">3</td><td>00912346</td><td>Farhan</td><td>70</td><td>65</td><td>75</td><td>...</td></tr>
+              <tr><td class="row-num">4</td><td>00912347</td><td>Salsa</td><td>90</td><td>88</td><td>92</td><td>...</td></tr>
+            </tbody>
+          </table>
+          <p class="text-xs text-slate-600 mt-1">Ketentuan pembobotan Nilai Akhir: <strong>30% Tugas + 30% PTS + 40% ASAS</strong>.</p>
+        `,
+        keyAnswer: 'a) Rumus pada sel F2: <code>=(30%*C2)+(30%*D2)+(40%*E2)</code> atau <code>=(0.3*C2)+(0.3*D2)+(0.4*E2)</code>.<br>b) Hasil perhitungan:<br>• Nadia (F2) = (0,3 × 85) + (0,3 × 80) + (0,4 × 90) = 25,5 + 24 + 36 = <strong>85,5</strong><br>• Farhan (F3) = (0,3 × 70) + (0,3 × 65) + (0,4 × 75) = 21 + 19,5 + 30 = <strong>70,5</strong><br>• Salsa (F4) = (0,3 × 90) + (0,3 × 88) + (0,4 × 92) = 27 + 26,4 + 36,8 = <strong>90,2</strong><br>c) Rumus menghitung siswa tuntas (KKM ≥ 75): <code>=COUNTIF(F2:F4; ">=75")</code> (hasilnya 2 siswa: Nadia dan Salsa).',
+        rubric: '<strong>Rubrik Penskoran (Maksimal 20 Poin):</strong><br>• Menuliskan sintaks rumus pembobotan F2 dengan benar: 7 poin.<br>• Menghitung nilai akhir Nadia, Farhan, dan Salsa dengan akurat: 7 poin.<br>• Menuliskan fungsi COUNTIF untuk ketuntasan: 6 poin.'
+      },
+      {
+        id: 44,
+        type: 'essay',
+        topic: 'Analisis Data & Proteksi Data',
+        topicColor: 'violet',
+        level: 'C5',
+        question: '<strong>Studi Kasus 4 (Strategi Proteksi Data Sensitif pada Spreadsheet):</strong><br>Wali kelas IX menyusun satu file spreadsheet induk yang berisi: Nama Siswa, NISN, NIK, Alamat Rumah, Nomor WhatsApp Orang Tua, serta Rekap Nilai Ujian. Wali kelas ingin membagikan file tersebut melalui Google Sheets agar siswa dapat melihat nilai ujian masing-masing, namun data pribadi sensitif (NIK, Alamat, dan Nomor WA) tidak boleh dilihat oleh siswa lain maupun diubah sembarangan.<br><br><strong>Pertanyaan:</strong><br>Rancanglah <strong>tiga strategi teknis proteksi data</strong> pada lembar kerja (spreadsheet) agar distribusi nilai tetap berjalan lancar tanpa membocorkan data sensitif!',
+        keyAnswer: 'Tiga strategi proteksi data pada lembar kerja:<br>1) <strong>Pemisahan & Penyembunyian Data (Data Minimization / Separate View Sheet):</strong> Membuat sheet terpisah khusus publikasi nilai yang hanya menampilkan Nama/Nomor Absen dan Nilai Akhir (menggunakan abstraksi data) tanpa menyertakan kolom NIK, Alamat, dan Nomor WA.<br>2) <strong>Pengaturan Hak Akses Berbagi (Access Control / Viewer Mode):</strong> Mengatur izin berbagi tautan Google Sheets hanya sebagai <em>Viewer (Pelihat)</em> dan menonaktifkan opsi unduh/salin/cetak bagi pengakses agar data tidak dapat diubah atau disebarluaskan.<br>3) <strong>Proteksi Rentang & Kata Sandi File (Protect Sheet/Range & Encryption):</strong> Mengunci sel rumus dan lembar master menggunakan fitur <em>Protect Sheet/Range</em> atau menyamarkan sebagian digit NIK (data masking, misal <code>3201********0002</code>).',
+        rubric: '<strong>Rubrik Penskoran (Maksimal 20 Poin):</strong><br>• Merancang 3 strategi teknis proteksi spreadsheet yang relevan dan aplikatif: 18 poin (masing-masing 6 poin).<br>• Kejelasan alur penjelasan: 2 poin.'
+      },
+      {
+        id: 45,
+        type: 'essay',
+        topic: 'Analisis Data & Proteksi Data',
+        topicColor: 'violet',
+        level: 'C5',
+        question: '<strong>Studi Kasus 5 (Analisis Data Penjualan & Pengambilan Keputusan):</strong><br>Panitia bazar kewirausahaan kelas IX mencatat penjualan 4 produk selama 3 hari menggunakan spreadsheet. Ditemukan pola bahwa produk <em>Es Kopi Susu</em> selalu habis terjual pada pukul 10.00 WIB dengan margin keuntungan tertinggi, sedangkan produk <em>Roti Bakar</em> sering tersisa 40% setiap harinya.<br><br><strong>Pertanyaan:</strong><br>a) Jelaskan bagaimana <strong>4 pilar berpikir komputasional</strong> (Dekomposisi, Pengenalan Pola, Abstraksi, Algoritma) digunakan untuk menganalisis data bazar tersebut!<br>b) Sebutkan <strong>dua fungsi spreadsheet</strong> yang membantu panitia menemukan produk terlaris dan total keuntungan bersih secara otomatis!',
+        keyAnswer: 'a) Penerapan 4 pilar berpikir komputasional:<br>• <strong>Dekomposisi:</strong> Memecah data bazar berdasarkan jenis produk, hari penjualan, biaya modal, dan pendapatan kotor.<br>• <strong>Pengenalan Pola:</strong> Mengidentifikasi tren waktu laku tercepat (pukul 10.00 WIB untuk Es Kopi Susu) dan pola sisa stok (40% pada Roti Bakar).<br>• <strong>Abstraksi:</strong> Berfokus pada variabel harga pokok, harga jual, dan jumlah terjual untuk menghitung profit, serta mengabaikan faktor non-teknis seperti warna kemasan.<br>• <strong>Algoritma:</strong> Menyusun langkah sistematis penyesuaian stok hari berikutnya (menambah stok Es Kopi Susu dan mengurangi produksi Roti Bakar sebesar 40%).<br>b) Dua fungsi spreadsheet: <code>MAX</code> (mencari penjualan/keuntungan tertinggi), <code>SUMIF</code> (menjumlahkan pendapatan per kategori produk), atau <code>SORT/FILTER</code>.',
+        rubric: '<strong>Rubrik Penskoran (Maksimal 20 Poin):</strong><br>• Menjelaskan keempat pilar berpikir komputasional sesuai konteks bazar: 14 poin (masing-masing 3,5 poin).<br>• Menyebutkan 2 fungsi spreadsheet yang tepat beserta kegunaannya: 6 poin.'
+      }
+    ];
+
+    // =========================================================================
+    // 2. APPLICATION STATE
+    // =========================================================================
+    const state = {
+      studentName: '',
+      studentClass: '',
+      mode: 'instant', // 'instant' | 'exam'
+      currentIndex: 0,
+      answers: new Array(QUESTIONS.length).fill(null), // index (0-3) for PG, string for Essay
+      flags: new Array(QUESTIONS.length).fill(false),
+      xp: 0,
+      streak: 0,
+      soundEnabled: true,
+      rubricVisible: {}
+    };
+
+    // =========================================================================
+    // 3. WEB AUDIO API SOUND EFFECTS (NO EXTERNAL AUDIO URLS)
+    // =========================================================================
+    let audioCtx = null;
+    function playTone(type) {
+      if (!state.soundEnabled) return;
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+        if (type === 'correct') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+          osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } else if (type === 'wrong') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.linearRampToValueAtTime(165, now + 0.25);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+          osc.start(now);
+          osc.stop(now + 0.28);
+        } else if (type === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(440, now);
+          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'finish') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.1);
+          osc.frequency.setValueAtTime(783.99, now + 0.2);
+          osc.frequency.setValueAtTime(1046.50, now + 0.3);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+          osc.start(now);
+          osc.stop(now + 0.6);
+        }
+      } catch (e) {
+        // Ignore audio errors if blocked by browser policy
+      }
+    }
+
+    function toggleSound() {
+      state.soundEnabled = !state.soundEnabled;
+      const btn = document.getElementById('sound-toggle-btn');
+      btn.textContent = state.soundEnabled ? '🔊' : '🔇';
+      showToast(state.soundEnabled ? 'Efek suara diaktifkan' : 'Efek suara dimatikan', 'info');
+    }
+
+    // =========================================================================
+    // 4. CUSTOM TOAST & MODAL UTILITIES (REPLACING ALERT/CONFIRM)
+    // =========================================================================
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const colors = {
+        info: 'bg-slate-900 text-white border-slate-700',
+        success: 'bg-emerald-600 text-white border-emerald-500',
+        warning: 'bg-amber-500 text-white border-amber-400',
+        error: 'bg-rose-600 text-white border-rose-500'
+      };
+      toast.className = `px-4 py-2.5 rounded-xl shadow-lg border text-xs sm:text-sm font-bold animate-pop pointer-events-auto ${colors[type] || colors.info}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.25s ease';
+        setTimeout(() => toast.remove(), 250);
+      }, 2600);
+    }
+
+    let modalConfirmCallback = null;
+    function openModal({ icon = '🚀', title, message, confirmText = 'Ya, Lanjutkan', cancelText = 'Batal', onConfirm }) {
+      document.getElementById('modal-icon').textContent = icon;
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-message').innerHTML = message;
+      document.getElementById('modal-confirm-btn').textContent = confirmText;
+      document.getElementById('modal-cancel-btn').textContent = cancelText;
+      modalConfirmCallback = onConfirm;
+
+      const modal = document.getElementById('custom-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('custom-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      modalConfirmCallback = null;
+    }
+
+    document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
+    document.getElementById('modal-confirm-btn').addEventListener('click', () => {
+      if (typeof modalConfirmCallback === 'function') {
+        modalConfirmCallback();
+      }
+      closeModal();
+    });
+
+    // =========================================================================
+    // 5. START SCREEN LOGIC
+    // =========================================================================
+    function selectQuizMode(mode) {
+      state.mode = mode;
+      const instantBtn = document.getElementById('mode-instant-btn');
+      const examBtn = document.getElementById('mode-exam-btn');
+
+      if (mode === 'instant') {
+        instantBtn.className = 'p-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-left transition';
+        instantBtn.querySelector('div:first-child').className = 'text-xs font-extrabold text-indigo-700 flex items-center gap-1';
+        examBtn.className = 'p-3 rounded-xl border-2 border-slate-200 bg-white text-left hover:border-slate-300 transition';
+        examBtn.querySelector('div:first-child').className = 'text-xs font-extrabold text-slate-700 flex items-center gap-1';
+      } else {
+        examBtn.className = 'p-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-left transition';
+        examBtn.querySelector('div:first-child').className = 'text-xs font-extrabold text-indigo-700 flex items-center gap-1';
+        instantBtn.className = 'p-3 rounded-xl border-2 border-slate-200 bg-white text-left hover:border-slate-300 transition';
+        instantBtn.querySelector('div:first-child').className = 'text-xs font-extrabold text-slate-700 flex items-center gap-1';
+      }
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById('student-name').value.trim();
+      const classInput = document.getElementById('student-class').value;
+
+      if (!nameInput) {
+        showToast('Silakan masukkan Nama Lengkap terlebih dahulu!', 'error');
+        document.getElementById('student-name').focus();
+        return;
+      }
+      if (!classInput) {
+        showToast('Silakan pilih Kelas IX terlebih dahulu!', 'error');
+        document.getElementById('student-class').focus();
+        return;
+      }
+
+      state.studentName = nameInput;
+      state.studentClass = classInput;
+
+      // Update HUD
+      document.getElementById('hud-student-name').textContent = state.studentName;
+      document.getElementById('hud-student-class').textContent = `Kelas ${state.studentClass}`;
+      document.getElementById('hud-mode-badge').textContent = state.mode === 'instant' ? '⚡ Mode Latihan' : '🎯 Mode Ujian';
+
+      // Switch Screen
+      document.getElementById('start-screen').classList.add('hidden');
+      document.getElementById('quiz-screen').classList.remove('hidden');
+
+      playTone('click');
+      renderNavGrids();
+      renderQuestion(0);
+    }
+
+    // =========================================================================
+    // 6. QUIZ RENDERING & INTERACTION
+    // =========================================================================
+    function getTopicBadgeStyle(color) {
+      const map = {
+        rose: 'bg-rose-100 text-rose-700',
+        amber: 'bg-amber-100 text-amber-800',
+        emerald: 'bg-emerald-100 text-emerald-700',
+        sky: 'bg-sky-100 text-sky-700',
+        violet: 'bg-violet-100 text-violet-700'
+      };
+      return map[color] || 'bg-slate-100 text-slate-700';
+    }
+
+    function renderQuestion(index) {
+      state.currentIndex = index;
+      const q = QUESTIONS[index];
+
+      // Trigger subtle pop animation
+      const card = document.getElementById('question-card');
+      card.classList.remove('animate-pop');
+      void card.offsetWidth;
+      card.classList.add('animate-pop');
+
+      // Badges
+      document.getElementById('q-number-badge').textContent = `Soal ${q.id} / ${QUESTIONS.length}`;
+      const topicBadge = document.getElementById('q-topic-badge');
+      topicBadge.textContent = q.topic;
+      topicBadge.className = `px-3 py-1.5 rounded-xl font-bold text-xs ${getTopicBadgeStyle(q.topicColor)}`;
+
+      document.getElementById('q-level-badge').textContent = `${q.type === 'pg' ? 'Pilihan Ganda' : 'Uraian Kasus'} • ${q.level}`;
+
+      // Flag button state
+      const flagBtn = document.getElementById('flag-btn');
+      const flagText = document.getElementById('flag-btn-text');
+      if (state.flags[index]) {
+        flagBtn.className = 'px-3 py-1.5 rounded-xl border border-amber-400 bg-amber-100 text-amber-800 text-xs font-bold flex items-center gap-1.5 transition';
+        flagText.textContent = 'Ditandai Ragu';
+      } else {
+        flagBtn.className = 'px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-amber-50 hover:border-amber-300 text-slate-600 text-xs font-bold flex items-center gap-1.5 transition';
+        flagText.textContent = 'Tandai Ragu';
+      }
+
+      // Question text & optional HTML table
+      document.getElementById('q-text').innerHTML = q.question.replace(/\n/g, '<br>');
+      const extraBox = document.getElementById('q-extra-html');
+      if (q.extraHtml) {
+        extraBox.innerHTML = q.extraHtml;
+        extraBox.classList.remove('hidden');
+      } else {
+        extraBox.innerHTML = '';
+        extraBox.classList.add('hidden');
+      }
+
+      // Render PG vs Essay
+      const pgContainer = document.getElementById('pg-options-container');
+      const essayContainer = document.getElementById('essay-container');
+      const feedbackBox = document.getElementById('instant-feedback-box');
+
+      if (q.type === 'pg') {
+        pgContainer.classList.remove('hidden');
+        essayContainer.classList.add('hidden');
+        renderPGOptions(q, index);
+      } else {
+        pgContainer.classList.add('hidden');
+        feedbackBox.classList.add('hidden');
+        essayContainer.classList.remove('hidden');
+        renderEssayArea(q, index);
+      }
+
+      // Prev / Next buttons state
+      document.getElementById('prev-btn').disabled = index === 0;
+      const nextBtn = document.getElementById('next-btn');
+      if (index === QUESTIONS.length - 1) {
+        nextBtn.classList.add('hidden');
+      } else {
+        nextBtn.classList.remove('hidden');
+      }
+
+      updateProgressHUD();
+      renderNavGrids();
+    }
+
+    function renderPGOptions(q, index) {
+      const container = document.getElementById('pg-options-container');
+      container.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+      const letterColors = [
+        'bg-rose-500 text-white',
+        'bg-sky-500 text-white',
+        'bg-amber-500 text-white',
+        'bg-emerald-500 text-white'
+      ];
+
+      const userAnswer = state.answers[index];
+      const isAnswered = userAnswer !== null;
+      const isInstant = state.mode === 'instant';
+
+      q.options.forEach((optText, optIdx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+
+        let cardStyle = 'border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/40';
+        let statusIcon = '';
+
+        if (isAnswered) {
+          if (isInstant) {
+            if (optIdx === q.answer) {
+              cardStyle = 'border-emerald-500 bg-emerald-50 ring-2 ring-emerald-500/20';
+              statusIcon = '<span class="text-emerald-600 font-extrabold text-base ml-auto">✔</span>';
+            } else if (optIdx === userAnswer && userAnswer !== q.answer) {
+              cardStyle = 'border-rose-500 bg-rose-50 ring-2 ring-rose-500/20';
+              statusIcon = '<span class="text-rose-600 font-extrabold text-base ml-auto">✖</span>';
+            } else {
+              cardStyle = 'border-slate-200 bg-slate-50/70 opacity-65';
+            }
+          } else {
+            // Exam mode: highlight selected option neutrally
+            if (optIdx === userAnswer) {
+              cardStyle = 'border-indigo-600 bg-indigo-50 ring-2 ring-indigo-600/20';
+              statusIcon = '<span class="text-indigo-600 font-extrabold text-xs px-2 py-0.5 rounded-md bg-indigo-100 ml-auto">Dipilih</span>';
+            }
+          }
+        }
+
+        btn.className = `option-card w-full text-left p-3.5 sm:p-4 rounded-2xl border-2 flex items-center gap-3.5 ${cardStyle}`;
+        if (isInstant && isAnswered) {
+          btn.disabled = true;
+        }
+
+        btn.innerHTML = `
+          <span class="w-9 h-9 rounded-xl ${letterColors[optIdx]} font-extrabold text-sm flex items-center justify-center shrink-0 shadow-sm">
+            ${letters[optIdx]}
+          </span>
+          <span class="text-sm sm:text-base font-medium text-slate-800 leading-snug">${optText}</span>
+          ${statusIcon}
+        `;
+
+        btn.addEventListener('click', () => handleSelectPGOption(index, optIdx));
+        container.appendChild(btn);
+      });
+
+      // Instant feedback box
+      const feedbackBox = document.getElementById('instant-feedback-box');
+      if (isInstant && isAnswered) {
+        const isCorrect = userAnswer === q.answer;
+        feedbackBox.classList.remove('hidden');
+        if (isCorrect) {
+          feedbackBox.className = 'mt-6 p-4 rounded-2xl border border-emerald-200 bg-emerald-50/90 text-emerald-900 animate-pop';
+          document.getElementById('feedback-icon').textContent = '🎉';
+          document.getElementById('feedback-title').textContent = 'Tepat Sekali! (+25 XP)';
+        } else {
+          feedbackBox.className = 'mt-6 p-4 rounded-2xl border border-rose-200 bg-rose-50/90 text-rose-900 animate-pop';
+          document.getElementById('feedback-icon').textContent = '💡';
+          document.getElementById('feedback-title').textContent = `Kurang Tepat — Jawaban Benar: ${letters[q.answer]}`;
+        }
+        document.getElementById('feedback-text').innerHTML = q.explanation;
+      } else {
+        feedbackBox.classList.add('hidden');
+      }
+    }
+
+    function handleSelectPGOption(qIndex, optIdx) {
+      const q = QUESTIONS[qIndex];
+      const prevAnswer = state.answers[qIndex];
+
+      // In instant mode, lock after first answer so XP cannot be farmed
+      if (state.mode === 'instant' && prevAnswer !== null) return;
+
+      state.answers[qIndex] = optIdx;
+
+      if (state.mode === 'instant') {
+        if (optIdx === q.answer) {
+          state.streak += 1;
+          const bonus = state.streak >= 3 ? 10 : 0;
+          state.xp += 25 + bonus;
+          playTone('correct');
+          if (bonus > 0) {
+            showToast(`🔥 Streak ${state.streak}x! +${25 + bonus} XP`, 'success');
+          }
+        } else {
+          state.streak = 0;
+          playTone('wrong');
+        }
+      } else {
+        playTone('click');
+      }
+
+      renderQuestion(qIndex);
+    }
+
+    function renderEssayArea(q, index) {
+      const textarea = document.getElementById('essay-input');
+      const currentVal = state.answers[index] || '';
+      textarea.value = currentVal;
+      document.getElementById('essay-char-count').textContent = `${currentVal.length} karakter`;
+
+      // Rubric visibility
+      const rubricBox = document.getElementById('essay-rubric-box');
+      const toggleText = document.getElementById('toggle-rubric-text');
+      document.getElementById('essay-key-content').innerHTML = `<strong>Kunci Jawaban Ideal:</strong><br>${q.keyAnswer}`;
+      document.getElementById('essay-rubric-content').innerHTML = q.rubric;
+
+      if (state.rubricVisible[index]) {
+        rubricBox.classList.remove('hidden');
+        toggleText.textContent = 'Sembunyikan Kunci Jawaban & Rubrik';
+      } else {
+        rubricBox.classList.add('hidden');
+        toggleText.textContent = 'Lihat Kunci Jawaban & Rubrik Pembahasan';
+      }
+    }
+
+    function handleEssayInput(val) {
+      const idx = state.currentIndex;
+      const wasEmpty = !state.answers[idx] || state.answers[idx].trim() === '';
+      state.answers[idx] = val;
+      document.getElementById('essay-char-count').textContent = `${val.length} karakter`;
+
+      // Award XP once when student writes a meaningful answer (>= 15 chars)
+      if (wasEmpty && val.trim().length >= 15 && !state.rubricVisible[`xp_${idx}`]) {
+        state.rubricVisible[`xp_${idx}`] = true;
+        state.xp += 40;
+        showToast('✍️ Jawaban uraian tercatat! +40 XP', 'success');
+      }
+
+      updateProgressHUD();
+      renderNavGrids();
+    }
+
+    function toggleEssayRubric() {
+      const idx = state.currentIndex;
+      state.rubricVisible[idx] = !state.rubricVisible[idx];
+      playTone('click');
+      renderEssayArea(QUESTIONS[idx], idx);
+    }
+
+    function toggleFlagCurrent() {
+      const idx = state.currentIndex;
+      state.flags[idx] = !state.flags[idx];
+      playTone('click');
+      renderQuestion(idx);
+    }
+
+    function navigateQuestion(delta) {
+      const target = state.currentIndex + delta;
+      if (target >= 0 && target < QUESTIONS.length) {
+        playTone('click');
+        renderQuestion(target);
+      }
+    }
+
+    function jumpToQuestion(index) {
+      playTone('click');
+      renderQuestion(index);
+      // Close mobile drawer if open
+      const drawer = document.getElementById('mobile-nav-drawer');
+      if (!drawer.classList.contains('hidden')) {
+        drawer.classList.add('hidden');
+      }
+    }
+
+    function toggleMobileNav() {
+      const drawer = document.getElementById('mobile-nav-drawer');
+      drawer.classList.toggle('hidden');
+    }
+
+    function isQuestionAnswered(idx) {
+      const ans = state.answers[idx];
+      if (QUESTIONS[idx].type === 'pg') {
+        return ans !== null;
+      }
+      return typeof ans === 'string' && ans.trim().length > 0;
+    }
+
+    function updateProgressHUD() {
+      let answeredCount = 0;
+      for (let i = 0; i < QUESTIONS.length; i++) {
+        if (isQuestionAnswered(i)) answeredCount++;
+      }
+      const pct = Math.round((answeredCount / QUESTIONS.length) * 100);
+
+      document.getElementById('hud-progress-text').textContent = `${answeredCount} / ${QUESTIONS.length} Terjawab`;
+      document.getElementById('hud-progress-bar').style.width = `${pct}%`;
+
+      document.getElementById('hud-progress-text-mobile').textContent = `${answeredCount} / ${QUESTIONS.length} Terjawab`;
+      document.getElementById('hud-progress-bar-mobile').style.width = `${pct}%`;
+
+      document.getElementById('hud-xp').textContent = `${state.xp} XP`;
+      document.getElementById('hud-streak').textContent = state.streak;
+    }
+
+    function renderNavGrids() {
+      const desktopPG = document.getElementById('nav-grid-pg');
+      const desktopEssay = document.getElementById('nav-grid-essay');
+      const mobilePG = document.getElementById('mobile-nav-grid-pg');
+      const mobileEssay = document.getElementById('mobile-nav-grid-essay');
+
+      desktopPG.innerHTML = '';
+      desktopEssay.innerHTML = '';
+      mobilePG.innerHTML = '';
+      mobileEssay.innerHTML = '';
+
+      QUESTIONS.forEach((q, idx) => {
+        const answered = isQuestionAnswered(idx);
+        const flagged = state.flags[idx];
+        const active = idx === state.currentIndex;
+
+        let btnClass = 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200';
+        if (flagged) {
+          btnClass = 'bg-amber-400 text-slate-900 border-amber-500 font-extrabold';
+        } else if (answered) {
+          btnClass = 'bg-emerald-500 text-white border-emerald-600 font-bold';
+        }
+        if (active) {
+          btnClass += ' ring-2 ring-indigo-600 ring-offset-1';
+        }
+
+        const createBtn = (extraClass = '') => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = q.id;
+          b.className = `h-8 rounded-lg border text-xs transition flex items-center justify-center ${btnClass} ${extraClass}`;
+          b.addEventListener('click', () => jumpToQuestion(idx));
+          return b;
+        };
+
+        if (q.type === 'pg') {
+          desktopPG.appendChild(createBtn());
+          mobilePG.appendChild(createBtn('h-9'));
+        } else {
+          desktopEssay.appendChild(createBtn());
+          mobileEssay.appendChild(createBtn('h-9'));
+        }
+      });
+    }
+
+    // Keyboard Shortcuts (A, B, C, D or 1, 2, 3, 4 for PG, ArrowLeft/Right for navigation)
+    document.addEventListener('keydown', (e) => {
+      if (document.getElementById('quiz-screen').classList.contains('hidden')) return;
+      if (document.activeElement.tagName === 'TEXTAREA' || document.activeElement.tagName === 'INPUT') return;
+
+      const q = QUESTIONS[state.currentIndex];
+      const key = e.key.toUpperCase();
+
+      if (q.type === 'pg') {
+        if (key === 'A' || key === '1') handleSelectPGOption(state.currentIndex, 0);
+        if (key === 'B' || key === '2') handleSelectPGOption(state.currentIndex, 1);
+        if (key === 'C' || key === '3') handleSelectPGOption(state.currentIndex, 2);
+        if (key === 'D' || key === '4') handleSelectPGOption(state.currentIndex, 3);
+      }
+
+      if (e.key === 'ArrowRight') navigateQuestion(1);
+      if (e.key === 'ArrowLeft') navigateQuestion(-1);
+    });
+
+    // =========================================================================
+    // 7. FINISH QUIZ & RESULTS GENERATION
+    // =========================================================================
+    function confirmFinishQuiz() {
+      let unansweredPG = 0;
+      let unansweredEssay = 0;
+      QUESTIONS.forEach((q, idx) => {
+        if (!isQuestionAnswered(idx)) {
+          if (q.type === 'pg') unansweredPG++;
+          else unansweredEssay++;
+        }
+      });
+
+      let msg = 'Apakah kamu yakin ingin menyelesaikan asesmen dan melihat hasil nilai serta pembahasan lengkap?';
+      if (unansweredPG > 0 || unansweredEssay > 0) {
+        msg = `Masih terdapat <strong>${unansweredPG} soal Pilihan Ganda</strong> dan <strong>${unansweredEssay} soal Uraian</strong> yang belum dijawab.<br><br>Tetap kumpulkan jawaban sekarang?`;
+      }
+
+      openModal({
+        icon: '🏁',
+        title: 'Selesaikan ASAS Informatika?',
+        message: msg,
+        confirmText: 'Ya, Lihat Hasil',
+        cancelText: 'Periksa Lagi',
+        onConfirm: finalizeQuiz
+      });
+    }
+
+    function finalizeQuiz() {
+      playTone('finish');
+
+      // Calculate PG Score & XP if Exam Mode
+      let correctPG = 0;
+      const topicStats = {
+        'Perundungan Digital': { correct: 0, total: 10, color: 'rose' },
+        'Etika & Kewargaan Digital': { correct: 0, total: 10, color: 'amber' },
+        'Keamanan Data & Privasi': { correct: 0, total: 10, color: 'emerald' },
+        'Berpikir Komputasional & Spreadsheet': { correct: 0, total: 10, color: 'sky' }
+      };
+
+      QUESTIONS.forEach((q, idx) => {
+        if (q.type === 'pg') {
+          const isCorrect = state.answers[idx] === q.answer;
+          if (isCorrect) {
+            correctPG++;
+            topicStats[q.topic].correct++;
+            if (state.mode === 'exam') {
+              state.xp += 25;
+            }
+          }
+        }
+      });
+
+      const finalScore = Math.round((correctPG / 40) * 100);
+
+      // Populate Result Header
+      document.getElementById('res-student-name').textContent = state.studentName;
+      document.getElementById('res-student-meta').textContent = `Kelas ${state.studentClass} • ASAS Informatika TA 2026/2027`;
+      document.getElementById('res-final-score').textContent = finalScore;
+      document.getElementById('res-total-xp').textContent = `${state.xp} XP`;
+      document.getElementById('res-correct-count').textContent = `${correctPG} / 40 Benar`;
+
+      // Predicate
+      let predicate = 'Perlu Bimbingan';
+      if (finalScore >= 90) predicate = '🏆 Predikat: Istimewa (Sangat Kompeten)';
+      else if (finalScore >= 78) predicate = '🌟 Predikat: Baik (Tuntas KKM)';
+      else if (finalScore >= 65) predicate = '👍 Predikat: Cukup (Perlu Pengayaan)';
+      else predicate = '📚 Predikat: Perlu Remedial & Pendalaman';
+      document.getElementById('res-predicate-badge').textContent = predicate;
+
+      // Competency Breakdown Cards
+      const breakdownEl = document.getElementById('competency-breakdown');
+      breakdownEl.innerHTML = '';
+      const barColors = {
+        rose: 'bg-rose-500',
+        amber: 'bg-amber-500',
+        emerald: 'bg-emerald-500',
+        sky: 'bg-sky-500'
+      };
+
+      Object.entries(topicStats).forEach(([topicName, stat]) => {
+        const pct = Math.round((stat.correct / stat.total) * 100);
+        const card = document.createElement('div');
+        card.className = 'p-4 rounded-2xl bg-slate-50 border border-slate-200/80';
+        card.innerHTML = `
+          <div class="flex items-center justify-between text-xs font-bold mb-1.5">
+            <span class="text-slate-800">${topicName}</span>
+            <span class="text-slate-600">${stat.correct}/${stat.total} (${pct}%)</span>
+          </div>
+          <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+            <div class="h-full ${barColors[stat.color]} rounded-full" style="width: ${pct}%"></div>
+          </div>
+        `;
+        breakdownEl.appendChild(card);
+      });
+
+      // Switch Screen
+      document.getElementById('quiz-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      renderReviewList('all');
+      if (finalScore >= 75) launchConfetti();
+    }
+
+    function filterReview(filterType) {
+      ['all', 'wrong', 'correct', 'essay'].forEach((t) => {
+        const btn = document.getElementById(`filter-${t}`);
+        if (t === filterType) {
+          btn.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white transition';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition';
+        }
+      });
+      renderReviewList(filterType);
+    }
+
+    function renderReviewList(filterType) {
+      const container = document.getElementById('review-list');
+      container.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      QUESTIONS.forEach((q, idx) => {
+        const userAns = state.answers[idx];
+
+        if (q.type === 'pg') {
+          const isCorrect = userAns === q.answer;
+          if (filterType === 'wrong' && isCorrect) return;
+          if (filterType === 'correct' && !isCorrect) return;
+          if (filterType === 'essay') return;
+
+          const item = document.createElement('div');
+          item.className = `p-5 rounded-2xl border print-break-inside ${isCorrect ? 'border-emerald-200 bg-emerald-50/30' : 'border-rose-200 bg-rose-50/30'}`;
+
+          const userAnsText = userAns !== null ? `${letters[userAns]}. ${q.options[userAns]}` : '<em>Tidak dijawab</em>';
+          const correctAnsText = `${letters[q.answer]}. ${q.options[q.answer]}`;
+
+          item.innerHTML = `
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-lg bg-slate-900 text-white font-bold text-xs">No. ${q.id}</span>
+                <span class="px-2.5 py-1 rounded-lg font-bold text-xs ${getTopicBadgeStyle(q.topicColor)}">${q.topic}</span>
+              </div>
+              <span class="px-3 py-1 rounded-lg text-xs font-extrabold ${isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">
+                ${isCorrect ? '✔ Benar' : '✖ Salah'}
+              </span>
+            </div>
+            <div class="text-sm font-semibold text-slate-800 leading-relaxed mb-3">
+              ${q.question.replace(/\n/g, '<br>')}
+            </div>
+            ${q.extraHtml ? `<div class="mb-3 overflow-x-auto">${q.extraHtml}</div>` : ''}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs mb-3">
+              <div class="p-3 rounded-xl bg-white border border-slate-200">
+                <div class="font-bold text-slate-400 uppercase mb-0.5">Jawaban Kamu:</div>
+                <div class="font-semibold ${isCorrect ? 'text-emerald-700' : 'text-rose-700'}">${userAnsText}</div>
+              </div>
+              <div class="p-3 rounded-xl bg-white border border-emerald-200">
+                <div class="font-bold text-emerald-600 uppercase mb-0.5">Kunci Jawaban:</div>
+                <div class="font-bold text-slate-800">${correctAnsText}</div>
+              </div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white/90 border border-slate-200/80 text-xs text-slate-700 leading-relaxed">
+              <strong class="text-indigo-700">Pembahasan:</strong> ${q.explanation}
+            </div>
+          `;
+          container.appendChild(item);
+        } else {
+          if (filterType === 'wrong' || filterType === 'correct') return;
+
+          const studentEssay = (typeof userAns === 'string' && userAns.trim().length > 0)
+            ? userAns.replace(/\n/g, '<br>')
+            : '<em class="text-slate-400">Siswa tidak mengisi jawaban uraian.</em>';
+
+          const item = document.createElement('div');
+          item.className = 'p-5 rounded-2xl border border-violet-200 bg-violet-50/30 print-break-inside';
+          item.innerHTML = `
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-lg bg-violet-700 text-white font-bold text-xs">No. ${q.id} (Uraian)</span>
+                <span class="px-2.5 py-1 rounded-lg font-bold text-xs bg-violet-100 text-violet-800">${q.topic}</span>
+              </div>
+              <span class="px-3 py-1 rounded-lg text-xs font-extrabold bg-violet-100 text-violet-700">
+                Level ${q.level} • Skor Maks 20
+              </span>
+            </div>
+            <div class="text-sm text-slate-800 leading-relaxed mb-3">
+              ${q.question}
+            </div>
+            ${q.extraHtml ? `<div class="mb-3 overflow-x-auto">${q.extraHtml}</div>` : ''}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div class="p-3.5 rounded-xl bg-white border border-slate-200">
+                <div class="font-extrabold text-slate-500 uppercase mb-1">✍️ Jawaban Siswa:</div>
+                <div class="text-slate-800 leading-relaxed">${studentEssay}</div>
+              </div>
+              <div class="p-3.5 rounded-xl bg-white border border-violet-200 space-y-2">
+                <div class="font-extrabold text-violet-700 uppercase">🔑 Kunci Jawaban & Rubrik:</div>
+                <div class="text-slate-700 leading-relaxed">${q.keyAnswer}</div>
+                <div class="pt-2 border-t border-slate-100 text-slate-600 leading-relaxed">${q.rubric}</div>
+              </div>
+            </div>
+          `;
+          container.appendChild(item);
+        }
+      });
+
+      if (container.children.length === 0) {
+        container.innerHTML = '<div class="text-center py-8 text-sm text-slate-500 font-medium">Tidak ada soal pada kategori filter ini.</div>';
+      }
+    }
+
+    function confirmRestartQuiz() {
+      openModal({
+        icon: '🔄',
+        title: 'Ulangi Kuis dari Awal?',
+        message: 'Seluruh jawaban dan perolehan XP saat ini akan diatur ulang. Lanjutkan?',
+        confirmText: 'Ya, Ulangi',
+        cancelText: 'Batal',
+        onConfirm: () => {
+          state.currentIndex = 0;
+          state.answers = new Array(QUESTIONS.length).fill(null);
+          state.flags = new Array(QUESTIONS.length).fill(false);
+          state.xp = 0;
+          state.streak = 0;
+          state.rubricVisible = {};
+
+          document.getElementById('result-screen').classList.add('hidden');
+          document.getElementById('start-screen').classList.remove('hidden');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    }
+
+    // =========================================================================
+    // 8. LIGHTWEIGHT CONFETTI CELEBRATION
+    // =========================================================================
+    function launchConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      canvas.classList.remove('hidden');
+
+      const colors = ['#6366f1', '#ec4899', '#f59e0b', '#10b981', '#06b6d4'];
+      const pieces = Array.from({ length: 110 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        w: Math.random() * 10 + 5,
+        h: Math.random() * 6 + 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vy: Math.random() * 3 + 2,
+        vx: (Math.random() - 0.5) * 2,
+        rot: Math.random() * 360,
+        vrot: (Math.random() - 0.5) * 8
+      }));
+
+      let frames = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach((p) => {
+          p.y += p.vy;
+          p.x += p.vx;
+          p.rot += p.vrot;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rot * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+        frames++;
+        if (frames < 180) {
+          requestAnimationFrame(draw);
+        } else {
+          canvas.classList.add('hidden');
+        }
+      }
+      draw();
+    }
+  </script>
+</body>
+</html>
