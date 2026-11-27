@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="su">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kuis Interaktif ASAS Basa Sunda Kelas IX — HOTS & Taksonomi SOLO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --emerald-deep: #064e3b;
+      --emerald-mid: #047857;
+      --emerald-light: #10b981;
+      --gold-primary: #d97706;
+      --gold-bright: #f59e0b;
+      --gold-soft: #fef3c7;
+      --cream-bg: #f8faf8;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #042f24;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(245, 158, 11, 0.14) 0%, transparent 45%);
+      min-height: 100vh;
+      color: #1f2937;
+      overflow-x: hidden;
+    }
+
+    .font-serif-sunda {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Pola Batik Mega Mendung Halus sebagai latar */
+    .mega-mendung-bg {
+      background-image: url("data:image/svg+xml,%3Csvg width='120' height='60' viewBox='0 0 120 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 30 Q 15 10, 30 30 T 60 30 T 90 30 T 120 30' fill='none' stroke='%23d97706' stroke-width='1.2' stroke-opacity='0.14'/%3E%3Cpath d='M0 38 Q 15 18, 30 38 T 60 38 T 90 38 T 120 38' fill='none' stroke='%2310b981' stroke-width='1.2' stroke-opacity='0.14'/%3E%3Cpath d='M10 22 Q 25 6, 40 22 T 70 22 T 100 22' fill='none' stroke='%23f59e0b' stroke-width='0.9' stroke-opacity='0.12'/%3E%3C/svg%3E");
+    }
+
+    /* Bingkai Ornamen Emas Sunda */
+    .sunda-card {
+      background: rgba(255, 255, 255, 0.97);
+      border: 1.5px solid rgba(217, 119, 6, 0.35);
+      box-shadow: 0 20px 45px -12px rgba(2, 24, 18, 0.55), 0 0 0 1px rgba(245, 158, 11, 0.15);
+    }
+
+    .gold-gradient-btn {
+      background: linear-gradient(135deg, #d97706 0%, #f59e0b 50%, #b45309 100%);
+      box-shadow: 0 6px 18px -3px rgba(217, 119, 6, 0.5);
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .gold-gradient-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px -3px rgba(245, 158, 11, 0.65);
+      filter: brightness(1.05);
+    }
+    .gold-gradient-btn:active {
+      transform: translateY(0);
+    }
+
+    .emerald-gradient-btn {
+      background: linear-gradient(135deg, #065f46 0%, #047857 60%, #064e3b 100%);
+      box-shadow: 0 6px 18px -3px rgba(4, 120, 87, 0.45);
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .emerald-gradient-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px -3px rgba(16, 185, 129, 0.5);
+      filter: brightness(1.06);
+    }
+
+    /* Animasi Feedback */
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.94) translateY(8px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .animate-pop {
+      animation: popIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes pulseScore {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.18); color: #f59e0b; }
+    }
+    .score-bump {
+      animation: pulseScore 0.4s ease-in-out;
+    }
+
+    @keyframes shakeWrong {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .shake-anim {
+      animation: shakeWrong 0.38s ease-in-out;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(6, 78, 59, 0.15);
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(217, 119, 6, 0.55);
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(217, 119, 6, 0.85);
+    }
+
+    .option-card {
+      transition: all 0.2s ease;
+    }
+    .option-card:not(:disabled):hover {
+      transform: translateX(4px);
+      border-color: #d97706;
+      background-color: #fffbeb;
+    }
+  </style>
+</head>
+<body class="mega-mendung-bg flex flex-col justify-between selection:bg-amber-200 selection:text-emerald-950">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="w-full bg-emerald-950/90 backdrop-blur-md border-b border-amber-500/30 sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <!-- Logo & Judul -->
+      <div class="flex items-center gap-3">
+        <!-- Ikon Kujang SVG Halus -->
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 via-amber-600 to-emerald-800 p-0.5 shadow-md flex-shrink-0">
+          <div class="w-full h-full bg-emerald-950 rounded-[10px] flex items-center justify-center">
+            <svg class="w-6 h-6 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.5 2C11 4.5 9.5 8.5 11 12.5C12.2 15.6 9.8 18.2 7 20L9 22C13.5 19.5 16.5 15.5 15.5 10.5C14.8 7 16.5 4.2 18 2.5C16.8 2 15.6 1.8 14.5 2Z" fill="rgba(245,158,11,0.22)"/>
+              <circle cx="12.8" cy="8.5" r="1" fill="currentColor"/>
+              <circle cx="13.2" cy="11.2" r="1" fill="currentColor"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <h1 class="font-serif-sunda text-amber-300 font-bold text-base sm:text-lg leading-tight tracking-wide">
+            Pangajaran Basa Sunda IX
+          </h1>
+          <p class="text-[11px] sm:text-xs text-emerald-200/80">
+            Latihan ASAS 2026/2027 • HOTS &amp; Taksonomi SOLO
+          </p>
+        </div>
+      </div>
+
+      <!-- Kontrol Kanan: Audio, Navigasi Nomor, Kembali ke Awal -->
+      <div class="flex items-center gap-2">
+        <button id="btn-nav-drawer" onclick="toggleDrawer()" class="hidden px-3 py-2 rounded-xl bg-emerald-900/90 hover:bg-emerald-800 text-amber-300 border border-amber-500/35 text-xs font-semibold flex items-center gap-1.5 transition" title="Daptar Nomer Soal">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+          <span class="hidden sm:inline">Nomer Soal</span>
+          <span id="nav-progress-badge" class="bg-amber-500 text-emerald-950 px-1.5 py-0.5 rounded-md text-[11px] font-bold">1/40</span>
+        </button>
+
+        <button id="btn-sound" onclick="toggleSound()" class="p-2.5 rounded-xl bg-emerald-900/90 hover:bg-emerald-800 text-amber-300 border border-amber-500/35 transition" title="Sora / Efek Audio">
+          <svg id="icon-sound-on" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+          <svg id="icon-sound-off" class="w-4 h-4 sm:w-5 sm:h-5 hidden text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+        </button>
+
+        <button id="btn-home" onclick="confirmGoHome()" class="hidden p-2.5 rounded-xl bg-emerald-900/90 hover:bg-rose-900/80 text-emerald-200 hover:text-white border border-emerald-700/60 transition" title="Balik ka Kaca Mimiti">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow flex items-center justify-center px-3 sm:px-6 py-6 sm:py-8">
+    <div class="w-full max-w-4xl">
+
+      <!-- ========================================================= -->
+      <!-- 1. START SCREEN (KACA MIMITI)                             -->
+      <!-- ========================================================= -->
+      <section id="screen-start" class="sunda-card rounded-3xl p-6 sm:p-10 relative overflow-hidden animate-pop">
+        <!-- Ornamen Sudut Emas -->
+        <div class="absolute top-0 right-0 w-44 h-44 bg-gradient-to-bl from-amber-400/20 via-emerald-500/10 to-transparent rounded-bl-full pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-36 h-36 bg-gradient-to-tr from-emerald-600/15 to-transparent rounded-tr-full pointer-events-none"></div>
+
+        <div class="text-center max-w-2xl mx-auto relative z-10">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-900 text-amber-300 text-xs font-semibold tracking-wider uppercase mb-4 shadow-sm border border-amber-500/30">
+            <span>✨ Wilujeng Sumping • ASAS 2026/2027</span>
+          </div>
+
+          <h2 class="font-serif-sunda text-2xl sm:text-4xl font-extrabold text-emerald-950 leading-tight mb-3">
+            Uji Kamampuh Basa Sunda<br/>
+            <span class="text-amber-600">Kelas IX (HOTS &amp; Taksonomi SOLO)</span>
+          </h2>
+
+          <p class="text-sm sm:text-base text-gray-600 leading-relaxed mb-6">
+            Latihan soal interaktif dumasar kana kisi-kisi resmi ASAS: Sisindiran, Wawangsalan, Gaya Basa Sindir, Biantara, Diskusi Kritis, sarta Aksara Sunda Kompleks.
+          </p>
+
+          <!-- Form Identitas & Pengaturan -->
+          <div class="bg-emerald-50/80 border border-emerald-200/80 rounded-2xl p-4 sm:p-5 mb-6 text-left">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label for="input-name" class="block text-xs font-bold text-emerald-900 uppercase tracking-wide mb-1.5">
+                  Nami Siswa (Opsional)
+                </label>
+                <input id="input-name" type="text" placeholder="Conto: Galuh Pramudita" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-emerald-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none text-sm text-gray-800 transition" />
+              </div>
+              <div>
+                <label for="input-class" class="block text-xs font-bold text-emerald-900 uppercase tracking-wide mb-1.5">
+                  Kelas (Opsional)
+                </label>
+                <input id="input-class" type="text" placeholder="Conto: IX-A" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-emerald-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none text-sm text-gray-800 transition" />
+              </div>
+            </div>
+
+            <!-- Toggle Timer Opsional -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-emerald-200/70">
+              <div class="flex items-center gap-2.5">
+                <input id="toggle-timer" type="checkbox" class="w-4 h-4 accent-emerald-700 rounded cursor-pointer" />
+                <label for="toggle-timer" class="text-xs sm:text-sm font-medium text-emerald-950 cursor-pointer select-none">
+                  Aktipkeun Timer Latihan (60 Menit pikeun 40 Soal PG)
+                </label>
+              </div>
+              <span class="text-[11px] font-semibold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-lg">
+                Poin + Combo Streak Aktip
+              </span>
+            </div>
+          </div>
+
+          <!-- Pilihan Mode Bermain -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Mode 1: Pilihan Ganda -->
+            <button onclick="startPGMode()" class="gold-gradient-btn text-white rounded-2xl p-5 text-left flex flex-col justify-between group cursor-pointer border border-amber-300/40">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="px-2.5 py-1 rounded-lg bg-emerald-950/30 text-amber-100 text-[11px] font-bold uppercase tracking-wider">
+                    Mode Utama
+                  </span>
+                  <span class="text-xl group-hover:translate-x-1 transition-transform">🎯</span>
+                </div>
+                <h3 class="font-serif-sunda text-xl font-bold mb-1">40 Soal Pilihan Ganda</h3>
+                <p class="text-xs text-amber-50/90 leading-relaxed">
+                  Soal HOTS dilengkepan badge Taksonomi SOLO, sistem skor, combo streak, sarta pedaran (pembahasan) langsung.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-white/20 flex items-center justify-between text-xs font-bold">
+                <span>Mimitian Latihan PG</span>
+                <span>→</span>
+              </div>
+            </button>
+
+            <!-- Mode 2: Uraian -->
+            <button onclick="startEssayMode()" class="emerald-gradient-btn text-white rounded-2xl p-5 text-left flex flex-col justify-between group cursor-pointer border border-emerald-400/30">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="px-2.5 py-1 rounded-lg bg-amber-500/25 text-amber-300 text-[11px] font-bold uppercase tracking-wider">
+                    Mode Évaluasi Mandiri
+                  </span>
+                  <span class="text-xl group-hover:translate-x-1 transition-transform">✍️</span>
+                </div>
+                <h3 class="font-serif-sunda text-xl font-bold mb-1">5 Soal Uraian (No. 41–45)</h3>
+                <p class="text-xs text-emerald-100/90 leading-relaxed">
+                  Latihan nulis argumén kritis, analisis sisindiran, wawangsalan, jeung raraga biantara kalawan konci jawaban.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-white/15 flex items-center justify-between text-xs font-bold text-amber-300">
+                <span>Buka Soal Uraian</span>
+                <span>→</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================= -->
+      <!-- 2. PLAY SCREEN — PILIHAN GANDA (SOAL 1–40)                -->
+      <!-- ========================================================= -->
+      <section id="screen-pg" class="hidden space-y-4 animate-pop">
+        <!-- HUD / Status Bar -->
+        <div class="bg-emerald-950/95 border border-amber-500/35 rounded-2xl px-4 py-3 text-white shadow-lg flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3 sm:gap-5">
+            <!-- Nomor Soal -->
+            <div>
+              <span class="text-[10px] uppercase tracking-wider text-emerald-300 block">Soal Ka</span>
+              <span class="font-bold text-base sm:text-lg text-amber-400">
+                <span id="hud-q-num">1</span><span class="text-emerald-400 text-xs font-normal"> / 40</span>
+              </span>
+            </div>
+
+            <div class="h-7 w-px bg-emerald-800"></div>
+
+            <!-- Skor -->
+            <div>
+              <span class="text-[10px] uppercase tracking-wider text-emerald-300 block">Skor</span>
+              <span id="hud-score" class="font-bold text-base sm:text-lg text-white inline-block">0</span>
+            </div>
+
+            <div class="h-7 w-px bg-emerald-800"></div>
+
+            <!-- Combo Streak -->
+            <div>
+              <span class="text-[10px] uppercase tracking-wider text-emerald-300 block">Streak</span>
+              <span id="hud-streak" class="font-bold text-sm sm:text-base text-amber-300 flex items-center gap-1">
+                🔥 0x
+              </span>
+            </div>
+          </div>
+
+          <!-- Timer & SOLO Badge -->
+          <div class="flex items-center gap-2.5">
+            <div id="hud-timer-box" class="hidden px-3 py-1.5 rounded-xl bg-emerald-900 border border-emerald-700 text-xs font-mono font-bold text-amber-300 flex items-center gap-1.5">
+              <span>⏱️</span>
+              <span id="hud-timer">60:00</span>
+            </div>
+            <span id="hud-solo-badge" class="px-3 py-1.5 rounded-xl text-xs font-bold tracking-wide border shadow-sm">
+              SOLO: Relational
+            </span>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full h-2 bg-emerald-950/80 rounded-full overflow-hidden border border-emerald-800/60">
+          <div id="pg-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-amber-500 transition-all duration-300" style="width: 2.5%;"></div>
+        </div>
+
+        <!-- Kartu Soal -->
+        <div id="pg-card" class="sunda-card rounded-3xl p-5 sm:p-8">
+          <!-- Wadah Teks Soal & Kutipan -->
+          <div id="question-container" class="mb-6 space-y-3 text-gray-800 text-sm sm:text-base leading-relaxed">
+            <!-- Diisi dinamis oleh JS -->
+          </div>
+
+          <!-- Pilihan Jawaban A, B, C, D -->
+          <div id="options-container" class="space-y-3">
+            <!-- Diisi dinamis oleh JS -->
+          </div>
+
+          <!-- Kotak Pedaran / Pembahasan (Muncul setelah menjawab) -->
+          <div id="feedback-box" class="hidden mt-6 rounded-2xl p-4 sm:p-5 border transition-all animate-pop">
+            <div class="flex items-start gap-3">
+              <div id="feedback-icon" class="w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold flex-shrink-0 mt-0.5">
+                ✓
+              </div>
+              <div class="flex-grow">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                  <h4 id="feedback-title" class="font-bold text-sm sm:text-base">Leres Pisan!</h4>
+                  <span id="feedback-points" class="text-xs font-bold px-2.5 py-0.5 rounded-full"></span>
+                </div>
+                <p class="text-xs font-bold uppercase tracking-wider text-emerald-800/80 mb-1">Pedaran / Pembahasan:</p>
+                <p id="feedback-explanation" class="text-xs sm:text-sm text-gray-700 leading-relaxed"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigasi Bawah Kartu Soal -->
+          <div class="mt-6 pt-4 border-t border-gray-200/80 flex flex-wrap items-center justify-between gap-3">
+            <button id="btn-prev" onclick="prevQuestion()" class="px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs sm:text-sm transition disabled:opacity-40 disabled:cursor-not-allowed">
+              ← Saméméhna
+            </button>
+
+            <div class="flex items-center gap-2.5">
+              <button id="btn-finish-early" onclick="finishQuiz()" class="hidden px-4 py-2.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-900 font-bold text-xs sm:text-sm transition">
+                Rengsekeun &amp; Tingali Hasil
+              </button>
+              <button id="btn-next" onclick="nextQuestion()" class="gold-gradient-btn text-white px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-1.5">
+                <span id="btn-next-text">Soal Salajengna</span>
+                <span>→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================= -->
+      <!-- 3. MODE URAIAN (SOAL 41–45)                               -->
+      <!-- ========================================================= -->
+      <section id="screen-essay" class="hidden space-y-5 animate-pop">
+        <div class="sunda-card rounded-3xl p-5 sm:p-8">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-6 border-b border-amber-200">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-700 bg-amber-100 px-3 py-1 rounded-full">
+                Bagéan II • Évaluasi Mandiri
+              </span>
+              <h2 class="font-serif-sunda text-xl sm:text-2xl font-bold text-emerald-950 mt-2">
+                Soal Uraian Basa Sunda (Nomer 41 – 45)
+              </h2>
+            </div>
+            <button onclick="startPGMode()" class="px-4 py-2 rounded-xl bg-emerald-900 hover:bg-emerald-800 text-amber-300 text-xs font-bold transition">
+              Pindah ka 40 Soal PG →
+            </button>
+          </div>
+
+          <p class="text-xs sm:text-sm text-gray-600 bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 mb-6">
+            <strong>Pituduh:</strong> Ketik jawaban anjeun dina kotak anu disayogikeun pikeun unggal nomer, tuluy klik tombol <strong>"Tingali Konci &amp; Pedoman Penskoran"</strong> pikeun mariksa hasil karya anjeun sacara mandiri.
+          </p>
+
+          <div id="essay-list" class="space-y-6">
+            <!-- Diisi oleh JS -->
+          </div>
+
+          <div class="mt-8 pt-5 border-t border-gray-200 flex flex-wrap items-center justify-between gap-3">
+            <button onclick="goHomeDirect()" class="px-5 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm transition">
+              ← Balik ka Kaca Mimiti
+            </button>
+            <button onclick="revealAllEssays()" class="gold-gradient-btn text-white px-5 py-2.5 rounded-xl font-bold text-sm">
+              Buka Sadaya Konci Jawaban
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================= -->
+      <!-- 4. RESULT SCREEN (KACA HASIL AHIR)                        -->
+      <!-- ========================================================= -->
+      <section id="screen-result" class="hidden space-y-5 animate-pop">
+        <div class="sunda-card rounded-3xl p-6 sm:p-9 relative overflow-hidden">
+          <div class="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-emerald-700 via-amber-500 to-emerald-700"></div>
+
+          <div class="text-center max-w-2xl mx-auto mb-7">
+            <div class="inline-block px-4 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider mb-2">
+              Hasil Akhir Latihan ASAS
+            </div>
+            <h2 class="font-serif-sunda text-2xl sm:text-3xl font-extrabold text-emerald-950" id="res-student-title">
+              Wilujeng, Pamilon Kuis!
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-500 mt-1" id="res-student-sub">
+              Kelas IX • Pangajaran Basa Sunda 2026/2027
+            </p>
+          </div>
+
+          <!-- Ringkasan Skor & Predikat -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-7">
+            <div class="bg-gradient-to-br from-emerald-900 to-emerald-950 text-white rounded-2xl p-4 text-center border border-amber-500/30 shadow">
+              <span class="text-[11px] uppercase tracking-wider text-emerald-300 block mb-1">Peunteun (Skor)</span>
+              <span id="res-grade" class="font-serif-sunda text-3xl sm:text-4xl font-extrabold text-amber-400">0</span>
+              <span class="text-[11px] text-emerald-200 block mt-1">Skala 0 – 100</span>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-center">
+              <span class="text-[11px] uppercase tracking-wider text-amber-800 block mb-1">Predikat</span>
+              <span id="res-predicate" class="font-bold text-base sm:text-lg text-emerald-950 block mt-1.5">-</span>
+              <span id="res-total-points" class="text-[11px] text-amber-700 block mt-1">0 Poin Game</span>
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
+              <span class="text-[11px] uppercase tracking-wider text-emerald-800 block mb-1">Jawaban Leres</span>
+              <span id="res-correct" class="font-extrabold text-2xl sm:text-3xl text-emerald-700">0</span>
+              <span class="text-[11px] text-emerald-600 block mt-1">tina 40 Soal</span>
+            </div>
+
+            <div class="bg-rose-50 border border-rose-200 rounded-2xl p-4 text-center">
+              <span class="text-[11px] uppercase tracking-wider text-rose-800 block mb-1">Lepat / Kosong</span>
+              <span id="res-wrong" class="font-extrabold text-2xl sm:text-3xl text-rose-600">0</span>
+              <span id="res-best-streak" class="text-[11px] text-rose-700 block mt-1">Max Streak: 0x</span>
+            </div>
+          </div>
+
+          <!-- Analisis Penguasaan Berdasarkan Taksonomi SOLO -->
+          <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 sm:p-5 mb-7">
+            <h3 class="font-serif-sunda font-bold text-base sm:text-lg text-emerald-950 mb-3 flex items-center gap-2">
+              <span>📊 Analisis Kamampuh Dumasar Taksonomi SOLO</span>
+            </h3>
+            <div id="solo-breakdown" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <!-- Diisi JS -->
+            </div>
+          </div>
+
+          <!-- Tinjauan Soal yang Salah -->
+          <div id="wrong-review-section" class="mb-7">
+            <h3 class="font-serif-sunda font-bold text-base sm:text-lg text-emerald-950 mb-3">
+              🔍 Tinjauan Soal Anu Lepat / Teu Acan Dijawab
+            </h3>
+            <div id="wrong-review-list" class="space-y-3 max-h-96 overflow-y-auto pr-1">
+              <!-- Diisi JS -->
+            </div>
+          </div>
+
+          <!-- Tombol Aksi Akhir -->
+          <div class="flex flex-wrap items-center justify-center gap-3 pt-4 border-t border-gray-200">
+            <button onclick="restartPGQuiz()" class="gold-gradient-btn text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2">
+              <span>🔄 Balikan Deui Kuis PG</span>
+            </button>
+            <button onclick="startEssayMode()" class="emerald-gradient-btn text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2">
+              <span>✍️ Lanjut ka 5 Soal Uraian</span>
+            </button>
+            <button onclick="goHomeDirect()" class="px-5 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm transition">
+              Kaca Mimiti
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- MODAL / DRAWER NAVIGASI NOMOR SOAL (1–40) -->
+  <div id="nav-drawer-overlay" onclick="toggleDrawer()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div onclick="event.stopPropagation()" class="bg-white rounded-3xl max-w-lg w-full p-5 sm:p-6 border-2 border-amber-500/40 shadow-2xl animate-pop">
+      <div class="flex items-center justify-between pb-3 mb-4 border-b border-gray-200">
+        <div>
+          <h3 class="font-serif-sunda font-bold text-lg text-emerald-950">Daptar Nomer Soal (1 – 40)</h3>
+          <p class="text-xs text-gray-500">Klik nomer pikeun langsung pindah soal</p>
+        </div>
+        <button onclick="toggleDrawer()" class="p-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-sm">✕</button>
+      </div>
+
+      <!-- Legenda Warna -->
+      <div class="flex flex-wrap items-center gap-3 text-[11px] font-semibold mb-4 text-gray-600">
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-600 inline-block"></span> Leres</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-rose-500 inline-block"></span> Lepat</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-400 inline-block"></span> Keur Dibuka</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-gray-200 inline-block"></span> Teu Acan</span>
+      </div>
+
+      <div id="nav-grid" class="grid grid-cols-8 gap-2 mb-5">
+        <!-- Tombol 1-40 diisi JS -->
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t border-gray-200">
+        <span id="drawer-summary" class="text-xs font-semibold text-emerald-900">Dijawab: 0 / 40</span>
+        <button onclick="toggleDrawer(); finishQuiz();" class="gold-gradient-btn text-white px-4 py-2 rounded-xl text-xs font-bold">
+          Rengsekeun &amp; Peunteun →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL KONFIRMASI KELUAR KE HOME -->
+  <div id="confirm-home-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 border border-amber-400 shadow-2xl text-center animate-pop">
+      <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-2xl mx-auto mb-3">⚠️</div>
+      <h3 class="font-serif-sunda font-bold text-lg text-emerald-950 mb-1">Balik ka Kaca Mimiti?</h3>
+      <p class="text-xs sm:text-sm text-gray-600 mb-5">Progrés jawaban anjeun dina sési ieu bakal direset upami balik ka kaca mimiti.</p>
+      <div class="flex items-center justify-center gap-3">
+        <button onclick="closeConfirmHome()" class="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold">Batal</button>
+        <button onclick="goHomeDirect()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-bold">Enya, Balik</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="w-full py-3 px-4 text-center text-[11px] text-emerald-200/70 border-t border-emerald-900/60 bg-emerald-950/60">
+    Kuis Interaktif ASAS Basa Sunda Kelas IX • Tahun Ajaran 2026/2027 • Kurikulum Merdeka (HOTS &amp; Taksonomi SOLO)
+  </footer>
+
+  <script>
+    // =========================================================================
+    // 1. BANK DATA 40 SOAL PILIHAN GANDA (LENGKAP SESUAI SPESIFIKASI)
+    // =========================================================================
+    const pgQuestions = [
+      {
+        num: 1,
+        solo: "Relational",
+        answer: "C",
+        prompt: "Titénan dua sempalan sisindiran ieu di handap!",
+        quote: "Téks I:\nKasirna téh mahi tilu,\nngala kangkung di sisi cai.\nMun hirup hayang rahayu,\nkudu daék silih ajenan.\n\nTéks II:\nMawa peti dina sundung,\ndibawa ka Nusa Jawa.\nPangarti teu beurat nanggung,\nkabisa teu beurat mawa.",
+        question: "Upama dibandingkeun dumasar kana wangun jeung struktur kalimahna, bédana antara Téks I jeung Téks II anu pangbenerna nyaéta ....",
+        options: {
+          A: "Téks kahiji kaasup wangun wawangsalan ari téks kadua mah kaasup wangun paparikan",
+          B: "Téks kahiji kaasup wangun guguritan ari téks kadua mah kaasup wangun rarakitan",
+          C: "Téks kahiji kaasup wangun paparikan ari téks kadua mah kaasup wangun rarakitan",
+          D: "Téks kahiji kaasup wangun rarakitan ari téks kadua mah kaasup wangun paparikan"
+        },
+        explanation: "Téks I ngan ngandelkeun padeukeutna sora dina tungtung padalisan (paparikan), sedengkeun Téks II ngulang kecap awal dina cangkang jeung eusi (rarakitan/mindoan kawit)."
+      },
+      {
+        num: 2,
+        solo: "Multistructural",
+        answer: "A",
+        prompt: "Baca sempalan sisindiran ieu di handap!",
+        quote: "Sapanjang jalan Soréang,\nmoal weléh diaspalan.\nSapanjang tacan kasorang,\nmoal weléh diakalan.",
+        question: "Ciri utama anu ngabuktikeun yén sisindiran di luhur ngabogaan struktur rarakitan anu sampurna dumasar kana purwakanti jeung mindoan kawit nyaéta ....",
+        options: {
+          A: "kecap mimiti dina cangkang dibalikan deui dina bagian eusi kalawan sora tungtung sarua",
+          B: "jumlah engang dina unggal padalisan henteu sarua tapi miboga harti anu silih lengkepan",
+          C: "bagian cangkang jeung eusi henteu miboga patali sora tapi ngandung piwuruk anu jero",
+          D: "sakabéh kecap dina padalisan kahiji diulang deui dina padalisan katilu tanpa aya parobahan"
+        },
+        explanation: "Dina rarakitan aya mindoan kawit (kecap \"Sapanjang\" jeung \"moal weléh\" dibalikan deui) sarta purwakanti laraswekas (sora tungtung sarua)."
+      },
+      {
+        num: 3,
+        solo: "Relational",
+        answer: "B",
+        prompt: "Perhatikeun dua rumpaka sisindiran ieu!",
+        quote: "(1) Lamun urang ka Cikolé, moal hésé tumpak kahar. Lamun urang boga gawé, moal hésé barangdahar.\n(2) Aya lumut dina batu, aya kuya di muara. Kedah tumut kana waktu, di dunya urang ngumbara.",
+        question: "Analisis hubungan antara cangkang jeung eusi tina dua rumpaka sisindiran di luhur nuduhkeun yén ....",
+        options: {
+          A: "rumpaka kahiji henteu miboga purwakanti tungtung sedengkeun rumpaka kadua miboga purwakanti tungtung pisan",
+          B: "rumpaka kahiji ngagunakeun kecap puhu anu sarua sedengkeun rumpaka kadua ngan padeukeut sorana",
+          C: "rumpaka kahiji jeung kadua sarua ngagunakeun wangun wawangsalan anu kudu diteguh wangsalna heula",
+          D: "rumpaka kahiji eusina mangrupa silih asih sedengkeun rumpaka kadua eusina mangrupa sésébréd wungkul"
+        },
+        explanation: "Rumpaka (1) nyaéta rarakitan (kecap puhu \"Lamun urang\" jeung \"moal hésé\" sarua), ari rumpaka (2) nyaéta paparikan (ngan padeukeut sorana)."
+      },
+      {
+        num: 4,
+        solo: "Relational",
+        answer: "D",
+        prompt: "",
+        quote: "",
+        question: "Dina nyusun sisindiran wangun paparikan, padalisan kahiji jeung kadua disebut cangkang, sedengkeun padalisan katilu jeung kaopat disebut eusi. Fungsi utama bagian cangkang dina struktur sisindiran nyaéta pikeun ....",
+        options: {
+          A: "nerangkeun sakabéh amanat jeung piwuruk anu hayang ditepikeun ku pangarang ka pamaca",
+          B: "ngaganti fungsi kecap panganteur sangkan kalimah dina bagian eusi karasa leuwih pondok",
+          C: "nutup hiji carita pondok sangkan pamaca henteu panasaran kana jalan carita saterusna",
+          D: "nyiapkeun wirahma jeung purwakanti sora saméméh nepikeun maksud utama dina bagian eusi"
+        },
+        explanation: "Cangkang fungsina ngawangun wirahma jeung purwakanti pikeun nganteurkeun maksud/amanat dina bagian eusi."
+      },
+      {
+        num: 5,
+        solo: "Extended Abstract",
+        answer: "A",
+        prompt: "Pék titénan téks ieu di handap!",
+        quote: "Belut sisit saba darat,\nkapiraray siang wengi.",
+        question: "Sanajan pada-pada kaasup kana golongan sisindiran, téks di luhur béda pisan jeung paparikan atawa rarakitan lantaran ....",
+        options: {
+          A: "diwangun ku dua padalisan anu ngandung tarucing jeung jawabanana nyamuni dina eusi",
+          B: "diwangun ku opat padalisan anu unggal tungtung kecapna miboga sora vokal sarua",
+          C: "henteu ngagunakeun aturan jumlah engang dina unggal padalisanana sarta bébas pisan temana",
+          D: "sakabéh kalimahna mangrupa omongan langsung anu digunakeun pikeun nyindiran batur sacara kasar"
+        },
+        explanation: "Téks kasebut kaasup wawangsalan anu diwangun ku 2 padalisan (cangkang jeung eusi) sarta wangsalna (\"oray\") nyamuni dina kecap \"kapiraray\"."
+      },
+      {
+        num: 6,
+        solo: "Relational",
+        answer: "C",
+        prompt: "Baca sisindiran ieu kalawan gemet!",
+        quote: "Cau naon cau naon,\ncau kulutuk di juru.\nBau naon bau naon,\nbau hitut nu di juru.",
+        question: "Ditilik tina eusi jeung tujuan komunikasi dina kahirupan sapopoé, sisindiran di luhur kaasup kana wanda ....",
+        options: {
+          A: "piwuruk lantaran eusina ngajarkeun tatakrama sopan santun nalika aya di riungan",
+          B: "silih asih lantaran eusina ngébréhkeun rasa kanyaah ka jalma anu dipikacinta",
+          C: "sésébréd lantaran eusina ngandung heureuy atawa banyol pikeun ngahibur jalma réa",
+          D: "wawangsalan lantaran eusina ngajak pamaca pikeun neguh ngaran bungbuahan anu bau"
+        },
+        explanation: "Eusina mangrupa banyol atawa heureuy (\"bau hitut nu di juru\") sahingga kaasup wanda sésébréd."
+      },
+      {
+        num: 7,
+        solo: "Relational",
+        answer: "B",
+        prompt: "Titénan sisindiran ieu di handap!",
+        quote: "Sing getol nginum jajamu,\nnu guna nguatkeun urat.\nSing getol néangan élmu,\nnu guna dunya ahérat.",
+        question: "Upama dibandingkeun jeung sisindiran wanda silih asih, amanat anu dikandung dina sisindiran wanda piwuruk di luhur leuwih museur kana ....",
+        options: {
+          A: "rasa sono jeung kasedih haté jalma anu ditinggalkeun ku bébénéna ka pangumbaraan",
+          B: "papatah pikeun ngalaksanakeun kahadéan jeung néangan élmu pangaweruh keur bekel hirup",
+          C: "sindiran anu halus pisan pikeun jalma anu sok ngabohong dina kahirupan sapopoé",
+          D: "banyolan anu ngahaja dijieun pikeun ngabungahkeun suasana dina acara hajatan lembur"
+        },
+        explanation: "Sisindiran piwuruk eusina ngandung naséhat atawa papatah kahadéan (néangan élmu pikeun kasalametan dunya ahérat)."
+      },
+      {
+        num: 8,
+        solo: "Multistructural",
+        answer: "D",
+        prompt: "",
+        quote: "",
+        question: "Dina patokan sastra Sunda, jumlah engang (suku kata) dina unggal padalisan sisindiran paparikan jeung rarakitan anu baku nyaéta dalapan engang. Lamun hiji padalisan ngabogaan sabelas engang, balukarna kana unsur éstétik sisindiran nyaéta ....",
+        options: {
+          A: "harti kecap dina bagian eusi bakal robah total jadi kalimah teu kaharti",
+          B: "purwakanti dina tungtung padalisan otomatis leungit sarta teu bisa disebut karya sastra",
+          C: "jumlah padalisan dina sapadana kudu ditambah jadi genep padalisan sangkan saimbang deui",
+          D: "wirahma jeung lagam nalika ditembangkeun jadi karasa pincang sarta kurang merenah kadéngéna"
+        },
+        explanation: "Jumlah engang anu teu luyu jeung patokan 8 engang ngabalukarkeun wirahma/ketukan nalika dikawihkeun jadi pincang."
+      },
+      {
+        num: 9,
+        solo: "Relational",
+        answer: "A",
+        prompt: "Perhatikeun kecap-kecap tungtung dina sisindiran ieu!",
+        quote: "Ka kulah néangan kapiting (a)\nngocok endog bobodasna (b)\nUlah sok liar ti peuting (a)\nosok loba gogodana (b)",
+        question: "Pola sora (purwakanti) anu ngawangun kaéndahan wirahma dina sisindiran di luhur disebut ....",
+        options: {
+          A: "purwakanti laraswekas anu nyieun sora tungtung padalisan ngaruntuy kalawan pola selang seling",
+          B: "purwakanti maduswara anu ngan saukur ngulang sora konsonan dina tengah kalimah wungkul",
+          C: "purwakanti cakraswara anu nukeurkeun posisi vokal dina padalisan kahiji jeung padalisan kaopat",
+          D: "purwakanti pangluyu anu ngahijikeun harti cangkang jeung eusi jadi hiji paragraf narasi"
+        },
+        explanation: "Purwakanti laraswekas nyaéta sasaruaan sora dina tungtung padalisan (a-b-a-b: kapiting-peuting, bobodasna-gogodana)."
+      },
+      {
+        num: 10,
+        solo: "Relational",
+        answer: "C",
+        prompt: "",
+        quote: "",
+        question: "Nalika nganalisis struktur sisindiran, urang mindeng manggihan kecap anu dibalikan deui dina awal padalisan cangkang jeung awal padalisan eusi. Téhnik gaya basa sora ieu dina sastra Sunda dipikawanoh ku istilah ....",
+        options: {
+          A: "margaluyu anu nyambungkeun kecap panungtung padalisan kahiji kana awal padalisan kadua",
+          B: "sandi asma anu nyumputkeun ngaran pangarang dina unggal aksara mimiti padalisan",
+          C: "mindoan kawit anu jadi ciri has pikeun ngabédakeun rarakitan jeung paparikan",
+          D: "pangkur lugu anu ngatur turun naékna nada sora nalika sisindiran dibaca"
+        },
+        explanation: "Mindoan kawit hartina ngabalikan deui kecap mimiti dina cangkang jeung eusi, ciri has rarakitan."
+      },
+      {
+        num: 11,
+        solo: "Extended Abstract",
+        answer: "B",
+        prompt: "Saurang siswa nyieun paparikan saperti kieu:",
+        quote: "Meli buku ka Ciamis,\nhenteu poho meli mangsi.\nJadi jalma kudu amis,\nsangkan loba nu mikaresep.",
+        question: "Upama dievaluasi dumasar kana kaédah struktur sisindiran anu bener, kasalahan utama dina sisindiran jieunan siswa éta perenahna dina ....",
+        options: {
+          A: "padalisan kahiji jeung katilu ngagunakeun kecap mimiti anu sarua persis teuing",
+          B: "padalisan kaopat teu miboga purwakanti tungtung anu sarua jeung padalisan kadua",
+          C: "jumlah padalisan dina sapadana kurang ti aturan baku anu geus ditangtukeun",
+          D: "bagian cangkang jeung bagian eusi pahili tempatna sahingga amanatna teu kaharti"
+        },
+        explanation: "Padalisan kadua tungtungna \"mangsi\" (i), sedengkeun padalisan kaopat \"mikaresep\" (e) sahingga teu sapurwakanti."
+      },
+      {
+        num: 12,
+        solo: "Extended Abstract",
+        answer: "D",
+        prompt: "Perhatikeun cangkang paparikan ieu di handap!",
+        quote: "Ngala manggu ka Cibatu,\ndipetikna maké gantar.\n.................................,\n.................................",
+        question: "Eusi anu paling merenah pikeun ngalengkepan paparikan di luhur sangkan luyu jeung kaédah purwakanti sarta jumlah engangna nyaéta ....",
+        options: {
+          A: "Upami urang hoyong pinter, kedah getol maca buku",
+          B: "Janten jalmi kedah jujur, supados dipikaresep ku batur",
+          C: "Kudu getol néang élmu, sangkan hirup jadi senang",
+          D: "Lamun urang hayang maju, kudu rajin jeung diajar"
+        },
+        explanation: "\"Cibatu\" (u) murwakanti jeung \"maju\" (u), sarta \"gantar\" (ar) murwakanti jeung \"diajar\" (ar), masing-masing 8 engang."
+      },
+      {
+        num: 13,
+        solo: "Relational",
+        answer: "A",
+        prompt: "Baca sempalan téks diskusi ieu di handap!",
+        quote: "\"Pamakéan gawé (gadget) di kalangan rumaja SMP mémang mawa mangpaat pikeun néangan bahan pangajaran. Nanging, upama teu diwatesanan ku kolot jeung guru, hal ieu bisa ngurangan kamampuh komunikasi langsung sarta ngabalukarkeun kacanduan kaulinan daring.\"",
+        question: "Kacindekan atawa tanggapan anu paling kritis tur logis kana eusi sempalan téks di luhur nyaéta ....",
+        options: {
+          A: "pamakéan téknologi kudu dibarengan ku aturan anu jelas sangkan mangpaatna karasa maksimal",
+          B: "sakabéh siswa SMP kudu dilarang mawa alat komunikasi ka sakola salila diajar",
+          C: "kaulinan daring leuwih alus tibatan maca buku pangajaran anu kandel di perpustakaan",
+          D: "kolot teu boga kawajiban pikeun ngawaskeun pamakéan gawé budak di jero imah"
+        },
+        explanation: "Kacindekan logis dina diskusi nyaéta nyaimbangkeun mangpaat téknologi ku cara méré watesan/aturan anu jelas."
+      },
+      {
+        num: 14,
+        solo: "Extended Abstract",
+        answer: "C",
+        prompt: "Titénan padalisan eusi rarakitan ieu di handap!",
+        quote: ".................................,\n.................................\nKudu daék barangbéré,\nka sasama nu miskin.",
+        question: "Cangkang anu paling luyu pikeun ngalengkepan rarakitan di luhur dumasar kana aturan mindoan kawit jeung purwakanti tungtung nyaéta ....",
+        options: {
+          A: "Mawa paré dina karung, dibawa ka pasar subuh",
+          B: "Lamun urang ka Cianjur, ulah poho meli tauco",
+          C: "Kudu daék ngala paré, ka sawah di pasir",
+          D: "Ka kulah néangan lélé, meunangna ngan ukur hiji"
+        },
+        explanation: "Ngagunakeun mindoan kawit \"Kudu daék\" sarta purwakanti \"paré - barangbéré\" jeung \"pasir - miskin\"."
+      },
+      {
+        num: 15,
+        solo: "Extended Abstract",
+        answer: "B",
+        prompt: "Susun padalisan-padalisan acak ieu di handap sangkan jadi hiji wangun paparikan piwuruk anu bener!",
+        quote: "(1) lamun urang hayang salamet\n(2) kudu inget kana ibadah\n(3) ka pasar meuli katimun\n(4) ulah poho meuli uyah",
+        question: "Susunan padalisan anu bener dumasar kana aturan cangkang, eusi, jeung sasaruaan sora tungtung nyaéta ....",
+        options: {
+          A: "padalisan kahiji dituturkeun ku kadua tuluy katilu jeung panungtungna padalisan kaopat",
+          B: "padalisan katilu dituturkeun ku kaopat tuluy kahiji jeung panungtungna padalisan kadua",
+          C: "padalisan kaopat dituturkeun ku katilu tuluy kadua jeung panungtungna padalisan kahiji",
+          D: "padalisan kadua dituturkeun ku kaopat tuluy kahiji jeung panungtungna padalisan katilu"
+        },
+        explanation: "Cangkang (3)-(4) \"katimun / uyah\", dituturkeun eusi (1)-(2) \"salamet / ibadah\"."
+      },
+      {
+        num: 16,
+        solo: "Relational",
+        answer: "D",
+        prompt: "",
+        quote: "",
+        question: "Dina paguneman sapopoé, urang Sunda mindeng ngagunakeun gaya basa sindir sangkan teu nyinggung perasaan batur sacara langsung. Conto kalimah anu ngalarapkeun gaya basa sindir kalawan sopan pikeun ngingetan babaturan anu datang telat nyaéta ....",
+        options: {
+          A: "naha manéh téh datang telat waé kawas jalma anu teu boga jam",
+          B: "kaluar wé ti kelas lamun teu bisa disiplin kana waktu diajar mah",
+          C: "kabéh murid geus nungguan ti tadi tapi manéh kakara datang ka kelas",
+          D: "isuk kénéh geuning ayeuna mah jam dalapan téh kakara nepi ka sakola"
+        },
+        explanation: "Opsi D nyindiran kalawan lemes (ngomong sabalikna) tanpa ngagunakeun kecap anu kasar."
+      },
+      {
+        num: 17,
+        solo: "Relational",
+        answer: "B",
+        prompt: "Titénan tilu kalimah ieu di handap!",
+        quote: "(I) \"Alus pisan tulisan manéh téh, nepi ka siga cakar hayam teu bisa dibaca.\"\n(II) \"Enya pinter pisan manéh mah, ulangan gé meunang peunteun opat puluh.\"\n(III) \"Geuning isuk kénéh geus balik, padahal batur mah kakara indit.\"",
+        question: "Dumasar kana watek sindiranana, kalimah anu kaasup kana gaya basa nyungkun jeung ngomong dua sacara ngaruntuy nyaéta ....",
+        options: {
+          A: "kalimah kahiji mangrupa gaya basa seukeut sedengkeun kalimah kadua mangrupa gaya basa nyungkun pisan",
+          B: "kalimah kahiji mangrupa gaya basa nyungkun sedengkeun kalimah katilu mangrupa gaya basa ngomong dua",
+          C: "kalimah kadua mangrupa gaya basa ngomong dua sedengkeun kalimah kahiji mangrupa gaya basa seukeut",
+          D: "kalimah katilu mangrupa gaya basa seukeut sedengkeun kalimah kadua mangrupa gaya basa ngomong dua"
+        },
+        explanation: "Kalimah (I) nyaéta nyungkun (muji tuluy langsung ngahina), sedengkeun (III) nyaéta ngomong dua (ironi lemes)."
+      },
+      {
+        num: 18,
+        solo: "Relational",
+        answer: "A",
+        prompt: "Nalika ningali kaayaan kelas anu kotor pisan ku runtah plastik sanggeus istirahat, ketua kelas nyarita ka babaturanana:",
+        quote: "\"Wah, beresih pisan kelas urang téh, nepi ka loba kertas pabalatak di unggal juru.\"",
+        question: "Tujuan utama ketua kelas ngagunakeun gaya basa sindir dina éta kaayaan nyaéta pikeun ....",
+        options: {
+          A: "nyadarkeun babaturanana sangkan éra jeung geuwat meresihan kelas tanpa dipaksa",
+          B: "muji kabersihan kelas anu geus dijaga kalawan hadé ku anggota pikét",
+          C: "ngalaporkeun kaayaan kelas ka wali kelas sangkan babaturanana meunang hukuman beurat",
+          D: "ngajak babaturanana pikeun jajan deui ka kantin bari ninggalkeun runtah kelas"
+        },
+        explanation: "Gaya basa sindir dipaké sangkan nu disindir sadar kana kasalahanana tanpa kudu dipaksa sacara kasar."
+      },
+      {
+        num: 19,
+        solo: "Relational",
+        answer: "C",
+        prompt: "",
+        quote: "",
+        question: "Dina kaédah panulisan aksara Sunda baku, pikeun ngarobah sora vokal dasar /a/ dina aksara ngalagena (contona aksara 'ka') jadi sora /é/ (saperti dina kecap 'kéjo') sarta nambahan sora konsonan /ng/ di tungtung engang, rarangkén anu kudu digunakeun nyaéta ....",
+        options: {
+          A: "pamepet di luhureun aksara dasar ditambah panglayar di luhureun aksara dasar kasebut",
+          B: "paneuleung di luhureun aksara dasar ditambah panyuku di handapeun aksara dasar kasebut",
+          C: "panéléng di hareupeun aksara dasar ditambah panyecek di luhureun aksara dasar kasebut",
+          D: "panolong di tukangeun aksara dasar ditambah pamaéh di tukangeun aksara dasar kasebut"
+        },
+        explanation: "Panéléng ngarobah vokal /a/ jadi /é/ (ditulis di hareup), sedengkeun panyecek nambahan konsonan /ng/ di luhur."
+      },
+      {
+        num: 20,
+        solo: "Multistructural",
+        answer: "B",
+        prompt: "",
+        quote: "",
+        question: "Dina struktur téks biantara (pidato) basa Sunda, aya bagian bubuka, eusi, jeung panutup. Unsur-unsur anu wajib aya dina bagian bubuka biantara resmi sangkan luyu jeung tatakrama kasundaan nyaéta ....",
+        options: {
+          A: "kacindekan materi utama, sanduk ménta dihampura, sarta salam panutup anu singget pisan",
+          B: "salam pamuka, mukadimah puji syukur ka Gusti, sarta pangbagéa ka para hadirin",
+          C: "pedaran lengkep ngeunaan pasualan anu dibahas dibarengan ku data jeung fakta lapangan",
+          D: "pananya pikeun para hadirin sangkan suasana diskusi jadi leuwih ramé jeung interaktif"
+        },
+        explanation: "Bubuka biantara resmi ngawengku salam pamuka, mukadimah (puji syukur & solawat), sarta pangbagéa/pangwilujeng ka hadirin."
+      },
+      {
+        num: 21,
+        solo: "Relational",
+        answer: "D",
+        prompt: "",
+        quote: "",
+        question: "Saméméh nulis naskah biantara anu lengkep, saurang panyatur kudu nyusun raraga (kerangka) biantara heula. Mangpaat utama nyusun raraga biantara dina prosés nyiapkeun biantara nyaéta sangkan ....",
+        options: {
+          A: "panyatur bisa ngapalkeun sakabéh kalimah tanpa kudu mikawanoh saha waé nu ngadangukeun",
+          B: "durasi biantara jadi leuwih lila sanajan eusina ngan ngulang kalimah anu sarua",
+          C: "naskah biantara teu perlu maké bagian bubuka jeung panutup anu panjang teuing",
+          D: "gambaran eusi biantara ngaruntuy kalawan logis sarta teu méngpar tina téma utama"
+        },
+        explanation: "Raraga biantara fungsina ngajaga alur gagasan sangkan sistematis jeung teu kaluar tina téma."
+      },
+      {
+        num: 22,
+        solo: "Relational",
+        answer: "A",
+        prompt: "",
+        quote: "",
+        question: "Dina téhnik nepikeun biantara, aya métode anu disebut ékstémporan. Ciri has tina métode ékstémporan anu ngabédakeunana jeung métode maca naskah atawa ngapalkeun nyaéta ....",
+        options: {
+          A: "panyatur ngan nyiapkeun catetan leutik mangrupa gurat badag eusi biantara anu rék ditepikeun",
+          B: "panyatur maca sakabéh téks biantara ti mimiti bubuka nepi ka panutup tanpa eureun",
+          C: "panyatur ngapalkeun kecap demi kecap tina naskah anu geus ditulis sababaraha poé saméméhna",
+          D: "panyatur langsung biantara ngadadak tanpa persiapan nanaon lantaran ditunjuk sacara ujug ujug pisan"
+        },
+        explanation: "Métode ékstémporan ngagunakeun catetan gurat badag (outline) tuluy dimekarkeun langsung ku basa panyatur sorangan."
+      },
+      {
+        num: 23,
+        solo: "Extended Abstract",
+        answer: "C",
+        prompt: "Titénan sempalan biantara ieu di handap!",
+        quote: "\"Para sadérék sadaya, basa Sunda téh jati diri urang salaku urang Sunda. Ulah nepi ka basa Sunda leungit di lemah caina sorangan alatan para nonomanana éra ngagunakeun basa indungna dina kahirupan sapopoé.\"",
+        question: "Sikep atawa tindakan nyata anu paling luyu pikeun ngawujudkeun amanat tina sempalan biantara di luhur di lingkungan sakola nyaéta ....",
+        options: {
+          A: "ngaganti sakabéh buku pangajaran basa Indonésia ku buku carita pantun Sunda buhun",
+          B: "ngalarang sakabéh murid diajar basa asing sangkan teu poho kana budaya sorangan",
+          C: "ngabiasakeun nyarita maké basa Sunda anu merenah dina paguneman sapopoé jeung babaturan",
+          D: "ngayakeun upacara adat unggal poé di lapangan sakola bari ninggalkeun jam pangajaran"
+        },
+        explanation: "Ngamumulé basa Sunda dimimitian ku kabiasaan maké basa Sunda anu merenah dina komunikasi sapopoé."
+      },
+      {
+        num: 24,
+        solo: "Relational",
+        answer: "B",
+        prompt: "Titénan wawangsalan ieu di handap!",
+        quote: "Kendang gedé pakauman,\ndag-dig-dug rasaning ati.",
+        question: "Cara kerja pikiran pikeun manggihan wangsal (jawaban) tina wawangsalan di luhur ngagunakeun léngkah logika nyaéta ....",
+        options: {
+          A: "ngitung jumlah engang dina padalisan kahiji tuluy dibagi dua sangkan kapanggih hartina",
+          B: "néangan barang anu dimaksud dina cangkang tuluy nyocogkeun sorana jeung kecap eusi",
+          C: "ngagabungkeun aksara mimiti dina unggal kecap nepi ka ngabentuk ngaran hiji barang",
+          D: "néangan lawan kecap tina sakabéh kecap sipat anu aya dina padalisan kadua"
+        },
+        explanation: "\"Kendang gedé pakauman\" = bedug, sorana murwakanti jeung \"dag-dig-dug\" dina padalisan kadua."
+      },
+      {
+        num: 25,
+        solo: "Relational",
+        answer: "D",
+        prompt: "Perhatikeun kalimah panutup biantara ieu di handap!",
+        quote: "\"Rupina sakitu anu kapihatur, hapunten bilih aya cariosan anu kirang merenah kana manah hadirin sadaya.\"",
+        question: "Dina éta kalimah panutup, kecap 'kapihatur' jeung 'manah' dipilih ku panulis naskah biantara kalawan tujuan pikeun ....",
+        options: {
+          A: "ngagaya sangkan panyatur katémbong leuwih pinter batan jalma anu ngadangukeun eusi biantara",
+          B: "nyinggetkeun waktu biantara lantaran panyatur geus capé nangtung di hareupeun panggung utama",
+          C: "nutupan kakurangan eusi biantara anu teu luyu jeung téma acara keur lumangsung",
+          D: "némbongkeun rasa hormat jeung handap asor ka hadirin ngagunakeun ragam basa lemes"
+        },
+        explanation: "Kecap \"kapihatur\" jeung \"manah\" mangrupa ragam basa lemes pikeun ngahormat hadirin sarta némbongkeun sikep handap asor."
+      },
+      {
+        num: 26,
+        solo: "Relational",
+        answer: "A",
+        prompt: "",
+        quote: "",
+        question: "Dina hiji sawala (diskusi) kelas ngeunaan kabersihan lingkungan, saurang pamilon nepikeun pamadegan yén denda duit mangrupa cara pangampuhna pikeun ngurangan miceun runtah sambarangan. Bantahan anu logis tur santun pikeun nanggapi pamadegan éta nyaéta ....",
+        options: {
+          A: "kuring sapuk kana tujuanana tapi kasadaran diri jauh leuwih penting tibatan denda duit",
+          B: "pamadegan anjeun teu asup akal sabab murid teu boga duit keur mayar denda",
+          C: "ulah sok nyieun aturan anu ngabeungbeuratan babaturan sorangan dina sawala kelas ieu mah",
+          D: "mending urang teu usah diskusi lamun tungtungna ngan rék ngabahas masalah duit waé"
+        },
+        explanation: "Bantahan anu étis dimimitian ku pangajén kana tujuan lawan bicara tuluy nepikeun alesan anu leuwih jembar."
+      },
+      {
+        num: 27,
+        solo: "Relational",
+        answer: "C",
+        prompt: "",
+        quote: "",
+        question: "Nalika nulis naskah biantara anu audiénsna mangrupa para siswa SMP, pilihan gaya basa jeung eusi anu paling efektif sangkan pesen biantara gampang ditarima nyaéta ....",
+        options: {
+          A: "ngagunakeun basa Sunda buhun anu pinuh ku istilah sastra klasik sangkan katémbong luhung",
+          B: "ngagunakeun basa gaul sapopoé anu dicampur ku basa asing tanpa merhatikeun tatakrama basa",
+          C: "ngagunakeun basa Sunda anu komunikatif, teu kaku teuing, sarta dibéré conto kahirupan rumaja",
+          D: "ngagunakeun kalimah anu panjang pisan tanpa tanda baca sangkan dibacana bisa gancang réngsé"
+        },
+        explanation: "Audiéns rumaja SMP merlukeun basa anu komunikatif, sopan, tur kontekstual jeung dunyana."
+      },
+      {
+        num: 28,
+        solo: "Multistructural",
+        answer: "B",
+        prompt: "",
+        quote: "",
+        question: "Dina struktur téks biantara, bagian anu eusina ngadadarkeun maksud tujuan acara, ngajéntrékeun pasualan utama, sarta nepikeun harepan atawa pangajak ka hadirin kaasup kana bagian ....",
+        options: {
+          A: "bubuka biantara anu fungsina pikeun narik perhatian hadirin saméméh asup kana matéri",
+          B: "eusi biantara anu jadi inti tina sakabéh pesen anu rék ditepikeun panyatur",
+          C: "panutup biantara anu eusina mangrupa kacindekan singget jeung ménta dihampura ka hadirin",
+          D: "pangbagéa biantara anu nyebutkeun hiji ngaran tamu undangan anu hadir dina acara"
+        },
+        explanation: "Pedaran tujuan, pasualan utama, jeung pangajak mangrupa inti tina bagian eusi biantara."
+      },
+      {
+        num: 29,
+        solo: "Relational",
+        answer: "D",
+        prompt: "",
+        quote: "",
+        question: "Dina seni tradisi Sunda, aya anu disebut tempas sindir (silih bales sisindiran). Lamun saurang pamuda ngirimkeun sisindiran silih asih ka wanoja, wangun balesan anu paling merenah dina tempas sindir nyaéta ....",
+        options: {
+          A: "ngabales ku carita pondok anu panjang pikeun ngajelaskeun silsilah kulawarga sacara lengkep",
+          B: "ngabales ku nembangkeun pupuh kinanti bari ngajauhan tempat acara anu keur lumangsung",
+          C: "ngabales ku pananya matematika anu hésé sangkan lawan bicarana teu bisa ngajawab",
+          D: "ngabales ku sisindiran anu sarua wangunna sarta eusina nanggapi maksud sisindiran mimiti"
+        },
+        explanation: "Tempas sindir nyaéta seni silih bales sisindiran anu nyambung eusi jeung wangunna."
+      },
+      {
+        num: 30,
+        solo: "Relational",
+        answer: "A",
+        prompt: "Bandingkeun dua padalisan ieu:",
+        quote: "Padalisan A: \"Ka kulah néangan kapiting\"\nPadalisan B: \"Ulah sok liar ti peuting\"",
+        question: "Hubungan struktural antara Padalisan A jeung Padalisan B dina wangun paparikan nyaéta ....",
+        options: {
+          A: "Padalisan A mangrupa cangkang kahiji sedengkeun Padalisan B mangrupa eusi kahiji anu sapurwakanti",
+          B: "Padalisan A mangrupa eusi utama sedengkeun Padalisan B mangrupa cangkang panutup dina sapada",
+          C: "Padalisan A jeung Padalisan B sarua mangrupa bagian cangkang anu teu miboga harti",
+          D: "Padalisan A jeung Padalisan B mangrupa bagian tina wawangsalan anu kudu diteguh wangsalna"
+        },
+        explanation: "Dina paparikan, padalisan ka-1 (cangkang kahiji) pasanganana jeung padalisan ka-3 (eusi kahiji)."
+      },
+      {
+        num: 31,
+        solo: "Extended Abstract",
+        answer: "C",
+        prompt: "",
+        quote: "",
+        question: "Saurang panulis rék nyieun sisindiran anu miboga éfék musikalitas (wirahma) leuwih kuat lantaran kecap awal dina cangkang diulang deui dina kecap awal eusi. Wangun sisindiran anu kudu dipilih ku éta panulis nyaéta ....",
+        options: {
+          A: "paparikan sabab ngan ngandelkeun padeukeutna sora dina tungtung padalisan tanpa ngulang kecap",
+          B: "wawangsalan sabab diwangun ku dua padalisan anu ngandung tarucing jeung jawaban nyamuni",
+          C: "rarakitan sabab miboga aturan mindoan kawit anu ngulang kecap dina unggal pasanganana",
+          D: "guguritan sabab kauger ku aturan guru wilangan jeung guru lagu dina padana"
+        },
+        explanation: "Rarakitan miboga ciri mindoan kawit anu nguatkeun wirahma sarta musikalitasna."
+      },
+      {
+        num: 32,
+        solo: "Relational",
+        answer: "B",
+        prompt: "Perhatikeun wawangsalan ieu di handap!",
+        quote: "Teu beunang dihurang sawah,\nteu beunang dipikameumeut.",
+        question: "Kecap 'hurang sawah' dina padalisan kahiji ngarujuk kana sato leutik anu ngaranna simeut. Hubunganana jeung padalisan kadua nyaéta ....",
+        options: {
+          A: "simeut mangrupa sato anu dipikaresep ku patani lantaran bisa ngajaga paré sawah",
+          B: "sora tungtung kecap simeut murwakanti jeung kecap dipikameumeut dina bagian eusi wawangsalan",
+          C: "hurang sawah jeung dipikameumeut miboga harti anu sarua dina kamus basa Sunda",
+          D: "padalisan kahiji ngajelaskeun cara néwak simeut sedengkeun padalisan kadua ngajelaskeun cara ngolahna"
+        },
+        explanation: "Wangsalna nyaéta \"simeut\", anu sorana padeukeut jeung kecap \"dipikameumeut\"."
+      },
+      {
+        num: 33,
+        solo: "Extended Abstract",
+        answer: "D",
+        prompt: "Titénan téma ieu:",
+        quote: "\"Pentingna ngajaga kabersihan walungan sangkan teu banjir.\"",
+        question: "Upama rék dijieun jadi sisindiran wanda piwuruk anu luyu jeung téma di luhur, bagian eusi (padalisan katilu jeung kaopat) anu paling merenah nyaéta ....",
+        options: {
+          A: "Lamun urang hayang pinter, kudu rajin maca buku di perpustakaan",
+          B: "Abdi sono ka salira, hoyong geura tepang di sisi basisir",
+          C: "Mawa keranjang ka kebon awi, rék ngala iwung keur sayur",
+          D: "Ulah miceun runtah ka walungan, sangkan lembur teu kakeueum banjir"
+        },
+        explanation: "Eusi dina opsi D langsung nyoko kana téma piwuruk ngajaga kabersihan walungan sangkan teu banjir."
+      },
+      {
+        num: 34,
+        solo: "Extended Abstract",
+        answer: "A",
+        prompt: "",
+        quote: "",
+        question: "Dina nulis kalimah kompleks maké aksara Sunda, aya kecap 'kreatif' jeung 'strategi' anu ngandung konsonan rangkep (gugus konsonan) /kr/ jeung /tr/. Aturan rarangkén anu bener pikeun nulis gugus konsonan kasebut nyaéta ....",
+        options: {
+          A: "ngagunakeun rarangkén panyakra dina handapeun aksara ngalagena ka jeung aksara ngalagena ta",
+          B: "ngagunakeun rarangkén panyiku dina handapeun aksara ngalagena ka jeung aksara ngalagena ta",
+          C: "ngagunakeun rarangkén pamaéh dina aksara ka tuluy dituturkeun aksara ra sacara misah",
+          D: "ngagunakeun rarangkén pangwisad dina tukangeun aksara ka sangkan sorana jadi rangkep dua"
+        },
+        explanation: "Rarangkén panyakra fungsina nyelapkeun konsonan /r/ di tengah engang (saperti /kr/ jeung /tr/)."
+      },
+      {
+        num: 35,
+        solo: "Relational",
+        answer: "C",
+        prompt: "",
+        quote: "",
+        question: "Dina nyusun bagian eusi naskah biantara ngeunaan bahaya narkoba pikeun rumaja, panulis ngasupkeun data statistik ti BNN jeung conto kasus nyata. Tujuan ngasupkeun data kasebut dina naskah biantara nyaéta pikeun ....",
+        options: {
+          A: "ngeusian waktu biantara sangkan durasina leuwih panjang sarta hadirin ngarasa tunduh ngadangukeunana",
+          B: "némbongkeun yén panulis naskah biantara pinter ngitung angka statistik tanpa kudu ngajelaskeunana",
+          C: "nguatkeun argumén panyatur sangkan leuwih ngayakinkeun hadirin dumasar kana fakta anu nyata",
+          D: "ngaganti bagian salam panutup anu biasana sok dipaké dina tungtung naskah biantara"
+        },
+        explanation: "Data jeung fakta nyata dipaké pikeun nguatkeun arguméntasi sangkan hadirin percaya jeung kapangaruhan."
+      },
+      {
+        num: 36,
+        solo: "Relational",
+        answer: "B",
+        prompt: "Perhatikeun kalimah dina naskah biantara ieu:",
+        quote: "\"Ku kituna, hayu urang sasarengan ngajaga kabersihan lingkungan sakola dimimitian ti hal anu pangleutikna.\"",
+        question: "Kalimah di luhur mangrupa kalimah pangajak (persuasif) anu paling merenah diteundeun dina bagian ....",
+        options: {
+          A: "mimiti pisan saméméh panyatur ngucapkeun salam pamuka jeung mukadimah ka hadirin",
+          B: "panutup bagian eusi saméméh asup kana kacindekan jeung salam panutup biantara",
+          C: "tengah bagian pangbagéa nalika panyatur keur nyebutkeun ngaran tamu undangan acara",
+          D: "sanggeus salam panutup nalika panyatur geus turun tina panggung acara resmi"
+        },
+        explanation: "Kalimah pangajak biasana ditempatkeun di bagian ahir eusi saméméh kacindekan jeung panutup biantara."
+      },
+      {
+        num: 37,
+        solo: "Relational",
+        answer: "D",
+        prompt: "",
+        quote: "",
+        question: "Bédana anu paling prinsipil antara téks biantara resmi (saperti biantara kapala sakola dina upacara) jeung biantara teu resmi (saperti biantara dina acara ulang taun babaturan) nyaéta dina hal ....",
+        options: {
+          A: "jumlah kecap dina unggal paragraf anu kudu sarua ti mimiti nepi réngsé",
+          B: "kawajiban ngagunakeun sisindiran dina unggal awal paragraf sangkan hadirin teu ngarasa bosen",
+          C: "henteu perluna bagian panutup dina biantara teu resmi lantaran suasanana geus akrab",
+          D: "ragam basa anu dipaké sarta katangtuan struktur protokolér dina nyebutkeun tamu undangan"
+        },
+        explanation: "Biantara resmi ngagunakeun basa lemes baku sarta urutan pangbagéa protokolér ti nu pangluhurna kalungguhanana."
+      },
+      {
+        num: 38,
+        solo: "Relational",
+        answer: "A",
+        prompt: "Titénan poin-poin raraga biantara ieu di handap!",
+        quote: "(1) Salam panutup jeung ménta dihampura\n(2) Salam pamuka jeung mukadimah\n(3) Ngajéntrékeun mangpaat maca buku\n(4) Pangbagéa ka kapala sakola jeung guru\n(5) Ngajak siswa rajin ka perpustakaan",
+        question: "Urutan raraga biantara anu paling logis tur sistematis nyaéta ....",
+        options: {
+          A: "nomer dua dituturkeun ku kaopat tuluy katilu kalima jeung panungtungna nomer kahiji",
+          B: "nomer kaopat dituturkeun ku kadua tuluy kalima katilu jeung panungtungna nomer kahiji",
+          C: "nomer kadua dituturkeun ku katilu tuluy kaopat kalima jeung panungtungna nomer kahiji",
+          D: "nomer kahiji dituturkeun ku kadua tuluy katilu kaopat jeung panungtungna nomer kalima"
+        },
+        explanation: "Urutan baku: (2) Salam pamuka -> (4) Pangbagéa -> (3) Eusi/pedaran -> (5) Pangajak -> (1) Panutup."
+      },
+      {
+        num: 39,
+        solo: "Extended Abstract",
+        answer: "C",
+        prompt: "",
+        quote: "",
+        question: "Nalika nepikeun biantara dumasar kana naskah di hareupeun jalma réa, panyatur henteu meunang tungkul terus maca téks tanpa ningali ka arah hadirin. Hal ieu penting diperhatikeun lantaran ....",
+        options: {
+          A: "naskah biantara bisa leungit lamun panyatur terus ningali kana kertas di leungeunana pisan",
+          B: "hadirin bakal langsung bubar lamun panyatur maca naskah kalawan sora anu bedas pisan",
+          C: "kontak panon jeung éksprési beungeut ngawangun komunikasi émosional sangkan pesen nepi ka hadirin",
+          D: "aturan lomba biantara ngawajibkeun panyatur pikeun ngapalkeun naskah tanpa mawa kertas saeutik ogé"
+        },
+        explanation: "Kontak panon (eye contact) jeung éksprési penting pikeun ngajaga interaksi jeung daya tarik biantara."
+      },
+      {
+        num: 40,
+        solo: "Extended Abstract",
+        answer: "B",
+        prompt: "Dina acara paturay tineung kelas IX, wakil kelas VII ngirimkeun sisindiran:",
+        quote: "Mawa botol kana rakit,\nrakitna ka sisi cai.\nAbdi ngaraos sedih pisan,\ndikantun ku raka-raka.",
+        question: "Balesan tempas sindir anu paling merenah ti wakil kelas IX pikeun ngabeberah haté adi kelasna nyaéta ....",
+        options: {
+          A: "ngala lauk di balong, meunangna ukur hiji. Ulah sok ceurik di kelas, bisi katempo guru",
+          B: "ka pasar meuli sapatu, ulah poho meuli tali. Sanajan urang paanggang, silaturahmi tetep ngahiji pisan",
+          C: "indit ka Bandung isuk kénéh, balikna burit pisan. Lamun hayang lulus ujian, kudu rajin diajar",
+          D: "meli baju warna biru, dipakéna poé Salasa. Tong sedih ditinggal lulus, engké papanggih deui baé"
+        },
+        explanation: "Balesan dina opsi B miboga cangkang jeung eusi anu sapurwakanti sarta ngandung pesen ngabeberah haté."
+      }
+    ];
+
+    // =========================================================================
+    // 2. BANK DATA 5 SOAL URAIAN (NOMOR 41–45)
+    // =========================================================================
+    const essayQuestions = [
+      {
+        num: 41,
+        solo: "Extended Abstract",
+        topic: "Nyanggeum Eusi Téks Diskusi (Logika & Étika Basa)",
+        question: "Dina sawala kelas, aya pamilon anu boga pamadegan yén pamakéan kecerdasan jieunan (AI) dina diajar basa Sunda kudu dilarang total sabab sok ngajadikeun siswa kedul mikir. Tuliskeun tanggapan atawa bantahan kritis anjeun kalawan ngagunakeun étika basa Sunda anu santun, logis, tur méré solusi anu adil!",
+        placeholder: "Tulis tanggapan kritis anjeun di dieu (ngagunakeun basa Sunda anu santun)...",
+        keyAnswer: "Nyatujuan mangpaat AI pikeun kamus/tarjamahan bari méré catetan yén undak-usuk basa jeung rasa basa tetep kudu diajar langsung ka guru/masarakat.",
+        rubric: [
+          "Ngagunakeun basa Sunda anu santun tur ngahargaan pamadegan batur (Skor 5)",
+          "Nepikeun argumén logis ngeunaan mangpaat AI salaku alat bantu (kamus/tarjamahan) (Skor 8)",
+          "Méré solusi yén undak-usuk basa jeung rasa basa tetep kudu diajar langsung ka guru jeung masarakat (Skor 7)"
+        ]
+      },
+      {
+        num: 42,
+        solo: "Relational",
+        topic: "Ngaidentifikasi Ciri & Struktur Sisindiran",
+        question: "Titénan sisindiran ieu di handap:\n\"Mawa peti dina sundung,\ndibawa ka Nusa Jawa.\nPangarti teu beurat nanggung,\nkabisa teu beurat mawa.\"\n\nAnalisis wangun, wanda, jumlah padalisan, mindoan kawit, purwakanti, sarta jumlah engang dina unggal padalisanana!",
+        placeholder: "Tulis hasil analisis struktur sisindiran di dieu...",
+        keyAnswer: "Wangun rarakitan, wanda piwuruk, 4 padalisan (2 cangkang, 2 eusi), mindoan kawit (\"Mawa/Pangarti\", \"dibawa/kabisa\"), purwakanti laraswekas a-b-a-b (sundung-nanggung, Jawa-mawa), masing-masing 8 engang.",
+        rubric: [
+          "Nangtukeun wangun rarakitan jeung wanda piwuruk kalawan bener (Skor 6)",
+          "Ngajéntrékeun 4 padalisan (2 cangkang, 2 eusi) sarta masing-masing 8 engang (Skor 7)",
+          "Nuduhkeun mindoan kawit jeung pola purwakanti laraswekas a-b-a-b (sundung-nanggung, Jawa-mawa) (Skor 7)"
+        ]
+      },
+      {
+        num: 43,
+        solo: "Relational",
+        topic: "Neguh Wawangsalan",
+        question: "Pék teguh wangsal (jawaban) tina dua wawangsalan ieu di handap, tuluy sebutkeun kecap dina bagian eusi anu murwakanti jeung wangsalna:\n(1) Kembang bodas buah bunder / ngaheruk nya pipikiran.\n(2) Teu beunang disupa dulang / teu beunang dibébénjokeun.",
+        placeholder: "Tulis wangsal (1) jeung (2) katut kecap anu murwakantina...",
+        keyAnswer: "(1) Jeruk (murwakanti jeung kecap \"ngaheruk\"), (2) Kéjo (murwakanti jeung kecap \"dibébénjokeun\").",
+        rubric: [
+          "Jawaban nomer (1) bener: Jeruk + kecap murwakanti \"ngaheruk\" (Skor 10)",
+          "Jawaban nomer (2) bener: Kéjo + kecap murwakanti \"dibébénjokeun\" (Skor 10)"
+        ]
+      },
+      {
+        num: 44,
+        solo: "Extended Abstract",
+        topic: "Nyusun Sisindiran Dumasar Kaédahna",
+        question: "Susun 1 pada sisindiran wanda piwuruk (wangun paparikan atawa rarakitan) anu témana ngeunaan ngajaga kabersihan lingkungan atawa ngariksa alam!",
+        placeholder: "Tulis 4 padalisan sisindiran karya anjeun di dieu...",
+        keyAnswer: "1 pada paparikan/rarakitan, 4 padalisan, 8 engang/padalisan, purwakanti a-b-a-b, eusi ngeunaan kabersihan/ngajaga alam. Conto: Ka pasar meuli sapatu (8) / ulah poho meuli paku (8) / Lamun urang hayang maju (8) / jaga alam ulah layu (8).",
+        rubric: [
+          "Diwangun ku 4 padalisan (2 cangkang, 2 eusi) kalawan 8 engang unggal padalisan (Skor 7)",
+          "Pola purwakanti tungtung a-b-a-b luyu (Skor 6)",
+          "Eusi ngandung piwuruk ngajaga kabersihan lingkungan/alam (Skor 7)"
+        ]
+      },
+      {
+        num: 45,
+        solo: "Extended Abstract",
+        topic: "Nyusun Raraga (Kerangka) Biantara",
+        question: "Susun raraga (kerangka) biantara anu sistematis kalawan téma: \"Nonoman Sunda Kudu Nyunda, Nyakola, jeung Nyantika\"!",
+        placeholder: "Tulis raraga biantara ti mimiti I. Bubuka, II. Eusi, nepi ka III. Panutup...",
+        keyAnswer: "Ngawengku Bubuka (salam, mukadimah, pangbagéa), Eusi (hartina nyunda-nyakola-nyantika, tantangan jaman, pangajak), jeung Panutup (kacindekan, sanduk ménta dihampura, salam panutup).",
+        rubric: [
+          "Bagian I. Bubuka lengkep: salam pamuka, mukadimah, pangbagéa ka hadirin (Skor 6)",
+          "Bagian II. Eusi ngajéntrékeun harti nyunda-nyakola-nyantika, tantangan jaman, jeung pangajak (Skor 8)",
+          "Bagian III. Panutup ngawengku kacindekan, sanduk ménta dihampura, jeung salam panutup (Skor 6)"
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // 3. STATE APLIKASI & WEB AUDIO API SOUND ENGINE
+    // =========================================================================
+    let state = {
+      studentName: "",
+      studentClass: "",
+      currentIdx: 0,
+      userAnswers: Array(pgQuestions.length).fill(null), // simpan 'A'/'B'/'C'/'D'
+      score: 0,
+      streak: 0,
+      bestStreak: 0,
+      soundEnabled: true,
+      timerEnabled: false,
+      secondsLeft: 60 * 60,
+      timerInterval: null,
+      quizFinished: false
+    };
+
+    // Web Audio API Synthesizer (Tanpa URL eksternal)
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) audioCtx = new AudioContext();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playSound(type) {
+      if (!state.soundEnabled) return;
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      if (type === 'click') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(520, now);
+        osc.frequency.exponentialRampToValueAtTime(680, now + 0.06);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+        osc.start(now);
+        osc.stop(now + 0.07);
+      } else if (type === 'correct') {
+        // Nada Gamelan Pelog/Saléndro cerah (naik harmonis)
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(523.25, now); // C5
+        osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+        osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+        osc.frequency.setValueAtTime(1046.50, now + 0.24); // C6
+        gain.gain.setValueAtTime(0.16, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+        osc.start(now);
+        osc.stop(now + 0.45);
+      } else if (type === 'wrong') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.linearRampToValueAtTime(155, now + 0.28);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      } else if (type === 'finish') {
+        osc.type = 'triangle';
+        const notes = [523.25, 659.25, 783.99, 1046.5, 1318.5];
+        notes.forEach((freq, i) => {
+          osc.frequency.setValueAtTime(freq, now + i * 0.1);
+        });
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
+        osc.start(now);
+        osc.stop(now + 0.75);
+      }
+    }
+
+    function toggleSound() {
+      state.soundEnabled = !state.soundEnabled;
+      document.getElementById('icon-sound-on').classList.toggle('hidden', !state.soundEnabled);
+      document.getElementById('icon-sound-off').classList.toggle('hidden', state.soundEnabled);
+      if (state.soundEnabled) playSound('click');
+    }
+
+    // =========================================================================
+    // 4. NAVIGASI ANTAR SCREEN
+    // =========================================================================
+    function showOnlyScreen(screenId) {
+      ['screen-start', 'screen-pg', 'screen-essay', 'screen-result'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(screenId).classList.remove('hidden');
+
+      const isPG = screenId === 'screen-pg';
+      const isStart = screenId === 'screen-start';
+      document.getElementById('btn-nav-drawer').classList.toggle('hidden', !isPG);
+      document.getElementById('btn-home').classList.toggle('hidden', isStart);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function captureStudentInfo() {
+      const nameVal = document.getElementById('input-name').value.trim();
+      const classVal = document.getElementById('input-class').value.trim();
+      state.studentName = nameVal || "Pamilon Kuis";
+      state.studentClass = classVal || "Kelas IX";
+      state.timerEnabled = document.getElementById('toggle-timer').checked;
+    }
+
+    function startPGMode() {
+      playSound('click');
+      captureStudentInfo();
+      showOnlyScreen('screen-pg');
+      setupTimer();
+      renderPGQuestion();
+    }
+
+    function restartPGQuiz() {
+      playSound('click');
+      clearInterval(state.timerInterval);
+      state.currentIdx = 0;
+      state.userAnswers = Array(pgQuestions.length).fill(null);
+      state.score = 0;
+      state.streak = 0;
+      state.bestStreak = 0;
+      state.secondsLeft = 60 * 60;
+      state.quizFinished = false;
+      startPGMode();
+    }
+
+    function startEssayMode() {
+      playSound('click');
+      captureStudentInfo();
+      clearInterval(state.timerInterval);
+      renderEssayScreen();
+      showOnlyScreen('screen-essay');
+    }
+
+    function confirmGoHome() {
+      playSound('click');
+      document.getElementById('confirm-home-modal').classList.remove('hidden');
+    }
+
+    function closeConfirmHome() {
+      playSound('click');
+      document.getElementById('confirm-home-modal').classList.add('hidden');
+    }
+
+    function goHomeDirect() {
+      playSound('click');
+      document.getElementById('confirm-home-modal').classList.add('hidden');
+      clearInterval(state.timerInterval);
+      state.currentIdx = 0;
+      state.userAnswers = Array(pgQuestions.length).fill(null);
+      state.score = 0;
+      state.streak = 0;
+      state.bestStreak = 0;
+      state.secondsLeft = 60 * 60;
+      state.quizFinished = false;
+      showOnlyScreen('screen-start');
+    }
+
+    // =========================================================================
+    // 5. TIMER OPSIONAL
+    // =========================================================================
+    function setupTimer() {
+      clearInterval(state.timerInterval);
+      const timerBox = document.getElementById('hud-timer-box');
+      if (!state.timerEnabled) {
+        timerBox.classList.add('hidden');
+        return;
+      }
+      timerBox.classList.remove('hidden');
+      updateTimerDisplay();
+      state.timerInterval = setInterval(() => {
+        if (state.secondsLeft <= 0) {
+          clearInterval(state.timerInterval);
+          finishQuiz();
+          return;
+        }
+        state.secondsLeft--;
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(state.secondsLeft / 60);
+      const secs = state.secondsLeft % 60;
+      const el = document.getElementById('hud-timer');
+      el.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      if (state.secondsLeft <= 300) {
+        el.classList.add('text-rose-400');
+      } else {
+        el.classList.remove('text-rose-400');
+      }
+    }
+
+    // =========================================================================
+    // 6. RENDER SOAL PILIHAN GANDA & LOGIKA JAWABAN
+    // =========================================================================
+    function getSoloBadgeClasses(solo) {
+      if (solo === "Multistructural") {
+        return "bg-sky-900/90 text-sky-200 border-sky-400/40";
+      } else if (solo === "Relational") {
+        return "bg-amber-900/90 text-amber-200 border-amber-400/50";
+      } else {
+        return "bg-purple-950/90 text-purple-200 border-purple-400/50";
+      }
+    }
+
+    function renderPGQuestion() {
+      const q = pgQuestions[state.currentIdx];
+      const userAns = state.userAnswers[state.currentIdx];
+
+      // Update HUD
+      document.getElementById('hud-q-num').textContent = q.num;
+      document.getElementById('nav-progress-badge').textContent = `${q.num}/40`;
+      document.getElementById('hud-score').textContent = state.score;
+      document.getElementById('hud-streak').textContent = `🔥 ${state.streak}x`;
+
+      const soloBadge = document.getElementById('hud-solo-badge');
+      soloBadge.textContent = `SOLO: ${q.solo}`;
+      soloBadge.className = `px-3 py-1.5 rounded-xl text-xs font-bold tracking-wide border shadow-sm ${getSoloBadgeClasses(q.solo)}`;
+
+      // Progress bar
+      const answeredCount = state.userAnswers.filter(a => a !== null).length;
+      const pct = Math.max(((state.currentIdx + 1) / pgQuestions.length) * 100, (answeredCount / pgQuestions.length) * 100);
+      document.getElementById('pg-progress-bar').style.width = `${pct}%`;
+
+      // Render Prompt, Quote Box, & Question
+      const qContainer = document.getElementById('question-container');
+      let html = '';
+      if (q.prompt) {
+        html += `<p class="font-semibold text-emerald-950">${escapeHtml(q.prompt)}</p>`;
+      }
+      if (q.quote) {
+        html += `
+          <div class="bg-gradient-to-br from-amber-50/90 via-emerald-50/70 to-amber-50/80 border-l-4 border-amber-500 rounded-r-2xl p-4 my-3 shadow-xs">
+            <pre class="font-serif-sunda whitespace-pre-wrap text-sm sm:text-[15px] text-emerald-950 leading-relaxed font-medium">${escapeHtml(q.quote)}</pre>
+          </div>
+        `;
+      }
+      html += `<p class="font-bold text-gray-900 text-base sm:text-[17px] leading-relaxed">${q.num}. ${escapeHtml(q.question)}</p>`;
+      qContainer.innerHTML = html;
+
+      // Render Options A, B, C, D
+      const optContainer = document.getElementById('options-container');
+      optContainer.innerHTML = '';
+
+      ['A', 'B', 'C', 'D'].forEach(letter => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.disabled = userAns !== null;
+
+        let cardClass = "option-card w-full text-left p-3.5 sm:p-4 rounded-2xl border-2 flex items-start gap-3.5 cursor-pointer ";
+        let badgeClass = "w-8 h-8 rounded-xl flex items-center justify-center font-bold text-sm flex-shrink-0 transition ";
+
+        if (userAns === null) {
+          cardClass += "bg-white border-gray-200 text-gray-800";
+          badgeClass += "bg-emerald-100 text-emerald-900";
+        } else {
+          btn.classList.remove('cursor-pointer');
+          if (letter === q.answer) {
+            cardClass += "bg-emerald-50 border-emerald-600 text-emerald-950 shadow-sm";
+            badgeClass += "bg-emerald-600 text-white";
+          } else if (letter === userAns && userAns !== q.answer) {
+            cardClass += "bg-rose-50 border-rose-500 text-rose-950";
+            badgeClass += "bg-rose-600 text-white";
+          } else {
+            cardClass += "bg-gray-50/70 border-gray-200 text-gray-400 opacity-75";
+            badgeClass += "bg-gray-200 text-gray-500";
+          }
+        }
+
+        btn.className = cardClass;
+        btn.onclick = () => selectOption(letter);
+        btn.innerHTML = `
+          <span class="${badgeClass}">${letter}</span>
+          <span class="text-sm sm:text-[15px] leading-snug pt-1 font-medium">${escapeHtml(q.options[letter])}</span>
+        `;
+        optContainer.appendChild(btn);
+      });
+
+      // Feedback Box
+      const fbBox = document.getElementById('feedback-box');
+      if (userAns !== null) {
+        const isCorrect = userAns === q.answer;
+        fbBox.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-300', 'bg-rose-50', 'border-rose-300');
+        const fbIcon = document.getElementById('feedback-icon');
+        const fbTitle = document.getElementById('feedback-title');
+        const fbPoints = document.getElementById('feedback-points');
+
+        if (isCorrect) {
+          fbBox.classList.add('bg-emerald-50', 'border-emerald-300');
+          fbIcon.className = "w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg font-bold flex-shrink-0 mt-0.5";
+          fbIcon.textContent = "✓";
+          fbTitle.className = "font-bold text-sm sm:text-base text-emerald-900";
+          fbTitle.textContent = "Leres Pisan! (Jawaban Bener)";
+          fbPoints.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-200 text-emerald-900";
+          fbPoints.textContent = "Kunci: " + q.answer;
+        } else {
+          fbBox.classList.add('bg-rose-50', 'border-rose-300');
+          fbIcon.className = "w-9 h-9 rounded-xl bg-rose-600 text-white flex items-center justify-center text-lg font-bold flex-shrink-0 mt-0.5";
+          fbIcon.textContent = "✕";
+          fbTitle.className = "font-bold text-sm sm:text-base text-rose-900";
+          fbTitle.textContent = `Kirang Leres! Konci Jawabanana: ${q.answer}`;
+          fbPoints.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-rose-200 text-rose-900";
+          fbPoints.textContent = "Streak Reset";
+        }
+        document.getElementById('feedback-explanation').textContent = q.explanation;
+      } else {
+        fbBox.classList.add('hidden');
+      }
+
+      // Tombol Navigasi Bawah
+      document.getElementById('btn-prev').disabled = state.currentIdx === 0;
+      const btnNextText = document.getElementById('btn-next-text');
+      const btnFinishEarly = document.getElementById('btn-finish-early');
+
+      if (state.currentIdx === pgQuestions.length - 1) {
+        btnNextText.textContent = "Rengse & Tingali Hasil";
+        btnFinishEarly.classList.add('hidden');
+      } else {
+        btnNextText.textContent = "Soal Salajengna";
+        if (answeredCount > 0) {
+          btnFinishEarly.classList.remove('hidden');
+        } else {
+          btnFinishEarly.classList.add('hidden');
+        }
+      }
+    }
+
+    function selectOption(letter) {
+      if (state.userAnswers[state.currentIdx] !== null) return;
+
+      const q = pgQuestions[state.currentIdx];
+      state.userAnswers[state.currentIdx] = letter;
+      const isCorrect = letter === q.answer;
+
+      const pgCard = document.getElementById('pg-card');
+      const scoreEl = document.getElementById('hud-score');
+
+      if (isCorrect) {
+        state.streak += 1;
+        if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+        const bonus = Math.min((state.streak - 1) * 15, 75);
+        state.score += 100 + bonus;
+        playSound('correct');
+        scoreEl.classList.remove('score-bump');
+        void scoreEl.offsetWidth;
+        scoreEl.classList.add('score-bump');
+      } else {
+        state.streak = 0;
+        playSound('wrong');
+        pgCard.classList.remove('shake-anim');
+        void pgCard.offsetWidth;
+        pgCard.classList.add('shake-anim');
+      }
+
+      renderPGQuestion();
+    }
+
+    function prevQuestion() {
+      if (state.currentIdx > 0) {
+        playSound('click');
+        state.currentIdx--;
+        renderPGQuestion();
+      }
+    }
+
+    function nextQuestion() {
+      playSound('click');
+      if (state.currentIdx < pgQuestions.length - 1) {
+        state.currentIdx++;
+        renderPGQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    // =========================================================================
+    // 7. DRAWER NAVIGASI NOMOR (1–40)
+    // =========================================================================
+    function toggleDrawer() {
+      playSound('click');
+      const overlay = document.getElementById('nav-drawer-overlay');
+      const isHidden = overlay.classList.contains('hidden');
+      if (isHidden) {
+        renderNavGrid();
+        overlay.classList.remove('hidden');
+      } else {
+        overlay.classList.add('hidden');
+      }
+    }
+
+    function renderNavGrid() {
+      const grid = document.getElementById('nav-grid');
+      grid.innerHTML = '';
+      let answeredCount = 0;
+
+      pgQuestions.forEach((q, idx) => {
+        const ans = state.userAnswers[idx];
+        if (ans !== null) answeredCount++;
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = q.num;
+
+        let cls = "h-9 rounded-xl font-bold text-xs transition flex items-center justify-center border ";
+        if (idx === state.currentIdx) {
+          cls += "bg-amber-400 text-emerald-950 border-amber-600 ring-2 ring-amber-300";
+        } else if (ans === null) {
+          cls += "bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-200";
+        } else if (ans === q.answer) {
+          cls += "bg-emerald-600 text-white border-emerald-700";
+        } else {
+          cls += "bg-rose-500 text-white border-rose-600";
+        }
+
+        btn.className = cls;
+        btn.onclick = () => {
+          state.currentIdx = idx;
+          toggleDrawer();
+          renderPGQuestion();
+        };
+        grid.appendChild(btn);
+      });
+
+      document.getElementById('drawer-summary').textContent = `Dijawab: ${answeredCount} / 40`;
+    }
+
+    // =========================================================================
+    // 8. HALAMAN HASIL AKHIR (RESULT SCREEN)
+    // =========================================================================
+    function finishQuiz() {
+      clearInterval(state.timerInterval);
+      state.quizFinished = true;
+      playSound('finish');
+
+      let correctCount = 0;
+      const soloStats = {
+        "Multistructural": { total: 0, correct: 0 },
+        "Relational": { total: 0, correct: 0 },
+        "Extended Abstract": { total: 0, correct: 0 }
+      };
+
+      const wrongItems = [];
+
+      pgQuestions.forEach((q, idx) => {
+        const ans = state.userAnswers[idx];
+        soloStats[q.solo].total++;
+        if (ans === q.answer) {
+          correctCount++;
+          soloStats[q.solo].correct++;
+        } else {
+          wrongItems.push({ q, userAns: ans });
+        }
+      });
+
+      const wrongCount = pgQuestions.length - correctCount;
+      const grade = Math.round((correctCount / pgQuestions.length) * 100);
+
+      let predicate = "Perlu Diajar Deui";
+      if (grade >= 90) predicate = "Sae Pisan (A)";
+      else if (grade >= 80) predicate = "Sae (B)";
+      else if (grade >= 70) predicate = "Cekap (C)";
+      else if (grade >= 60) predicate = "Kirang (D)";
+
+      document.getElementById('res-student-title').textContent = `Wilujeng, ${state.studentName}!`;
+      document.getElementById('res-student-sub').textContent = `${state.studentClass} • Pangajaran Basa Sunda ASAS 2026/2027`;
+      document.getElementById('res-grade').textContent = grade;
+      document.getElementById('res-predicate').textContent = predicate;
+      document.getElementById('res-total-points').textContent = `${state.score} Poin Game`;
+      document.getElementById('res-correct').textContent = correctCount;
+      document.getElementById('res-wrong').textContent = wrongCount;
+      document.getElementById('res-best-streak').textContent = `Max Streak: ${state.bestStreak}x`;
+
+      // Render Breakdown Taksonomi SOLO
+      const soloContainer = document.getElementById('solo-breakdown');
+      soloContainer.innerHTML = '';
+      Object.keys(soloStats).forEach(level => {
+        const st = soloStats[level];
+        const pct = st.total > 0 ? Math.round((st.correct / st.total) * 100) : 0;
+        const barColor = pct >= 75 ? 'bg-emerald-600' : pct >= 50 ? 'bg-amber-500' : 'bg-rose-500';
+
+        const card = document.createElement('div');
+        card.className = "bg-white border border-gray-200 rounded-xl p-3.5 shadow-2xs";
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs font-bold text-emerald-950">${level}</span>
+            <span class="text-xs font-extrabold text-amber-700">${pct}%</span>
+          </div>
+          <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden mb-1.5">
+            <div class="h-full ${barColor}" style="width: ${pct}%"></div>
+          </div>
+          <span class="text-[11px] text-gray-500">${st.correct} leres tina ${st.total} soal</span>
+        `;
+        soloContainer.appendChild(card);
+      });
+
+      // Render Daftar Tinjauan Soal Salah
+      const reviewList = document.getElementById('wrong-review-list');
+      reviewList.innerHTML = '';
+      if (wrongItems.length === 0) {
+        reviewList.innerHTML = `
+          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center text-sm font-semibold text-emerald-900">
+            🎉 Sampurna! Sadaya 40 soal dijawab kalawan leres!
+          </div>
+        `;
+      } else {
+        wrongItems.forEach(({ q, userAns }) => {
+          const item = document.createElement('div');
+          item.className = "bg-rose-50/60 border border-rose-200 rounded-2xl p-4 text-xs sm:text-sm";
+          const userText = userAns ? `${userAns}. ${q.options[userAns]}` : "Teu acan dijawab";
+          item.innerHTML = `
+            <div class="flex items-center justify-between gap-2 mb-1.5">
+              <span class="font-bold text-emerald-950">Soal Nomer ${q.num}</span>
+              <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-white border border-gray-200 text-gray-600">SOLO: ${q.solo}</span>
+            </div>
+            <p class="text-gray-800 font-medium mb-2">${escapeHtml(q.question)}</p>
+            <p class="text-rose-700 mb-1"><strong>Jawaban Anjeun:</strong> ${escapeHtml(userText)}</p>
+            <p class="text-emerald-800 mb-1.5"><strong>Konci Leres:</strong> ${q.answer}. ${escapeHtml(q.options[q.answer])}</p>
+            <p class="text-gray-600 bg-white/80 p-2.5 rounded-xl border border-rose-100 text-xs"><strong>Pedaran:</strong> ${escapeHtml(q.explanation)}</p>
+          `;
+          reviewList.appendChild(item);
+        });
+      }
+
+      showOnlyScreen('screen-result');
+    }
+
+    // =========================================================================
+    // 9. RENDER MODE URAIAN (SOAL 41–45)
+    // =========================================================================
+    function renderEssayScreen() {
+      const container = document.getElementById('essay-list');
+      container.innerHTML = '';
+
+      essayQuestions.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "bg-white border-2 border-emerald-100 rounded-2xl p-4 sm:p-6 shadow-xs";
+        card.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <span class="px-3 py-1 rounded-lg bg-emerald-900 text-amber-300 text-xs font-bold">
+              Soal Uraian No. ${item.num}
+            </span>
+            <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+              ${escapeHtml(item.topic)} • SOLO: ${item.solo}
+            </span>
+          </div>
+
+          <pre class="font-sans whitespace-pre-wrap text-sm sm:text-base text-gray-900 font-semibold leading-relaxed mb-3">${escapeHtml(item.question)}</pre>
+
+          <textarea rows="3" placeholder="${escapeHtml(item.placeholder)}" class="w-full p-3.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none text-sm text-gray-800 transition mb-3"></textarea>
+
+          <div class="flex justify-end">
+            <button type="button" onclick="toggleEssayKey(${item.num})" id="btn-essay-key-${item.num}" class="px-4 py-2 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs transition flex items-center gap-1.5">
+              <span>🔑 Tingali Konci &amp; Pedoman Penskoran</span>
+            </button>
+          </div>
+
+          <div id="essay-key-box-${item.num}" class="hidden mt-4 bg-emerald-50/90 border border-emerald-300 rounded-xl p-4 animate-pop">
+            <p class="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-1">Konci Jawaban:</p>
+            <p class="text-xs sm:text-sm text-gray-800 font-medium mb-3 leading-relaxed">${escapeHtml(item.keyAnswer)}</p>
+            <p class="text-xs font-bold uppercase tracking-wider text-amber-800 mb-1">Pedoman Penskoran (Skor Maksimal 20):</p>
+            <ul class="list-disc list-inside text-xs text-gray-700 space-y-1">
+              ${item.rubric.map(r => `<li>${escapeHtml(r)}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleEssayKey(num) {
+      playSound('click');
+      const box = document.getElementById(`essay-key-box-${num}`);
+      const btn = document.getElementById(`btn-essay-key-${num}`);
+      const isHidden = box.classList.contains('hidden');
+      if (isHidden) {
+        box.classList.remove('hidden');
+        btn.innerHTML = `<span>🙈 Sumputkeun Konci Jawaban</span>`;
+      } else {
+        box.classList.add('hidden');
+        btn.innerHTML = `<span>🔑 Tingali Konci &amp; Pedoman Penskoran</span>`;
+      }
+    }
+
+    function revealAllEssays() {
+      playSound('correct');
+      essayQuestions.forEach(item => {
+        const box = document.getElementById(`essay-key-box-${item.num}`);
+        const btn = document.getElementById(`btn-essay-key-${item.num}`);
+        if (box) box.classList.remove('hidden');
+        if (btn) btn.innerHTML = `<span>🙈 Sumputkeun Konci Jawaban</span>`;
+      });
+    }
+
+    // Helper sanitasi HTML
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Inisialisasi awal saat window onload
+    window.onload = function () {
+      showOnlyScreen('screen-start');
+    };
+  </script>
+</body>
+</html>
